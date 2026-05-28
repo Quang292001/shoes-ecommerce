@@ -1,0 +1,47 @@
+.hero {
+  height: 100vh;
+
+  display: flex;
+  align-items: center;
+
+  padding: 100px;
+}
+
+.hero-content {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+
+  width: 100%;
+}
+
+.hero-text h1 {
+  font-size: 70px;
+}
+
+.hero-text span {
+  color: #c72092;
+}
+
+.hero-text p {
+  margin: 20px 0;
+  width: 500px;
+}
+
+.hero-text button {
+  padding: 12px 24px;
+
+  border: none;
+
+  background: linear-gradient(to right, #c72092, #6c14d0);
+
+  color: white;
+
+  border-radius: 30px;
+
+  cursor: pointer;
+}
+
+.hero-image img {
+  width: 600px;
+}

@@ -1,0 +1,96 @@
+section {
+  width: 100%;
+  height: 100vh;
+  background-size: cover;
+  background-position: center;
+}
+section .main .main_content {
+  display: flex; /* bật flexbox - giúp sắp xếp các phần tử con ngang hoặc dọc */
+  align-items: center; /* căn giữa các phần tử con theo trục dọc */
+  justify-content: space-around; /* tạo khoảng cách đều giữa các phần tử con */
+}
+section .main .main_content .main_text h1 {
+  font-size: 90px; /* đặt kích thước font cho phần tử h1 bên trong phần tử có class main_content */
+  line-height: 70px; /* đặt khoảng cách giữa các dòng cho phần tử h1 bên trong phần tử có class main_content */
+  font-family: pyxidium quick; /* đặt font chữ cho phần tử h1 bên trong phần tử có class main_content */
+  background: linear-gradient(
+    to right,
+    #c72092,
+    #6c14d0
+  ); /* tạo hiệu ứng gradient cho phần tử h1 bên trong phần tử có class main_content */
+  -webkit-background-clip: text; /* cắt nền của phần tử h1 bên trong phần tử có class main_content theo hình dạng của chữ */
+  -webkit-text-fill-color: transparent; /* làm cho phần tử h1 bên trong phần tử có class main_content có màu trong suốt */
+  position: relative;
+  left: 4%; /* di chuyển phần tử h1 bên trong phần tử có class main_content sang phải 4% so với vị trí ban đầu */
+  top: 45px; /* di chuyển phần tử h1 bên trong phần tử có class main_content xuống dưới 45px so với vị trí ban đầu */
+}
+section .main .main_content .main_text h1 span {
+  font-size: 70px; /* đặt kích thước font cho phần tử span bên trong phần tử h1 bên trong phần tử có class main_content */
+  background: linear-gradient(
+    to right,
+    #c72092,
+    #6c14d0
+  ); /* tạo hiệu ứng gradient cho phần tử h1 bên trong phần tử có class main_content */
+  -webkit-background-clip: text; /* cắt nền của phần tử h1 bên trong phần tử có class main_content theo hình dạng của chữ */
+  -webkit-text-fill-color: transparent; /* làm cho phần tử h1 bên trong phần tử có class main_content có màu trong suốt */
+}
+section .main .main_content .main_text p {
+  width: 600px; /* đặt chiều rộng cho phần tử p bên trong phần tử có class main_content */
+  text-align: justify; /* căn chỉnh văn bản đều hai bên cho phần tử p bên trong phần tử có class main_content */
+  line-height: 21px; /* đặt khoảng cách giữa các dòng cho phần tử p bên trong phần tử có class main_content */
+  position: relative;
+  top: 85px;
+  left: 5%;
+}
+section .main .main_content .main_image img {
+  width: 650px;
+  position: relative;
+  top: 70px;
+  left: 20px;
+}
+section .main .main_social {
+  position: absolute; /* đặt phần tử có class main_social*/
+  top: 50%; /* đặt phần tử có class main_social ở giữa theo chiều dọc của phần tử cha */
+  left: 98%; /* đặt phần tử có class main_social*/
+  transform: translate(
+    -50%,
+    -50%
+  ); /* dịch chuyển phần tử có class main_social*/
+  font-size: 19px; /* đặt kích thước font cho phần tử có class main_social*/
+}
+section .main .main_social i {
+  margin: 8px 0; /* đặt khoảng cách trên và dưới là 8px cho phần tử i bên trong phần tử có class main_social */
+  cursor: pointer; /* thay đổi con trỏ chuột khi hover vào phần tử i bên trong phần tử có class main_social */
+  transition: 0.3s; /* thêm hiệu ứng chuyển đổi mượt mà khi*/
+}
+section .main .main_social i:hover {
+  color: #c72092; /* thay đổi màu sắc khi hover vào phần tử i bên trong phần tử có class main_social */
+}
+section .main .button {
+  cursor: pointer;
+  position: absolute;
+  top: 93%;
+  left: 6%;
+  padding: 10px 20px;
+  background: linear-gradient(
+    to right,
+    #c72092,
+    #6c14d0
+  ); /* tạo hiệu ứng gradient cho phần tử có class button */
+  border-radius: 30px; /* tạo bo tròn cho phần tử có class button */
+}
+section .main .button a {
+  color: white; /* đặt màu sắc cho phần tử a bên trong phần tử có class button */
+  text-decoration: none; /* loại bỏ gạch chân cho phần tử a bên trong phần tử có class button */
+  font-size: 18px; /* đặt kích thước font cho phần tử a bên trong phần tử có class button */
+  transition: 0.3s; /* thêm hiệu ứng chuyển đổi mượt mà khi thay đổi trạng thái của phần tử a bên trong phần tử có class button */
+}
+section .main .button i {
+  color: white; /* đặt màu sắc cho phần tử i bên trong phần tử có class button */
+  transition: 0.3s; /* thêm hiệu ứng chuyển đổi mượt mà khi thay đổi trạng thái của phần tử i bên trong phần tử có class button */
+}
+section .main .button:hover i {
+  transform: translateX(
+    6px
+  ); /* dịch chuyển phần tử i bên trong phần tử có class button sang phải 6px khi hover vào phần tử có class button */
+}

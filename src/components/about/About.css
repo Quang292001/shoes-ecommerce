@@ -1,0 +1,111 @@
+/*About*/
+.about {
+  width: 100%;
+  height: 100vh;
+}
+.about h1 {
+  font-size: 70px; /* đặt kích thước font cho phần tử h1 bên trong phần tử có class about */
+  margin-top: 20px; /* đặt khoảng cách trên là 20px cho phần tử h1 bên trong phần tử có class about */
+  display: flex; /* bật flexbox - giúp sắp xếp các phần tử con ngang hoặc dọc */
+  align-items: center; /* căn giữa các phần tử con theo trục dọc */
+  justify-content: center; /* căn giữa các phần tử con theo trục ngang */
+  background: black;
+  -webkit-background-clip: text; /* cắt nền của phần tử h1 bên trong phần tử có class about theo hình dạng của chữ */
+  -webkit-text-fill-color: transparent; /* làm cho phần tử h1 bên trong phần tử có class about có màu trong suốt */
+  text-transform: uppercase; /* chuyển đổi văn bản thành chữ hoa cho phần tử h1 bên trong phần tử có class about */
+}
+.about h1 span {
+  font-size: 70px; /* đặt kích thước font cho phần tử span bên trong phần tử h1 bên trong phần tử có class about */
+  background: linear-gradient(
+    to right,
+    #c72092,
+    #6c14d0
+  ); /* tạo hiệu ứng gradient cho phần tử span bên trong phần tử h1 bên trong phần tử có class about */
+  -webkit-background-clip: text; /* cắt nền của phần tử span bên trong phần tử h1 bên trong phần tử có class about theo hình dạng của chữ */
+  -webkit-text-fill-color: transparent; /* làm cho phần tử span bên trong phần tử h1 bên trong phần tử có class about có màu trong suốt */
+  margin-left: 10px; /* đặt khoảng cách trái là 10px cho phần tử span bên trong phần tử h1 bên trong phần tử có class about */
+}
+.about .about_main {
+  position: relative;
+  top: 40%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  display: flex; /* bật flexbox - giúp sắp xếp các phần tử con ngang hoặc dọc */
+  align-items: center; /* căn giữa các phần tử con theo trục dọc */
+  justify-content: space-around; /* căn giữa các phần tử con theo trục ngang */
+}
+.about .about_main .about_image {
+  display: flex; /* bật flexbox - giúp sắp xếp các phần tử con ngang hoặc dọc */
+  margin: top 50px; /* đặt khoảng cách trên là 50px cho phần tử có class about_image bên trong phần tử có class about_main */
+}
+
+.about .about_main .about_image .about_small_image {
+  display: flex; /* bật flexbox - giúp sắp xếp các phần tử con ngang hoặc dọc */
+  flex-flow: column; /* sắp xếp các phần tử con theo chiều dọc */
+  position: relative;
+  top: 15px;
+}
+.about .about_main .about_image .about_small_image img {
+  height: 92px; /* đặt chiều cao cho phần tử img bên trong phần tử có class about_small_image bên trong phần tử có class about_image bên trong phần tử có class about_main */
+  margin: 5px 0; /* đặt khoảng cách trên và dưới là 5px cho phần tử img bên trong phần tử có class about_small_image bên trong phần tử có class about_image bên trong phần tử có class about_main */
+  cursor: pointer; /* thay đổi con trỏ chuột khi hover vào phần tử img bên trong phần tử có class about_small_image bên trong phần tử có class about_image bên trong phần tử có class about_main */
+  background: linear-gradient(to right, #6c14d0, #c72092);
+  display: block; /* hiển thị phần tử img bên trong phần tử có class about_small_image bên trong phần tử có class about_image bên trong phần tử có class about_main dưới dạng khối */
+  border-radius: 5px; /* tạo bo tròn cho phần tử img bên trong phần tử có class about_small_image bên trong phần tử có class about_image bên trong phần tử có class about_main */
+  padding: 5px 5px; /* đặt khoảng cách trên và dưới là 5px, và khoảng cách trái và phải là 5px cho phần tử img bên trong phần tử có class about_small_image bên trong phần tử có class about_image bên trong phần tử có class about_main */
+  box-shadow: 0 0 8px rgba(0, 0, 0, 0.5); /* tạo hiệu ứng bóng đổ cho phần tử img bên trong phần tử có class about_small_image bên trong phần tử có class about_image bên trong phần tử có class about_main */
+  opacity: 0.8; /* làm cho phần tử img bên trong phần tử có class about_small_image bên trong phần tử có class about_image bên trong phần tử có class about_main có màu trong suốt */
+  transition: 0.3s; /* thêm hiệu ứng chuyển đổi mượt mà khi thay đổi trạng thái của phần tử img bên trong phần tử có class about_small
+} image bên trong phần tử có class about_image bên trong phần tử có class about_main */
+}
+.about .about_main .about_image .about_small_image img:hover {
+  opacity: 1; /* làm cho phần tử img bên trong phần tử có class about_small_image bên trong phần tử có class about_image bên trong phần tử có class about_main hiển thị khi hover vào phần tử img bên trong phần tử có class about_small_image bên trong phần tử có class about_image bên trong phần tử có class about_main */
+}
+.about .about_main .image_container {
+  padding: 10px;
+  display: flex; /* bật flexbox - giúp sắp xếp các phần tử con ngang hoặc dọc */
+}
+.about .about_main .image_container img {
+  border-radius: 20px;
+  border: 3px solid #6c14d0;
+  height: 430px; /* đặt chiều cao cho phần tử img bên trong phần tử có class image_container bên trong phần tử có class about_main */
+  padding: 30px;
+  box-shadow: 0 0 8px #6c14d0; /* tạo hiệu ứng bóng đổ cho phần tử img bên trong phần tử có class image_container bên trong phần tử có class about_main */
+}
+.about .about_main .about_text {
+  margin-top: 50px; /* đặt khoảng cách trên là 50px cho phần tử có class about_text bên trong phần tử có class about_main */
+}
+.about .about_main .about_text p {
+  background: linear-gradient(
+    to left,
+    #c72092,
+    #6c14d0
+  ); /* tạo hiệu ứng gradient cho phần tử có class h1 */
+  -webkit-background-clip: text; /* cắt nền của phần tử có class h1 theo hình dạng của chữ */
+  -webkit-text-fill-color: transparent; /* làm cho phần tử có class h1 có màu trong suốt */
+  line-height: 21px; /* đặt khoảng cách giữa các dòng cho phần tử p bên trong phần tử có class about_text bên trong phần tử có class about_main */
+  width: 500px; /* đặt chiều rộng cho phần tử p bên trong phần tử có class about_text bên trong phần tử có class about_main */
+  text-align: justify; /* căn chỉnh văn bản đều hai bên cho phần tử p bên trong phần tử có class about_text bên trong phần tử có class about_main */
+  padding: 25px 30px;
+  border: 3px solid #c72092;
+  border-radius: 20px;
+  box-shadow: 0 0 8px #c72092; /* tạo hiệu ứng bóng đổ cho phần tử p bên trong phần tử có class about_text bên trong phần tử có class about_main */
+}
+.about .about_btn {
+  color: black;
+  backgound: none;
+  position: relative;
+  top: 10%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  padding: 10px 20px;
+  text-decoration: none;
+  border: 3px solid #c72092;
+  box-shadow: 0 0 8px #c72092; /* tạo hiệu ứng bóng đổ cho phần tử có class about_btn */
+  transition: 0.3s; /* thêm hiệu ứng chuyển đổi mượt mà khi thay đổi trạng thái của phần tử có class about_btn */
+}
+.about .about_btn:hover {
+  color: white;
+  background: #c72092;
+  border: 3px solid transparent;
+}
