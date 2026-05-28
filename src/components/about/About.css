@@ -1,7 +1,8 @@
 /*About*/
 .about {
   width: 100%;
-  height: 100vh;
+  min-height: 100vh;
+  
 }
 .about h1 {
   font-size: 70px; /* đặt kích thước font cho phần tử h1 bên trong phần tử có class about */
@@ -26,17 +27,14 @@
   margin-left: 10px; /* đặt khoảng cách trái là 10px cho phần tử span bên trong phần tử h1 bên trong phần tử có class about */
 }
 .about .about_main {
-  position: relative;
-  top: 40%;
-  left: 50%;
-  transform: translate(-50%, -50%);
-  display: flex; /* bật flexbox - giúp sắp xếp các phần tử con ngang hoặc dọc */
-  align-items: center; /* căn giữa các phần tử con theo trục dọc */
-  justify-content: space-around; /* căn giữa các phần tử con theo trục ngang */
+  display: flex;
+  align-items: center;
+  justify-content: space-around;
+  margin-top: 50px;
 }
 .about .about_main .about_image {
   display: flex; /* bật flexbox - giúp sắp xếp các phần tử con ngang hoặc dọc */
-  margin: top 50px; /* đặt khoảng cách trên là 50px cho phần tử có class about_image bên trong phần tử có class about_main */
+  margin-top: 50px; /* đặt khoảng cách trên là 50px cho phần tử có class about_image bên trong phần tử có class about_main */
 }
 
 .about .about_main .about_image .about_small_image {
@@ -92,20 +90,21 @@
   box-shadow: 0 0 8px #c72092; /* tạo hiệu ứng bóng đổ cho phần tử p bên trong phần tử có class about_text bên trong phần tử có class about_main */
 }
 .about .about_btn {
+   display: inline-block;
   color: black;
-  backgound: none;
-  position: relative;
-  top: 10%;
-  left: 50%;
-  transform: translate(-50%, -50%);
-  padding: 10px 20px;
   text-decoration: none;
+  padding: 10px 20px;
   border: 3px solid #c72092;
-  box-shadow: 0 0 8px #c72092; /* tạo hiệu ứng bóng đổ cho phần tử có class about_btn */
-  transition: 0.3s; /* thêm hiệu ứng chuyển đổi mượt mà khi thay đổi trạng thái của phần tử có class about_btn */
+  box-shadow: 0 0 8px #c72092;
+  transition: 0.3s;
+  margin: 40px auto 0;
 }
 .about .about_btn:hover {
   color: white;
   background: #c72092;
   border: 3px solid transparent;
+}
+.btn_container {
+  display: flex;
+  justify-content: center;
 }

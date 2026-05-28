@@ -1,3 +1,4 @@
+import "./Products.css";
 function ProductCard({ image, price }) {
   return (
     <div className="card">
@@ -16,6 +17,14 @@ function ProductCard({ image, price }) {
         <p>Lorem ipsum dolor sit amet.</p>
 
         <h3>{price}</h3>
+      </div>
+
+      <div className="product_star">
+        <i className="fas fa-star"></i>
+        <i className="fas fa-star"></i>
+        <i className="fas fa-star"></i>
+        <i className="fas fa-star"></i>
+        <i className="fas fa-star"></i>
       </div>
 
       <div className="button">
