@@ -6,7 +6,8 @@ import Products from "../../components/Products/Products";
 import About from "../../components/About/About";
 import Reviews from "../../components/Reviews/Reviews";
 import Services from "../../components/Services/Services";
-
+import Footer from "../../components/footer/Footer";
+import Login from "../Login/Login";
 function Home() {
   return (
     <>
@@ -16,6 +17,8 @@ function Home() {
       <About />
       <Reviews />
       <Services />
+      <Login />
+      <Footer />
     </>
   );
 }

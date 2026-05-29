@@ -4,6 +4,10 @@ import bg from "../../assets/image/loging_bg.png";
 import { useNavigate } from "react-router-dom";
 import { useState } from "react";
 import axios from "axios";
+import googleIcon from "../../assets/image/google.png";
+import facebookIcon from "../../assets/image/facebook.png";
+import twitterIcon from "../../assets/image/twitter.png";
+
 function Login() {
   const navigate = useNavigate();
   const [formData, setFormData] = useState({
@@ -87,17 +91,17 @@ function Login() {
 
           {/* SOCIAL */}
           <div className="social-login">
-            <div className="social-icon">
-              <i className="fa-brands fa-google"></i>
-            </div>
+            <a className="social-icon">
+              <img src={googleIcon} alt="Google" />
+            </a>
 
-            <div className="social-icon">
-              <i className="fa-brands fa-facebook-f"></i>
-            </div>
+            <a className="social-icon">
+              <img src={facebookIcon} alt="Facebook" />
+            </a>
 
-            <div className="social-icon">
-              <i className="fa-brands fa-twitter"></i>
-            </div>
+            <a className="social-icon">
+              <img src={twitterIcon} alt="Twitter" />
+            </a>
           </div>
         </div>
       </div>
