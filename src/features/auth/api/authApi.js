@@ -15,4 +15,8 @@ export const authApi = {
     const response = await httpClient.get("/identity/profile");
     return response.data;
   },
+  async getProducts(){
+    const response=await httpClient.get("/products");
+    return response.data;
+  }
 };

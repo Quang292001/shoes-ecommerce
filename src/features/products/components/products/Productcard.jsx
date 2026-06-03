@@ -1,5 +1,7 @@
 import "./Products.css";
-function ProductCard({ image, price }) {
+
+function ProductCard({ image, name, description, price }) {
+  console.log(image);
   return (
     <div className="card">
       <div className="small_card">
@@ -8,15 +10,15 @@ function ProductCard({ image, price }) {
       </div>
 
       <div className="image">
-        <img src={image} alt="shoe" />
+        <img src={image} alt={name} />
       </div>
 
       <div className="product_text">
-        <h2>NIKE</h2>
+        <h2>{name}</h2>
 
-        <p>Lorem ipsum dolor sit amet.</p>
+        <p>{description}</p>
 
-        <h3>{price}</h3>
+        <h3>{price} VNĐ</h3>
       </div>
 
       <div className="product_star">
