@@ -8,6 +8,7 @@ import Register from "../features/auth/pages/register/Register";
 
 import Profile from "../features/auth/pages/profile/Profile";
 import Cart from "../features/cart/pages/cart/Cart";
+import ProductDetail from "../features/products/components/products/ProductDetails";
 
 function AppRoutes() {
   return (
@@ -16,7 +17,10 @@ function AppRoutes() {
       <Route path="/home" element={<Home />} />
       <Route path="/login" element={<Login />} />
       <Route path="/register" element={<Register />} />
-
+      <Route
+        path="/products/:id"
+        element={<ProductDetail />}
+      />
       <Route
         path="/profile"
         element={

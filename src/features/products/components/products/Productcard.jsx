@@ -1,6 +1,8 @@
 import "./Products.css";
+import { useNavigate } from "react-router-dom";
 
-function ProductCard({ image, name, description, price }) {
+function ProductCard({ id, image, name, description, price }) {
+  const navigate = useNavigate();
   console.log(image);
   return (
     <div className="card">
@@ -9,7 +11,7 @@ function ProductCard({ image, name, description, price }) {
         <i className="fa-solid fa-share"></i>
       </div>
 
-      <div className="image">
+      <div className="image" onClick={() => navigate(`/products/${id}`)}>
         <img src={image} alt={name} />
       </div>
 

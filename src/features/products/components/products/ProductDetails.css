@@ -1,0 +1,138 @@
+.product_detail_container {
+  width: 90%;
+  margin: 120px auto;
+  display: flex;
+  gap: 60px;
+  align-items: flex-start;
+  flex-wrap: wrap;
+}
+
+/* LEFT */
+.product_images {
+  flex: 1;
+  min-width: 350px;
+}
+
+.main_image_detail {
+  width: 100%;
+  height: 500px;
+  border-radius: 20px;
+  overflow: hidden;
+  background: #f5f5f5;
+  border: 2px solid #eee;
+}
+
+.main_image_detail img {
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+  padding: 20px;
+}
+
+.thumbnail_list {
+  display: flex;
+  gap: 15px;
+  margin-top: 20px;
+}
+
+.thumbnail_list img {
+  width: 90px;
+  height: 90px;
+  object-fit: contain;
+  border-radius: 12px;
+  border: 2px solid #ddd;
+  cursor: pointer;
+  padding: 10px;
+  transition: 0.3s;
+  background: white;
+}
+
+.thumbnail_list img:hover {
+  border-color: #c72092;
+  transform: translateY(-5px);
+}
+
+/* RIGHT */
+.product_info {
+  flex: 1;
+  min-width: 350px;
+}
+
+.breadcrumb {
+  color: gray;
+  margin-bottom: 20px;
+  font-size: 14px;
+}
+
+.product_info h1 {
+  font-size: 45px;
+  margin-bottom: 20px;
+}
+
+.product_info h2 {
+  font-size: 35px;
+  color: #c72092;
+  margin-bottom: 30px;
+}
+
+.size_select {
+  margin-bottom: 25px;
+}
+
+.size_select label {
+  display: block;
+  margin-bottom: 10px;
+  font-weight: bold;
+}
+
+.size_select select {
+  width: 140px;
+  padding: 10px;
+  border-radius: 8px;
+  border: 2px solid #ccc;
+  outline: none;
+}
+
+/* CART */
+.cart_section {
+  display: flex;
+  gap: 20px;
+  margin-bottom: 40px;
+}
+
+.cart_section input {
+  width: 70px;
+  padding: 12px;
+  font-size: 18px;
+  border: 2px solid #ccc;
+  border-radius: 10px;
+}
+
+.cart_section button {
+  padding: 14px 35px;
+  border: none;
+  border-radius: 12px;
+  background: linear-gradient(to right, #c72092, #6c14d0);
+  color: white;
+  font-size: 17px;
+  font-weight: bold;
+  cursor: pointer;
+  transition: 0.3s;
+}
+
+.cart_section button:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 10px 20px rgba(108, 20, 208, 0.3);
+}
+
+/* DESCRIPTION */
+.product_description h3 {
+  font-size: 28px;
+  margin-bottom: 20px;
+}
+
+.product_description p {
+  color: #555;
+  line-height: 32px;
+  font-size: 17px;
+}

@@ -112,3 +112,66 @@
   ); /* tạo hiệu ứng gradient cho phần tử có class button bên trong phần tử có class card */
   display: inline-block;
 }
+
+.pagination {
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 12px;
+  margin-top: 40px;
+}
+
+.pagination button {
+  width: 45px;
+  height: 45px;
+  border-radius: 50%;
+  border: none;
+  cursor: pointer;
+  font-size: 16px;
+  font-weight: 600;
+  transition: 0.3s;
+}
+
+/* Nút số */
+.pagination .page_number {
+  background: white;
+  color: #6c14d0;
+  border: 2px solid #6c14d0;
+}
+
+/* Hover */
+.pagination .page_number:hover {
+  background: linear-gradient(to right, #c72092, #6c14d0);
+  color: white;
+  transform: translateY(-3px);
+  box-shadow: 0 0 10px rgba(108, 20, 208, 0.5);
+}
+
+/* Active page */
+.pagination .page_number.active {
+  background: linear-gradient(to right, #c72092, #6c14d0);
+  color: white;
+  box-shadow: 0 0 12px rgba(108, 20, 208, 0.7);
+}
+
+/* Prev Next */
+.pagination .page_btn {
+  background: #f3f1f1;
+  color: #6c14d0;
+  border: 2px solid transparent;
+}
+
+.pagination .page_btn:hover:not(:disabled) {
+  background: linear-gradient(to right, #c72092, #6c14d0);
+  color: white;
+  transform: scale(1.1);
+}
+
+/* Disabled */
+.pagination button:disabled {
+  opacity: 0.4;
+  cursor: not-allowed;
+  transform: none;
+  box-shadow: none;
+}
