@@ -3,6 +3,7 @@ import { Link, useSearchParams } from "react-router-dom";
 import axios from "axios";
 import "./ResetPassword.css";
 import { useNavigate } from "react-router-dom";
+import Toast from "../../../../shared/toast/Toast";
 function ResetPassword() {
   const navigate = useNavigate();
   const [searchParams] = useSearchParams();
@@ -17,7 +18,7 @@ function ResetPassword() {
     e.preventDefault();
 
     if (newPassword !== confirmPassword) {
-      alert("Passwords do not match");
+      showToast("Passwords do not match", "warning");
       return;
     }
 
@@ -32,12 +33,12 @@ function ResetPassword() {
         },
       );
 
-      alert("Password reset successful");
+      showToast("Password reset successful", "success");
       console.log(response.data);
         navigate("/");
     } catch (error) {
       console.error(error);
-      alert("Reset password failed");
+      showToast("Reset password failed", "error");
     }
   };
 

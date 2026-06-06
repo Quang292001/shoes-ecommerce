@@ -1,37 +1,34 @@
 import "./ForgotPassword.css";
 import { useState } from "react";
 import { authApi } from "../../api/authApi";
-
+import Toast from "../../../../shared/toast/Toast";
 function ForgotPassword() {
   const [email, setEmail] = useState("");
   const [message, setMessage] = useState("");
 
   const handleForgotPassword = async () => {
     if (!email.trim()) {
-      setMessage("Email is required");
+      showToast("Email is required", "warning");
       return;
     }
 
-    const emailRegex =
-      /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
 
     if (!emailRegex.test(email)) {
-      setMessage("Invalid email format");
+      showToast("Invalid email format", "warning");
       return;
     }
 
     try {
       await authApi.forgotPassword(email);
 
-      setMessage(
-        "Password reset link sent to your email"
-      );
+      showToast("Password reset link sent to your email", "success");
     } catch (error) {
       console.error(error);
 
-      setMessage(
-        error.response?.data?.message ||
-          "Something went wrong"
+      showToast(
+        error.response?.data?.message || "Something went wrong",
+        "error",
       );
     }
   };
@@ -41,28 +38,18 @@ function ForgotPassword() {
       <div className="forgot-box">
         <h1>Forgot Password</h1>
 
-        <p>
-          Enter your email to reset password
-        </p>
+        <p>Enter your email to reset password</p>
 
         <input
           type="email"
           placeholder="Enter your email"
           value={email}
-          onChange={(e) =>
-            setEmail(e.target.value)
-          }
+          onChange={(e) => setEmail(e.target.value)}
         />
 
-        <button onClick={handleForgotPassword}>
-          Send Reset Link
-        </button>
+        <button onClick={handleForgotPassword}>Send Reset Link</button>
 
-        {message && (
-          <div className="message">
-            {message}
-          </div>
-        )}
+        {message && <div className="message">{message}</div>}
       </div>
     </div>
   );

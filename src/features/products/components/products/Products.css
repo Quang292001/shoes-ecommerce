@@ -175,3 +175,19 @@
   transform: none;
   box-shadow: none;
 }
+
+.add-cart-btn {
+  width: 100%;
+  padding: 10px;
+  border: none;
+  border-radius: 25px;
+  background: linear-gradient(to right, #c72092, #6c14d0);
+  color: white;
+  font-size: 16px;
+  cursor: pointer;
+  transition: 0.3s;
+}
+
+.add-cart-btn:hover {
+  transform: scale(1.05);
+}
