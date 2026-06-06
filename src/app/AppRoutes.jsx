@@ -10,6 +10,7 @@ import Profile from "../features/auth/pages/profile/Profile";
 import Cart from "../features/cart/pages/cart/Cart";
 import ProductDetail from "../features/products/components/products/ProductDetails";
 import ForgotPassword from "../features/auth/pages/forgotpassword/ForgotPassword";
+import ResetPassword from "../features/auth/pages/resetpassword/ResetPassword";
 
 function AppRoutes() {
   return (
@@ -38,6 +39,7 @@ function AppRoutes() {
       />
 
       <Route path="/forgot-password" element={<ForgotPassword />} />
+      <Route path="/reset-password" element={<ResetPassword />} />
     </Routes>
   );
 }
