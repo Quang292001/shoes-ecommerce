@@ -1,7 +1,7 @@
 import "./Register.css";
 import { useState } from "react";
 import { authApi } from "../../api/authApi";
-
+import Toast from "../../../../shared/toast/Toast";
 import shoes from "../../../../assets/image/logshoes.png";
 import bg from "../../../../assets/image/loging_bg.png";
 
@@ -15,22 +15,22 @@ function RegisterPage() {
 
   const handleRegister = async () => {
     if (!formData.fullName.trim()) {
-      alert("Full name is required");
+      showToast("Full name is required", "warning");
       return;
     }
 
     if (!formData.email.trim()) {
-      alert("Email is required");
+      showToast("Email is required", "warning");
       return;
     }
 
     if (formData.password.length < 8) {
-      alert("Password must be at least 8 characters");
+      showToast("Password must be at least 8 characters", "warning");
       return;
     }
 
     if (formData.password !== formData.confirmPassword) {
-      alert("Confirm password does not match");
+      showToast("Confirm password does not match", "warning");
       return;
     }
 
@@ -41,10 +41,10 @@ function RegisterPage() {
         password: formData.password,
       });
 
-      alert("Register success");
+      showToast("Register success", "success");
     } catch (error) {
       console.error(error);
-      alert(error.response?.data?.message || "Register failed");
+      showToast(error.response?.data?.message || "Register failed", "error");
     }
   };
 
