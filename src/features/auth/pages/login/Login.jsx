@@ -1,19 +1,38 @@
 import "./Login.css";
 import { useState } from "react";
 import { Link, useLocation, useNavigate } from "react-router-dom";
-
 import { authApi } from "../../api/authApi";
 import { tokenStorage } from "../../../../shared/auth/tokenStorage";
-
 import shoes from "../../../../assets/image/logshoes.png";
 import bg from "../../../../assets/image/loging_bg.png";
 import googleIcon from "../../../../assets/image/google.png";
 import facebookIcon from "../../../../assets/image/facebook.png";
 import twitterIcon from "../../../../assets/image/twitter.png";
+import Toast from "../../../../shared/toast/Toast";
 
 function LoginPage() {
   const navigate = useNavigate();
   const location = useLocation();
+  const [toast, setToast] = useState({
+    show: false,
+    message: "",
+    type: "",
+  });
+  const showToast = (message, type) => {
+    setToast({
+      show: true,
+      message,
+      type,
+    });
+
+    setTimeout(() => {
+      setToast({
+        show: false,
+        message: "",
+        type: "",
+      });
+    }, 3000);
+  };
 
   const [formData, setFormData] = useState({
     email: "",
@@ -22,12 +41,17 @@ function LoginPage() {
 
   const handleLogin = async () => {
     if (!formData.email.trim()) {
-      alert("Email is required");
+      showToast("Email is required", "warning");
+      return;
+    }
+    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    if (!emailRegex.test(formData.email)) {
+      showToast("Please enter a valid email address", "warning");
       return;
     }
 
     if (!formData.password.trim()) {
-      alert("Password is required");
+      showToast("Password is required", "warning");
       return;
     }
 
@@ -40,18 +64,23 @@ function LoginPage() {
       const accessToken = result.accessToken || result.token;
 
       if (!accessToken) {
-        alert("Login response does not contain access token");
+        showToast("Login response does not contain access token", "error");
         return;
       }
 
       tokenStorage.setAccessToken(accessToken);
+      showToast("Login successful!", "success");
 
       const redirectPath = location.state?.from?.pathname || "/home";
 
-      navigate(redirectPath, { replace: true });
+      setTimeout(() => {
+        navigate(redirectPath, { replace: true });
+      }, 1000);
+
+      // navigate(redirectPath, { replace: true });
     } catch (error) {
       console.error(error);
-      alert(error.response?.data?.message || "Login failed");
+      showToast(error.response?.data?.message || "Login failed", "error");
     }
   };
 
@@ -105,7 +134,9 @@ function LoginPage() {
             </div>
           </div>
 
-          <p className="forgot-password">Forget Password ?</p>
+          <p className="forgot-password">
+            <Link to="/forgot-password">Forget Password ?</Link>
+          </p>
 
           <button className="login-btn" onClick={handleLogin}>
             Login
@@ -130,6 +161,7 @@ function LoginPage() {
           </div>
         </div>
       </div>
+      <Toast show={toast.show} message={toast.message} type={toast.type} />
     </div>
   );
 }

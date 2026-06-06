@@ -1,10 +1,11 @@
 import "./Navbar.css";
 import { Link } from "react-router-dom";
-
+import { useNavigate } from "react-router-dom";
 function Navbar() {
+   const navigate = useNavigate();
   return (
     <nav>
-      <div className="logo">
+      <div className="logo" onClick={() => navigate('/')}>
         <h1>
           Shoe<span>s</span>
         </h1>

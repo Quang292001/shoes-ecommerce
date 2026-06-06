@@ -18,5 +18,13 @@ export const authApi = {
   async getProducts(pageNumber=1,pageSize=8){
     const response=await httpClient.get(`/products?pageNumber=${pageNumber}&pageSize=${pageSize}`);
     return response.data;
-  }
+  },
+  async forgotPassword(email) {
+  const response = await httpClient.post(
+    "/identity/forgot-password",
+    { email }
+  );
+
+  return response.data;
+}
 };

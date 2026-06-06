@@ -26,6 +26,7 @@ nav .logo {
   cursor: pointer; /* thay đổi con trỏ chuột khi hover vào phần tử có class logo */
   margin: 5px 0; /* đặt khoảng cách trên và dưới cho phần tử có class logo */
   position: relative;
+  
 }
 nav .logo span {
   color: #6c14d0; /* đặt màu sắc cho phần tử span bên trong phần tử có class logo */
