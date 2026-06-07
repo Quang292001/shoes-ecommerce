@@ -26,5 +26,9 @@ export const authApi = {
   );
 
   return response.data;
+},
+async getProductDetails(id) {
+  const response = await httpClient.get(`/products/${id}`);
+  return response.data;
 }
 };

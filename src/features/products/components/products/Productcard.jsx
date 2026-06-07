@@ -4,13 +4,7 @@ import { useCart } from "/src/context/CartContext";
 import { useState } from "react";
 import Toast from "../../../../shared/toast/Toast";
 
-function ProductCard({
-  id,
-  image,
-  name,
-  description,
-  price,
-}) {
+function ProductCard({ id, image, name, description, price }) {
   const navigate = useNavigate();
 
   const { addToCart } = useCart();
@@ -45,10 +39,7 @@ function ProductCard({
       image,
     });
 
-    showToast(
-      `${name} added to cart`,
-      "success"
-    );
+    showToast(`${name} added to cart`, "success");
   };
 
   return (
@@ -59,12 +50,7 @@ function ProductCard({
         <i className="fa-solid fa-share"></i>
       </div>
 
-      <div
-        className="image"
-        onClick={() =>
-          navigate(`/products/${id}`)
-        }
-      >
+      <div className="image" onClick={() => navigate(`/products/${id}`)}>
         <img src={image} alt={name} />
       </div>
 
@@ -85,19 +71,12 @@ function ProductCard({
       </div>
 
       <div className="button">
-        <button
-          className="add-cart-btn"
-          onClick={handleAddToCart}
-        >
+        <button className="add-cart-btn" onClick={handleAddToCart}>
           Add To Cart
         </button>
       </div>
 
-      <Toast
-        show={toast.show}
-        message={toast.message}
-        type={toast.type}
-      />
+      <Toast show={toast.show} message={toast.message} type={toast.type} />
     </div>
   );
 }

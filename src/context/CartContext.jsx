@@ -10,43 +10,34 @@ export function CartProvider({ children }) {
   });
 
   useEffect(() => {
-    localStorage.setItem(
-      "cart",
-      JSON.stringify(cartItems)
-    );
+    localStorage.setItem("cart", JSON.stringify(cartItems));
   }, [cartItems]);
 
   const addToCart = (product) => {
-    const existingProduct = cartItems.find(
-      (item) => item.id === product.id
+  setCartItems((prevCartItems) => { //cập nhật cartItems dựa trên giá trị trước đó để tránh lỗi khi thêm nhiều sản phẩm liên tiếp
+    const existingProduct = prevCartItems.find( //tìm sản phẩm đã tồn tại trong giỏ hàng
+      (item) => item.id === product.id,
     );
 
+    // nếu sản phẩm đã tồn tại
     if (existingProduct) {
-      setCartItems(
-        cartItems.map((item) =>
-          item.id === product.id
-            ? {
-                ...item,
-                quantity: item.quantity + 1,
-              }
-            : item
-        )
+      return prevCartItems.map((item) => //duyệt qua cartItems để cập nhật số lượng của sản phẩm đã tồn tại
+        item.id === product.id //nếu là sản phẩm trùng id
+          ? {
+              ...item, //copy toàn bộ dữ liệu cũ
+              quantity: item.quantity + product.quantity, //cập nhật số lượng bằng cách cộng thêm số lượng mới
+            }
+          : item, //nếu không phải sản phẩm trùng id thì giữ nguyên
       );
-    } else {
-      setCartItems([
-        ...cartItems,
-        {
-          ...product,
-          quantity: 1,
-        },
-      ]);
     }
-  };
+
+    // nếu chưa tồn tại
+    return [...prevCartItems, product];
+  });
+};
 
   const removeFromCart = (id) => {
-    setCartItems(
-      cartItems.filter((item) => item.id !== id)
-    );
+    setCartItems(cartItems.filter((item) => item.id !== id));
   };
 
   const increaseQuantity = (id) => {
@@ -57,8 +48,8 @@ export function CartProvider({ children }) {
               ...item,
               quantity: item.quantity + 1,
             }
-          : item
-      )
+          : item,
+      ),
     );
   };
 
@@ -68,20 +59,16 @@ export function CartProvider({ children }) {
         item.id === id
           ? {
               ...item,
-              quantity:
-                item.quantity > 1
-                  ? item.quantity - 1
-                  : 1,
+              quantity: item.quantity > 1 ? item.quantity - 1 : 1,
             }
-          : item
-      )
+          : item,
+      ),
     );
   };
 
   const totalPrice = cartItems.reduce(
-    (total, item) =>
-      total + item.price * item.quantity,
-    0
+    (total, item) => total + item.price * item.quantity,
+    0,
   );
 
   return (

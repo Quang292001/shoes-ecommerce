@@ -3,24 +3,49 @@ import { useParams } from "react-router-dom";
 import { useEffect, useState } from "react";
 import axios from "axios";
 import Navbar from "../../../../shared/layout/navbar/Navbar";
-
+import { authApi } from "../../../auth/api/authApi";
+import Toast from "../../../../shared/toast/Toast";
+import { useCart } from "/src/context/CartContext";
 function ProductDetail() {
   const { id } = useParams();
-
   const [product, setProduct] = useState(null);
+  const { addToCart } = useCart();
+  const [toast, setToast] = useState({ show: false, message: "", type: "" });
+  const [quantity,setQuantity]=useState(1);
+
+  const showToast = (message, type) => {
+    setToast({ show: true, message, type });
+    setTimeout(() => {
+      setToast({ show: false, message: "", type: "" });
+    }, 1000);
+  };
 
   useEffect(() => {
-    axios
-      .get(`http://localhost:5143/api/products/${id}`)
-      .then((res) => {
-        setProduct(res.data);
-      })
-      .catch((err) => console.error(err));
+    const fetchProductDetails = async () => {
+      try {
+        const data = await authApi.getProductDetails(id);
+        setProduct(data);
+      } catch (error) {
+        console.error("Error fetching product details:", error);
+      }
+    };
+
+    fetchProductDetails();
   }, [id]);
 
   if (!product) {
     return <h1>Loading...</h1>;
   }
+  const handleAddToCart = () => {
+    addToCart({
+      id: product.id,
+      name: product.name,
+      price: product.price,
+      image: product.imageUrl,
+      quantity: quantity,
+    });
+    showToast(`${product.name} added to cart`, "success");
+  };
 
   return (
     <div>
@@ -61,9 +86,9 @@ function ProductDetail() {
           </div>
 
           <div className="cart_section">
-            <input type="number" defaultValue={1} />
+            <input type="number" min="1" value={quantity} onChange={(e) => setQuantity(Number(e.target.value) || 1)} />
 
-            <button>Add To Cart</button>
+            <button onClick={handleAddToCart}>Add To Cart</button>
           </div>
 
           <div className="product_description">
@@ -73,6 +98,7 @@ function ProductDetail() {
           </div>
         </div>
       </div>
+      <Toast show={toast.show} message={toast.message} type={toast.type} />
     </div>
   );
 }
