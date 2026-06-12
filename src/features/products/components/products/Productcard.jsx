@@ -31,16 +31,7 @@ function ProductCard({ id, image, name, description, price }) {
     }, 1000);
   };
 
-  const handleAddToCart = () => {
-    addToCart({
-      id,
-      name,
-      price,
-      image,
-    });
 
-    showToast(`${name} added to cart`, "success");
-  };
 
   return (
     <div className="card">
@@ -71,7 +62,7 @@ function ProductCard({ id, image, name, description, price }) {
       </div>
 
       <div className="button">
-        <button className="add-cart-btn" onClick={handleAddToCart}>
+        <button className="add-cart-btn" onClick={() =>{addToCart({ id, name, price, image, quantity: 1 });showToast(`${name} added to cart`, "success");}}>
           Add To Cart
         </button>
       </div>

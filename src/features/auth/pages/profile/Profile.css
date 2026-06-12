@@ -180,3 +180,55 @@
     font-size: 46px;
   }
 }
+.login-required {
+  text-align: center;
+  padding: 40px;
+}
+
+.login-required h2 {
+  margin-top: 15px;
+  font-size: 28px;
+}
+
+.login-required p {
+  margin: 15px 0 25px;
+  color: #777;
+}
+
+.login-actions {
+  display: flex;
+  justify-content: center;
+  gap: 15px;
+}
+
+.login-btn,
+.register-btn {
+  border: none;
+  padding: 12px 25px;
+  border-radius: 30px;
+  cursor: pointer;
+  font-size: 15px;
+  transition: 0.3s;
+}
+
+.login-btn {
+  background: #c72092;
+  color: white;
+}
+
+.register-btn {
+  background: #6c14d0;
+  color: white;
+}
+
+.login-btn:hover,
+.register-btn:hover {
+  transform: scale(1.05);
+}
+.profile-card .login-required {
+  max-width: 700px;
+  width: 90%;
+  margin: 50px auto;
+  padding: 40px;
+  text-align: center;
+}

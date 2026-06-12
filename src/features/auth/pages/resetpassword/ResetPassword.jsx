@@ -43,6 +43,7 @@ function ResetPassword() {
   };
 
   return (
+    <>  <Navbar />   
     <div className="reset-password-container">
       <form onSubmit={handleResetPassword}>
         <h1>Reset Password</h1>
@@ -64,6 +65,7 @@ function ResetPassword() {
         <button type="submit">Reset Password</button>
       </form>
     </div>
+     </>
   );
 }
 

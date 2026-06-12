@@ -13,22 +13,33 @@ function Profile() {
 
   const [profile, setProfile] = useState(null);
   const [isLoading, setIsLoading] = useState(true);
-  const [errorMessage, setErrorMessage] = useState("");
+  const [isLoggedIn, setIsLoggedIn] = useState(false);
 
   useEffect(() => {
     const loadProfile = async () => {
       try {
         setIsLoading(true);
-        setErrorMessage("");
 
+        // kiểm tra token
+        const token = tokenStorage.getAccessToken();
+
+        // chưa login
+        if (!token) {
+          setIsLoggedIn(false);
+          return;
+        }
+
+        // có token -> gọi API
         const result = await authApi.getProfile();
 
         setProfile(result);
+        setIsLoggedIn(true);
       } catch (error) {
         console.error(error);
-        setErrorMessage(
-          error.response?.data?.message || "Failed to load profile",
-        );
+
+        // token lỗi / hết hạn
+        setIsLoggedIn(false);
+        tokenStorage.clear();
       } finally {
         setIsLoading(false);
       }
@@ -42,47 +53,66 @@ function Profile() {
     navigate("/home", { replace: true });
   };
 
+  // loading
   if (isLoading) {
     return (
       <>
         <Navbar />
+
         <div className="profile-page">
           <div className="profile-card">
-            <p className="profile-loading">Loading profile...</p>
+            <p className="profile-loading">Loading...</p>
           </div>
         </div>
+
+        <Footer />
       </>
     );
   }
 
-  if (errorMessage) {
+  // chưa đăng nhập
+  if (!isLoggedIn) {
     return (
       <>
         <Navbar />
+
         <div className="profile-page">
-          <div className="profile-card">
-            <p className="profile-error">{errorMessage}</p>
+          <div className="profile-card login-required">
+            <div className="profile-avatar">
+              <i className="fas fa-user-lock"></i>
+            </div>
+
+            <h2>Please Login</h2>
+
+            <p>
+              You need to login first to view your profile information.
+            </p>
+
+            <div className="login-actions">
+              <button
+                className="login-btn"
+                onClick={() => navigate("/login")}
+              >
+                Login
+              </button>
+
+              <button
+                className="register-btn"
+                onClick={() => navigate("/register")}
+              >
+                Register
+              </button>
+            </div>
           </div>
         </div>
+
+        <Footer />
       </>
     );
   }
 
-  if (!profile) {
-    return (
-      <>
-        <Navbar />
-        <div className="profile-page">
-          <div className="profile-card">
-            <p className="profile-error">No profile data</p>
-          </div>
-        </div>
-      </>
-    );
-  }
-
-  const displayName = profile.fullName || profile.name;
-  const email = profile.email || "No email";
+  const displayName = profile?.fullName || profile?.name;
+  const email = profile?.email || "No email";
 
   return (
     <>
@@ -93,6 +123,7 @@ function Profile() {
           <h1>
             My <span>Profile</span>
           </h1>
+
           <p>Manage your account information and shopping activity.</p>
         </div>
 
@@ -103,6 +134,7 @@ function Profile() {
             </div>
 
             <h2>{displayName}</h2>
+
             <p className="profile-email">{email}</p>
 
             <div className="profile-info">
@@ -125,22 +157,33 @@ function Profile() {
           <div className="profile-summary">
             <div className="summary-box">
               <i className="fas fa-shopping-cart"></i>
+
               <h3>Cart</h3>
+
               <p>View your selected products.</p>
-              <button onClick={() => navigate("/cart")}>Go to Cart</button>
+
+              <button onClick={() => navigate("/cart")}>
+                Go to Cart
+              </button>
             </div>
 
             <div className="summary-box">
               <i className="fas fa-box"></i>
+
               <h3>Orders</h3>
+
               <p>Your order history will appear here.</p>
+
               <button disabled>Coming Soon</button>
             </div>
 
             <div className="summary-box">
               <i className="fas fa-heart"></i>
+
               <h3>Wishlist</h3>
+
               <p>Save products you love.</p>
+
               <button disabled>Coming Soon</button>
             </div>
           </div>

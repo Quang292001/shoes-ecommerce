@@ -2,6 +2,7 @@ import "./ForgotPassword.css";
 import { useState } from "react";
 import { authApi } from "../../api/authApi";
 import Toast from "../../../../shared/toast/Toast";
+import Navbar from "../../../../shared/layout/navbar/Navbar";
 function ForgotPassword() {
   const [email, setEmail] = useState("");
   const [message, setMessage] = useState("");
@@ -34,6 +35,8 @@ function ForgotPassword() {
   };
 
   return (
+    <> 
+    <Navbar />
     <div className="forgot-password-page">
       <div className="forgot-box">
         <h1>Forgot Password</h1>
@@ -52,6 +55,7 @@ function ForgotPassword() {
         {message && <div className="message">{message}</div>}
       </div>
     </div>
+     </>
   );
 }
 

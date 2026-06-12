@@ -16,18 +16,24 @@ function Navbar() {
           <Link to="/">Home</Link>
         </li>
         <li>
-          <a href="#Products">Products</a>
+          <Link to="/products">Products</Link>
         </li>
         <li>
-          <a href="/#About">About</a>
+          <Link to="/about">About</Link>
         </li>
         <li>
-          <a href="/#Reviews">Reviews</a>
+          <Link to="/reviews">Reviews</Link>
         </li>
         <li>
-          <a href="/#Services">Services</a>
+          <Link to="/services">Services</Link>
         </li>
       </ul>
+
+        {/* Thanh tìm kiếm */}
+  <div className="search-box">
+    <input type="text" placeholder="Search..." />
+    <i className="fa-solid fa-magnifying-glass"></i>
+  </div>
 
       <div className="icons">
         <i className="fas fa-heart"></i>
