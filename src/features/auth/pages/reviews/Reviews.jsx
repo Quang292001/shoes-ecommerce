@@ -1,13 +1,62 @@
 import React from 'react'
 import Navbar from '../../../../shared/layout/navbar/Navbar'
-
+import Footer from '../../../../shared/layout/footer/Footer';
+import './Reviews.css'
 function Reviews() {
+   const reviews = [
+    {
+      id: 1,
+      name: "John Smith",
+      image: "https://i.pravatar.cc/150?img=1",
+      review:
+        "Amazing quality and super comfortable shoes. I really love the design and fast delivery.",
+    },
+
+    {
+      id: 2,
+      name: "Sophia Lee",
+      image: "https://i.pravatar.cc/150?img=5",
+      review:
+        "The customer service was excellent and the shoes fit perfectly. Highly recommended!",
+    },
+
+    {
+      id: 3,
+      name: "Michael Brown",
+      image: "https://i.pravatar.cc/150?img=8",
+      review:
+        "Affordable price with premium quality. Definitely buying again soon.",
+    },
+  ];
   return (
     <>
       <Navbar />
-      <div>
-       lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
+      <section className="reviews" id="Reviews">
+      <h1>
+        Customer <span>Reviews</span>
+      </h1>
+
+      <div className="reviews-container">
+        {reviews.map((item) => (
+          <div className="review-card" key={item.id}>
+            <img src={item.image} alt={item.name} />
+
+            <h2>{item.name}</h2>
+
+            <div className="review-stars">
+              <i className="fas fa-star"></i>
+              <i className="fas fa-star"></i>
+              <i className="fas fa-star"></i>
+              <i className="fas fa-star"></i>
+              <i className="fas fa-star"></i>
+            </div>
+
+            <p>{item.review}</p>
+          </div>
+        ))}
       </div>
+    </section>
+    <Footer/>
     </>
   )
 }

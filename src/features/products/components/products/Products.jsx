@@ -4,79 +4,55 @@ import { useState, useEffect } from "react";
 import axios from "axios";
 import { authApi } from "../../../auth/api/authApi";
 
-
 function Products() {
-const [products, setProducts] = useState([]);
-const [pageNumber, setPageNumber] = useState(1);
-const [pageSize] = useState(8);
-const [totalCount, setTotalCount] = useState(0);
+  const [products, setProducts] = useState([]);
+  const [pageNumber, setPageNumber] = useState(1);
+  const [pageSize] = useState(8);
+  const [totalCount, setTotalCount] = useState(0);
 
   useEffect(() => {
     const fetchProducts = async () => {
       try {
-        
-        const data = await authApi.getProducts(pageNumber, pageSize);
-
-        console.log(data);
-
+        const data = await authApi.getProducts(1, 50);
         setProducts(data.items);
-        setTotalCount(data.totalCount);
       } catch (err) {
         console.error(err);
       }
     };
-
     fetchProducts();
-  }, [pageNumber, pageSize]);
+  }, []);
+  //Bán chạy
+  const bestSellingProducts = products.slice(0, 8);
+  //sản phẩm mới
+  const newProducts = products.slice(8, 16);
+  //giảm giá
+  const saleProducts = products.slice(16, 24);
+  //tìm kiếm hàng đầu
+  const topSearchProducts = products.slice(24, 32);
 
+  const renderProducts = (list) => {
+    return list.map((product) => (
+      <ProductCard
+        key={product.id}
+        id={product.id}
+        image={product.imageUrl}
+        name={product.name}
+        description={product.description}
+        price={product.price}
+      />
+    ));
+  };
   return (
     <div className="products" id="Products">
       <h1>Products</h1>
-      <div className="box">
-        {products.map((product) => (
-          <ProductCard
-            key={product.id}
-            id={product.id}
-            image={product.imageUrl}
-            name={product.name}
-            description={product.description}
-            price={product.price}
-          />
-        ))}
-      </div>
-      <div className="pagination">
-  <button
-    className="page_btn"
-    disabled={pageNumber === 1}
-    onClick={() => setPageNumber(pageNumber - 1)}
-  >
-    <i className="fa-solid fa-angle-left"></i>
-  </button>
-
-  {[...Array(Math.ceil(totalCount / pageSize))].map(
-    (_, index) => (
-      <button
-        key={index}
-        className={`page_number ${
-          pageNumber === index + 1 ? "active" : ""
-        }`}
-        onClick={() => setPageNumber(index + 1)}
-      >
-        {index + 1}
-      </button>
-    )
-  )}
-
-  <button
-    className="page_btn"
-    disabled={
-      pageNumber === Math.ceil(totalCount / pageSize)
-    }
-    onClick={() => setPageNumber(pageNumber + 1)}
-  >
-    <i className="fa-solid fa-angle-right"></i>
-  </button>
-</div>
+      <h2 className="section_title">Bán chạy</h2>
+      <div className="box">{renderProducts(bestSellingProducts)}</div>
+      <h2 className="section_title">Sản phẩm mới</h2>
+      <div className="box">{renderProducts(newProducts)}</div>
+      <h2 className="section_title">Giảm giá</h2>
+      <div className="box">{renderProducts(saleProducts)}</div>
+      <h2 className="section_title">Tìm kiếm hàng đầu</h2>
+      <div className="box">{renderProducts(topSearchProducts)}</div>
     </div>
   );
 }

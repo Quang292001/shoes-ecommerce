@@ -34,6 +34,7 @@ function ProductCard({ id, image, name, description, price }) {
 
 
   return (
+   
     <div className="card">
       <div className="small_card">
         <i className="fa-solid fa-heart"></i>
@@ -68,6 +69,7 @@ function ProductCard({ id, image, name, description, price }) {
       </div>
 
       <Toast show={toast.show} message={toast.message} type={toast.type} />
+
     </div>
   );
 }
