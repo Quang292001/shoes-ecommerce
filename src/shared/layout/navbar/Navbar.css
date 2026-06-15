@@ -19,6 +19,7 @@ nav {
   background-color: white; /* đặt màu nền cho phần tử nav */
   top: 0; /* đặt phần tử nav ở phía trên của trang */
   z-index: 100; /* đảm bảo phần tử nav hiển thị trên các phần tử khác */
+  opacity: 0.7; /* đặt độ mờ cho phần tử nav */
 }
 nav .logo {
   font-size: 35px; /* đặt kích thước font cho phần tử có class logo */
@@ -50,7 +51,7 @@ nav .icons i {
   margin: 0 4px; /* đặt khoảng cách trái và phải là 4px cho phần tử i bên trong phần tử có class icons */
   cursor: pointer; /* thay đổi con trỏ chuột khi hover vào phần tử i bên trong phần tử có class icons */
   transition: 0.3s; /* thêm hiệu ứng chuyển đổi mượt mà khi thay đổi trạng thái của phần tử i bên trong phần tử có class icons */
-  font-size: 20px; /* đặt kích thước font cho phần tử i bên trong phần tử có class icons */
+  font-size: 22px; /* đặt kích thước font cho phần tử i bên trong phần tử có class icons */
 }
 nav .icons i:hover {
   color: #c72092; /* thay đổi màu sắc khi hover vào phần tử i bên trong phần tử có class icons */
@@ -72,15 +73,34 @@ nav .icons i:hover {
   box-shadow: 0 2px 8px rgba(0, 0, 0, 0.2);
 }
 
-.search-box input{
-  border:none;
-  outline:none;
+.search-box input {
+  border: none;
+  outline: none;
   font-size: 16px;
   background: transparent; /* làm nền trong suốt cho input */
   width: 200px; /* đặt chiều rộng cho input */
 }
-.search-box i{
+.search-box i {
   color: #c72092;
   cursor: pointer;
   font-size: 18px;
+}
+.cart_icon {
+  position: relative;
+  font-size: 24px;
+}
+.cart_badge {
+  position: absolute;
+  top: -10px;
+  right: -10px;
+  width: 20px;
+  height: 20px;
+  border-radius: 50%;
+  background: red;
+  color: white;
+  font-size: 12px;
+  font-weight: bold;
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }

@@ -6,12 +6,14 @@ import Navbar from "../../../../shared/layout/navbar/Navbar";
 import { authApi } from "../../../auth/api/authApi";
 import Toast from "../../../../shared/toast/Toast";
 import { useCart } from "/src/context/CartContext";
+import { useLanguage } from "../../../../context/LanguageContext";
 function ProductDetail() {
   const { id } = useParams();
   const [product, setProduct] = useState(null);
   const { addToCart } = useCart();
   const [toast, setToast] = useState({ show: false, message: "", type: "" });
   const [quantity,setQuantity]=useState(1);
+  const {t}=useLanguage();
 
   const showToast = (message, type) => {
     setToast({ show: true, message, type });
@@ -34,7 +36,7 @@ function ProductDetail() {
   }, [id]);
 
   if (!product) {
-    return <h1>Loading...</h1>;
+    return <h1>{t.loading}</h1>;
   }
   const handleAddToCart = () => {
     addToCart({
@@ -67,14 +69,13 @@ function ProductDetail() {
 
         {/* RIGHT */}
         <div className="product_info">
-          <p className="breadcrumb">Home / {product.categoryName}</p>
 
           <h1>{product.name}</h1>
 
           <h2>{product.price} VNĐ</h2>
 
           <div className="size_select">
-            <label>Size</label>
+            <label>{t.size}</label>
 
             <select>
               <option>39</option>
@@ -88,11 +89,11 @@ function ProductDetail() {
           <div className="cart_section">
             <input type="number" min="1" value={quantity} onChange={(e) => setQuantity(Number(e.target.value) || 1)} />
 
-            <button onClick={handleAddToCart}>Add To Cart</button>
+            <button onClick={handleAddToCart}>{t.add_to_cart}</button>
           </div>
 
           <div className="product_description">
-            <h3>Product Details</h3>
+            <h3>{t.product_details}</h3>
 
             <p>{product.description}</p>
           </div>

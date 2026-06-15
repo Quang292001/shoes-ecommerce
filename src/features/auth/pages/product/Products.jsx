@@ -1,101 +1,191 @@
+
 import "./Products.css";
-import { useState } from "react";
-import Navbar from "../../../../shared/layout/navbar/Navbar";
-import Footer from "../../../../shared/layout/footer/Footer";
-import ProductCard from "../../../products/components/products/ProductCard";
-
-
+import ProductCard from "../../../../features/products/components/products/Productcard";
+import { useEffect, useMemo, useState } from "react";
+import { authApi } from "../../../auth/api/authApi";
+import Navbar from "../../../../shared/layout/navbar/Navbar"
+import Footer from "../../../../shared/layout/footer/Footer"
+import { useLanguage } from "../../../../context/LanguageContext";
 function Products() {
-  const [products,setProducts]= useState([]);
+  const [products, setProducts] = useState([]);
+  const {t}=useLanguage();
+  // FILTER STATES
+  const [brandFilter, setBrandFilter] = useState("");
+  const [colorFilter, setColorFilter] = useState("");
+  const [priceFilter, setPriceFilter] = useState("");
+  const [sortOption, setSortOption] = useState("");
 
-  //Filter states
-  const [brandFilter, setBrandFilter] = useState();
-  const [priceFilter, setPriceFilter] = useState();
-  const [colorFilter, setColorFilter] = useState();
-  const [sortOption, setSortOption] = useState();
-
-  useEffect(()=>{
-    const fetchProducts=async()=>{
-      try{
-        const data=await authApi.getProducts(1,50);
+  useEffect(() => {
+    const fetchProducts = async () => {
+      try {
+        const data = await authApi.getProducts(1, 50);
         setProducts(data.items);
-      }catch(error){
+      } catch (error) {
         console.log(error);
-        console.error("Error fetching products:",error);
       }
     };
+
     fetchProducts();
   }, []);
 
-  
+  // FILTER + SORT
+  const filteredProducts = useMemo(() => {
+    let result = [...products];
 
-  const [selectedCategory, setSelectedCategory] = useState("All");
+    // BRAND
+    if (brandFilter) {
+      result = result.filter(
+        (item) =>
+          item.brand?.toLowerCase() ===
+          brandFilter.toLowerCase()
+      );
+    }
 
-  const [search, setSearch] = useState("");
+    // COLOR
+    if (colorFilter) {
+      result = result.filter(
+        (item) =>
+          item.color?.toLowerCase() ===
+          colorFilter.toLowerCase()
+      );
+    }
 
-  const filteredProducts = products.filter((product) => {
-    const matchCategory =
-      selectedCategory === "All" ||
-      product.category === selectedCategory;
+    // PRICE
+    if (priceFilter === "under100") {
+      result = result.filter((item) => item.price < 100);
+    }
 
-    const matchSearch = product.name
-      .toLowerCase()
-      .includes(search.toLowerCase());
+    if (priceFilter === "100to200") {
+      result = result.filter(
+        (item) => item.price >= 100 && item.price <= 200
+      );
+    }
 
-    return matchCategory && matchSearch;
-  });
+    if (priceFilter === "over200") {
+      result = result.filter((item) => item.price > 200);
+    }
+
+    // SORT
+    if (sortOption === "lowToHigh") {
+      result.sort((a, b) => a.price - b.price);
+    }
+
+    if (sortOption === "highToLow") {
+      result.sort((a, b) => b.price - a.price);
+    }
+
+    if (sortOption === "newest") {
+      result.sort(
+        (a, b) =>
+          new Date(b.createdAt) - new Date(a.createdAt)
+      );
+    }
+
+    return result;
+  }, [
+    products,
+    brandFilter,
+    colorFilter,
+    priceFilter,
+    sortOption,
+  ]);
 
   return (
     <>
-      <Navbar />
+    <Navbar/>
+    <div className="products-page">
+      <h1 className="products-title">
+        {t.products}
+      </h1>
 
-      <section className="products-page">
-        <h1>
-          Our <span>Products</span>
-        </h1>
+      {/* FILTER SIDEBAR */}
+      <div className="products-layout">
+        <div className="filter-sidebar">
+          <h2>Filters</h2>
 
-        {/* FILTER */}
-        <div className="products-top">
-          <div className="filter-buttons">
-            <button
-              className={selectedCategory === "All" ? "active" : ""}
-              onClick={() => setSelectedCategory("All")}
+          {/* BRAND */}
+          <div className="filter-group">
+            <label>Brand</label>
+
+            <select
+              value={brandFilter}
+              onChange={(e) =>
+                setBrandFilter(e.target.value)
+              }
             >
-              All
-            </button>
-
-            <button
-              className={selectedCategory === "Nike" ? "active" : ""}
-              onClick={() => setSelectedCategory("Nike")}
-            >
-              Nike
-            </button>
-
-            <button
-              className={selectedCategory === "Adidas" ? "active" : ""}
-              onClick={() => setSelectedCategory("Adidas")}
-            >
-              Adidas
-            </button>
-
-            <button
-              className={selectedCategory === "Puma" ? "active" : ""}
-              onClick={() => setSelectedCategory("Puma")}
-            >
-              Puma
-            </button>
+              <option value="">All</option>
+              <option value="Nike">Nike</option>
+              <option value="Adidas">Adidas</option>
+              <option value="Puma">Puma</option>
+            </select>
           </div>
 
-          {/* SEARCH */}
-          <div className="search-box">
-            <input
-              type="text"
-              placeholder="Search products..."
-              value={search}
-              onChange={(e) => setSearch(e.target.value)}
-            />
+          {/* COLOR */}
+          <div className="filter-group">
+            <label>Color</label>
 
-            <i className="fas fa-search"></i>
+            <select
+              value={colorFilter}
+              onChange={(e) =>
+                setColorFilter(e.target.value)
+              }
+            >
+              <option value="">All</option>
+              <option value="Black">Black</option>
+              <option value="White">White</option>
+              <option value="Blue">Blue</option>
+            </select>
+          </div>
+
+          {/* PRICE */}
+          <div className="filter-group">
+            <label>Price</label>
+
+            <select
+              value={priceFilter}
+              onChange={(e) =>
+                setPriceFilter(e.target.value)
+              }
+            >
+              <option value="">All</option>
+              <option value="under100">
+                Under 100$
+              </option>
+
+              <option value="100to200">
+                100$ - 200$
+              </option>
+
+              <option value="over200">
+                Over 200$
+              </option>
+            </select>
+          </div>
+
+          {/* SORT */}
+          <div className="filter-group">
+            <label>Sort By</label>
+
+            <select
+              value={sortOption}
+              onChange={(e) =>
+                setSortOption(e.target.value)
+              }
+            >
+              <option value="">Default</option>
+
+              <option value="lowToHigh">
+                Price Low To High
+              </option>
+
+              <option value="highToLow">
+                Price High To Low
+              </option>
+
+              <option value="newest">
+                Newest
+              </option>
+            </select>
           </div>
         </div>
 
@@ -105,18 +195,19 @@ function Products() {
             <ProductCard
               key={product.id}
               id={product.id}
-              image={product.image}
+              image={product.imageUrl}
               name={product.name}
               description={product.description}
               price={product.price}
             />
           ))}
         </div>
-      </section>
-
-      <Footer />
+      </div>
+    </div>
+    <Footer/>
     </>
   );
 }
 
 export default Products;
+

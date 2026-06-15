@@ -1,11 +1,13 @@
 import React from "react";
 import "./Footer.css";
+import { useLanguage } from "../../../context/LanguageContext";
 function Footer() {
+  const {t}=useLanguage();
   return (
     <footer>
       <div className="footer_main">
         <div className="tag">
-          <h1>Contact</h1>
+          <h1>{t.contact}</h1>
 
           <a href="#">
             <i className="fas fa-home"></i>123/Colombo/Sri Lanka
@@ -21,7 +23,7 @@ function Footer() {
         </div>
 
         <div className="tag">
-          <h1>Get Help</h1>
+          <h1>{t.get_help}</h1>
 
           <a href="#">FAQ</a>
           <a href="#">Shipping</a>
@@ -30,7 +32,7 @@ function Footer() {
         </div>
 
         <div className="tag">
-          <h1>Our Stores</h1>
+          <h1>{t.our_stores}</h1>
 
           <a href="#">Sri Lanka</a>
           <a href="#">USA</a>
@@ -39,7 +41,7 @@ function Footer() {
         </div>
 
         <div className="tag">
-          <h1>Follow Us</h1>
+          <h1>{t.follow_us}</h1>
 
           <div className="social_link">
             <a href="#">
@@ -61,11 +63,11 @@ function Footer() {
         </div>
 
         <div className="tag">
-          <h1>Newsletter</h1>
+          <h1>{t.newsletter}</h1>
 
           <div className="search_bar">
-            <input type="text" placeholder="You email id here" />
-            <button type="submit">Subscribe</button>
+            <input type="text" placeholder={t.you_email_id_here} />
+            <button type="submit">{t.subscribe}</button>
           </div>
         </div>
       </div>

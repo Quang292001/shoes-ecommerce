@@ -5,9 +5,12 @@ const CartContext = createContext();
 export function CartProvider({ children }) {
   const [cartItems, setCartItems] = useState(() => {
     const savedCart = localStorage.getItem("cart"); //lưu cart vào localStorage để giữ trạng thái khi reload trang
-
+    
     return savedCart ? JSON.parse(savedCart) : [];
   });
+  const totalItems=cartItems.reduce( 
+      (total,item)=>total+item.quantity,0 
+    )
 
   useEffect(() => {
     localStorage.setItem("cart", JSON.stringify(cartItems));
@@ -80,6 +83,7 @@ export function CartProvider({ children }) {
         increaseQuantity,
         decreaseQuantity,
         totalPrice,
+        totalItems
       }}
     >
       {children}

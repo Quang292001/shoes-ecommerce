@@ -3,12 +3,14 @@ import ProductCard from "./ProductCard";
 import { useState, useEffect } from "react";
 import axios from "axios";
 import { authApi } from "../../../auth/api/authApi";
+import { useLanguage } from "../../../../context/LanguageContext";
 
 function Products() {
   const [products, setProducts] = useState([]);
   const [pageNumber, setPageNumber] = useState(1);
   const [pageSize] = useState(8);
   const [totalCount, setTotalCount] = useState(0);
+  const {t}=useLanguage();
 
   useEffect(() => {
     const fetchProducts = async () => {
@@ -23,12 +25,10 @@ function Products() {
   }, []);
   //Bán chạy
   const bestSellingProducts = products.slice(0, 8);
-  //sản phẩm mới
-  const newProducts = products.slice(8, 16);
   //giảm giá
-  const saleProducts = products.slice(16, 24);
+  const saleProducts = products.slice(8, 16);
   //tìm kiếm hàng đầu
-  const topSearchProducts = products.slice(24, 32);
+  const topSearchProducts = products.slice(16, 24);
 
   const renderProducts = (list) => {
     return list.map((product) => (
@@ -44,14 +44,12 @@ function Products() {
   };
   return (
     <div className="products" id="Products">
-      <h1>Products</h1>
-      <h2 className="section_title">Bán chạy</h2>
+      <h1>{t.products}</h1>
+      <h2 className="section_title">{t.bestseller}</h2>
       <div className="box">{renderProducts(bestSellingProducts)}</div>
-      <h2 className="section_title">Sản phẩm mới</h2>
-      <div className="box">{renderProducts(newProducts)}</div>
-      <h2 className="section_title">Giảm giá</h2>
+      <h2 className="section_title">{t.sale}</h2>
       <div className="box">{renderProducts(saleProducts)}</div>
-      <h2 className="section_title">Tìm kiếm hàng đầu</h2>
+      <h2 className="section_title">{t.top_search}</h2>
       <div className="box">{renderProducts(topSearchProducts)}</div>
     </div>
   );

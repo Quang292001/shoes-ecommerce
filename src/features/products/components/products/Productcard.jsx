@@ -3,9 +3,11 @@ import { useNavigate } from "react-router-dom";
 import { useCart } from "/src/context/CartContext";
 import { useState } from "react";
 import Toast from "../../../../shared/toast/Toast";
+import { useLanguage } from "../../../../context/LanguageContext";
 
 function ProductCard({ id, image, name, description, price }) {
   const navigate = useNavigate();
+  const {t}=useLanguage();
 
   const { addToCart } = useCart();
 
@@ -64,7 +66,7 @@ function ProductCard({ id, image, name, description, price }) {
 
       <div className="button">
         <button className="add-cart-btn" onClick={() =>{addToCart({ id, name, price, image, quantity: 1 });showToast(`${name} added to cart`, "success");}}>
-          Add To Cart
+          {t.add_to_cart}
         </button>
       </div>
 
