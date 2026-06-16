@@ -4,10 +4,13 @@ import { useNavigate } from "react-router-dom";
 import LanguageSwitcher from "../../language/LanguageSwitcher";
 import { useLanguage } from "../../../context/LanguageContext";
 import { useCart } from "../../../context/CartContext";
+import ThemeToggle from "../../theme/ThemeToggle";
+import { useFavorite } from "../../../context/FavoriteContext";
 function Navbar() {
   const navigate = useNavigate();
   const { t } = useLanguage();
-  const {totalItems}=useCart();
+  const { totalItems } = useCart();
+  const { favoriteItems } = useFavorite();
   return (
     <nav>
       <div className="logo" onClick={() => navigate("/")}>
@@ -42,17 +45,24 @@ function Navbar() {
         <i className="fa-solid fa-magnifying-glass"></i>
       </div>
       <div className="icons">
-        <i className="fas fa-heart"></i>
+        <Link to="/favorites" className="favorite_icon">
+          <i className="fas fa-heart"></i>
+
+          {favoriteItems.length > 0 && (
+            <span className="favorite_badge">{favoriteItems.length}</span>
+          )}
+        </Link>
 
         <Link to="/cart" className="cart_icon">
           <i className="fas fa-shopping-cart"></i>
-          {totalItems>0 &&(<span className="cart_badge">{totalItems}</span>)}
+          {totalItems > 0 && <span className="cart_badge">{totalItems}</span>}
         </Link>
 
         <Link to="/profile">
           <i className="fas fa-user"></i>
         </Link>
       </div>
+      <ThemeToggle />
       <LanguageSwitcher />
     </nav>
   );

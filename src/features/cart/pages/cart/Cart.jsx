@@ -1,7 +1,8 @@
 import "./Cart.css";
 import Navbar from "../../../../shared/layout/navbar/Navbar";
 import { useCart } from "/src/context/CartContext";
-
+import { useNavigate } from "react-router-dom";
+import { tokenStorage } from "../../../../shared/auth/tokenStorage";
 function Cart() {
   const {
     cartItems,
@@ -10,7 +11,22 @@ function Cart() {
     decreaseQuantity,
     totalPrice,
   } = useCart();
+  const navigate = useNavigate();
+const handleCheckout = () => {
+  const accessToken = tokenStorage.getAccessToken();
 
+  if (!accessToken) {
+    navigate("/login", {
+      state: {
+        from: "/checkout", //"Tôi muốn sau login quay lại checkout"
+      },
+    });
+
+    return;
+  }
+
+  navigate("/checkout");
+};
   return (
     <div className="cart-page">
       <Navbar />
@@ -124,7 +140,7 @@ function Cart() {
               </span>
             </div>
 
-            <button className="checkout-btn">
+            <button className="checkout-btn" onClick={handleCheckout}>
               Proceed To Checkout
             </button>
           </div>

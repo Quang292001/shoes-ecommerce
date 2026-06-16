@@ -1,0 +1,22 @@
+/* ThemeToggle.css */
+
+.theme-toggle {
+  width: 35px;
+  height: 35px;
+  border-radius: 50%;
+  border: none;
+  cursor: pointer;
+  background: linear-gradient(to right, #c72092, #6c14d0);
+  color: white;
+  font-size: 18px;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  transition: 0.3s;
+}
+
+.theme-toggle:hover {
+  transform: scale(1.1);
+}

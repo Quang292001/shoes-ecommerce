@@ -12,7 +12,7 @@ import About from "../features/auth/pages/about/About";
 import Products from "../features/auth/pages/product/Products";
 import Services from "../features/auth/pages/services/Services";
 import Reviews from "../features/auth/pages/reviews/Reviews";
-
+import Favorites from "../features/auth/pages/favorites/Favorites";
 function AppRoutes() {
   return (
     <Routes>
@@ -44,6 +44,7 @@ function AppRoutes() {
       <Route path="/reviews" element={<Reviews />} />
       <Route path="/forgot-password" element={<ForgotPassword />} />
       <Route path="/reset-password" element={<ResetPassword />} />
+      <Route path="/favorites" element={<Favorites />} />
     </Routes>
   );
 }

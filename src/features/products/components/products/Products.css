@@ -49,6 +49,15 @@
   text-align: center;
   padding: 10px 20px;
   background: #f6f6f6;
+
+  transition: 0.3s ease;
+  cursor: pointer;
+}
+
+.card:hover {
+  transform: translateY(-12px) scale(1.02);
+
+  box-shadow: 0 20px 40px rgba(0, 0, 0, 0.15), 0 0 20px rgba(199, 32, 146, 0.3);
 }
 .products .box .card .small_card {
   display: flex; /* bật flexbox - giúp sắp xếp các phần tử con ngang hoặc dọc */
@@ -111,6 +120,7 @@
     #6c14d0
   ); /* tạo hiệu ứng gradient cho phần tử có class button bên trong phần tử có class card */
   display: inline-block;
+  border-radius: 5px;
 }
 
 .pagination {
@@ -248,4 +258,89 @@
   .product_grid {
     grid-template-columns: 1fr;
   }
+}
+.favorite-icon {
+  position: absolute;
+  top: 15px;
+  right: 15px;
+  font-size: 22px;
+  cursor: pointer;
+  transition: 0.1s;
+}
+
+.favorite-icon i {
+  color: #999;
+}
+
+.favorite-icon .fa-solid {
+  color: red;
+}
+
+.favorite-icon:hover {
+  transform: scale(1.2);
+}
+.active-heart {
+  color: red;
+}
+.view-more-btn {
+  border: 2px solid transparent;
+
+  background:
+    linear-gradient(white, white) padding-box,
+    linear-gradient(to right, #c72092, #6c14d0) border-box;
+
+  color: transparent;
+
+  background-clip: padding-box, border-box;
+
+  -webkit-background-clip: padding-box, border-box;
+
+  padding: 12px 25px;
+
+  border-radius: 5px;
+
+  cursor: pointer;
+
+  font-size: 16px;
+
+  font-weight: bold;
+
+  transition: 0.3s ease;
+
+  position: relative;
+  margin: 20px;
+}
+.view-more-btn {
+  background:
+    linear-gradient(white, white) padding-box,
+    linear-gradient(to right, #c72092, #6c14d0) border-box;
+}
+
+.view-more-btn span {
+  background: linear-gradient(to right, #c72092, #6c14d0);
+
+  -webkit-background-clip: text;
+
+  -webkit-text-fill-color: transparent;
+}
+
+.view-more-btn:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 10px 20px rgba(199, 32, 146, 0.3);
+}
+.section-header {
+  width: 90%;
+  margin: 0 auto 30px auto;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.section-header .section_title {
+  margin: 0;
+}
+.view-more-wrapper {
+  width: 96vw;
+  display: flex;
+  justify-content: center;
 }

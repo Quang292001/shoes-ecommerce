@@ -19,7 +19,7 @@ nav {
   background-color: white; /* đặt màu nền cho phần tử nav */
   top: 0; /* đặt phần tử nav ở phía trên của trang */
   z-index: 100; /* đảm bảo phần tử nav hiển thị trên các phần tử khác */
-  opacity: 0.7; /* đặt độ mờ cho phần tử nav */
+ background: rgba(255,255,255,0.9);
 }
 nav .logo {
   font-size: 35px; /* đặt kích thước font cho phần tử có class logo */
@@ -103,4 +103,33 @@ nav .icons i:hover {
   display: flex;
   align-items: center;
   justify-content: center;
+}
+.favorite-wrapper {
+  position: relative;
+}
+
+.favorite_icon {
+  position: relative;
+  font-size: 24px;
+}
+
+.favorite_badge {
+position: absolute;
+  top: -10px;
+  right: -10px;
+  width: 20px;
+  height: 20px;
+  border-radius: 50%;
+  background: red;
+  color: white;
+  font-size: 12px;
+  font-weight: bold;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.icons {
+  display: flex;
+  align-items: center;
+  gap: 8px;
 }

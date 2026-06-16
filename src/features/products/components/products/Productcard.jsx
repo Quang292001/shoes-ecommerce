@@ -4,10 +4,11 @@ import { useCart } from "/src/context/CartContext";
 import { useState } from "react";
 import Toast from "../../../../shared/toast/Toast";
 import { useLanguage } from "../../../../context/LanguageContext";
-
+import { useFavorite } from "/src/context/FavoriteContext";
 function ProductCard({ id, image, name, description, price }) {
   const navigate = useNavigate();
-  const {t}=useLanguage();
+  const { t } = useLanguage();
+  const { toggleFavorite, isFavorite } = useFavorite();
 
   const { addToCart } = useCart();
 
@@ -33,13 +34,23 @@ function ProductCard({ id, image, name, description, price }) {
     }, 1000);
   };
 
-
-
   return (
-   
     <div className="card">
       <div className="small_card">
-        <i className="fa-solid fa-heart"></i>
+        <i
+          className={`fa-heart ${
+            isFavorite(id) ? "fa-solid active-heart" : "fa-solid "
+          }`}
+          onClick={() =>
+            toggleFavorite({
+              id,
+              name,
+              price,
+              image,
+              description,
+            })
+          }
+        ></i>
 
         <i className="fa-solid fa-share"></i>
       </div>
@@ -65,13 +76,18 @@ function ProductCard({ id, image, name, description, price }) {
       </div>
 
       <div className="button">
-        <button className="add-cart-btn" onClick={() =>{addToCart({ id, name, price, image, quantity: 1 });showToast(`${name} added to cart`, "success");}}>
+        <button
+          className="add-cart-btn"
+          onClick={() => {
+            addToCart({ id, name, price, image, quantity: 1 });
+            showToast(`${name} added to cart`, "success");
+          }}
+        >
           {t.add_to_cart}
         </button>
       </div>
 
       <Toast show={toast.show} message={toast.message} type={toast.type} />
-
     </div>
   );
 }
