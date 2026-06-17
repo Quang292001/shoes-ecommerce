@@ -1,0 +1,73 @@
+.admin-category-page,
+.admin-category-page * {
+  box-sizing: border-box;
+}
+
+.admin-category-page {
+  width: 100%;
+}
+
+.admin-category-form {
+  max-width: 850px;
+  background: white;
+  padding: 32px;
+  border-radius: 26px;
+  box-shadow: 0 20px 50px rgba(15, 23, 42, 0.08);
+}
+
+.admin-category-table {
+  width: 100%;
+  border-collapse: collapse;
+}
+
+.admin-category-table th,
+.admin-category-table td {
+  padding: 18px;
+  text-align: left;
+  border-bottom: 1px solid #eef2f7;
+}
+
+.admin-category-table th {
+  background: #f8fafc;
+  color: #475569;
+  font-size: 13px;
+  font-weight: 950;
+  text-transform: uppercase;
+  letter-spacing: 0.03em;
+}
+
+.admin-category-table td {
+  color: #111827;
+  font-size: 15px;
+  font-weight: 700;
+}
+
+.category-thumb,
+.category-thumb-placeholder {
+  width: 72px;
+  height: 72px;
+  border-radius: 18px;
+}
+
+.category-thumb {
+  object-fit: cover;
+}
+
+.category-thumb-placeholder {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: #f1f5f9;
+  color: #64748b;
+  font-size: 12px;
+  font-weight: 900;
+}
+
+.category-checkbox {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin-bottom: 22px;
+  font-weight: 900;
+  color: #374151;
+}

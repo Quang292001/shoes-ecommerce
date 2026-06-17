@@ -1,5 +1,5 @@
 import "./Register.css";
-import { useState } from "react";
+import { useRef, useState } from "react";
 import { authApi } from "../../api/authApi";
 import Toast from "../../../../shared/toast/Toast";
 import shoes from "../../../../assets/image/logshoes.png";
@@ -12,6 +12,33 @@ function RegisterPage() {
     password: "",
     confirmPassword: "",
   });
+
+  const [toast, setToast] = useState({
+    message: "",
+    type: "success",
+    show: false,
+  });
+
+  const toastTimeoutRef = useRef(null);
+
+  const showToast = (message, type) => {
+    if (toastTimeoutRef.current) {
+      clearTimeout(toastTimeoutRef.current);
+    }
+
+    setToast({
+      message,
+      type,
+      show: true,
+    });
+
+    toastTimeoutRef.current = setTimeout(() => {
+      setToast((currentToast) => ({
+        ...currentToast,
+        show: false,
+      }));
+    }, 2500);
+  };
 
   const handleRegister = async () => {
     if (!formData.fullName.trim()) {
@@ -55,6 +82,8 @@ function RegisterPage() {
         backgroundImage: `url(${bg})`,
       }}
     >
+      <Toast message={toast.message} type={toast.type} show={toast.show} />
+
       <div className="register-left">
         <img src={shoes} alt="shoe" />
       </div>
