@@ -42,17 +42,14 @@ export const adminCategoryApi = {
 
   getCategoryById: async (categoryId) => {
     const response = await httpClient.get(`${baseUrl}/${categoryId}`);
+
     return response.data;
   },
 
   createCategory: async (request) => {
     const formData = buildCreateCategoryFormData(request);
 
-    const response = await httpClient.post(baseUrl, formData, {
-      headers: {
-        "Content-Type": "multipart/form-data",
-      },
-    });
+    const response = await httpClient.post(`${baseUrl}/create`, formData);
 
     return response.data;
   },
@@ -60,16 +57,15 @@ export const adminCategoryApi = {
   updateCategory: async (categoryId, request) => {
     const formData = buildUpdateCategoryFormData(request);
 
-    const response = await httpClient.put(`${baseUrl}/${categoryId}`, formData, {
-      headers: {
-        "Content-Type": "multipart/form-data",
-      },
-    });
+    const response = await httpClient.put(
+      `${baseUrl}/${categoryId}/update`,
+      formData
+    );
 
     return response.data;
   },
 
   deleteCategory: async (categoryId) => {
-    await httpClient.delete(`${baseUrl}/${categoryId}`);
+    await httpClient.delete(`${baseUrl}/${categoryId}/delete`);
   },
 };

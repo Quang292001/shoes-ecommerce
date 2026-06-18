@@ -13,11 +13,18 @@ import Toast from "../../../../shared/toast/Toast";
 function LoginPage() {
   const navigate = useNavigate();
   const location = useLocation();
+
   const [toast, setToast] = useState({
     show: false,
     message: "",
     type: "",
   });
+
+  const [formData, setFormData] = useState({
+    email: "",
+    password: "",
+  });
+
   const showToast = (message, type) => {
     setToast({
       show: true,
@@ -34,17 +41,14 @@ function LoginPage() {
     }, 3000);
   };
 
-  const [formData, setFormData] = useState({
-    email: "",
-    password: "",
-  });
-
   const handleLogin = async () => {
     if (!formData.email.trim()) {
       showToast("Email is required", "warning");
       return;
     }
+
     const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+
     if (!emailRegex.test(formData.email)) {
       showToast("Please enter a valid email address", "warning");
       return;
@@ -68,16 +72,21 @@ function LoginPage() {
         return;
       }
 
+      const role = getRoleFromToken(accessToken);
+      const requestedPath = location.state?.from?.pathname;
+      const redirectPath = getRedirectPath(role, requestedPath);
+
+      if (!redirectPath) {
+        showToast("Your account does not have permission to access this page", "error");
+        return;
+      }
+
       tokenStorage.setAccessToken(accessToken);
       showToast("Login successful!", "success");
-
-      const redirectPath = location.state?.from?.pathname || "/home";
 
       setTimeout(() => {
         navigate(redirectPath, { replace: true });
       }, 1000);
-
-      // navigate(redirectPath, { replace: true });
     } catch (error) {
       console.error(error);
       showToast(error.response?.data?.message || "Login failed", "error");
@@ -161,9 +170,62 @@ function LoginPage() {
           </div>
         </div>
       </div>
+
       <Toast show={toast.show} message={toast.message} type={toast.type} />
     </div>
   );
+}
+
+function getRedirectPath(role, requestedPath) {
+  if (requestedPath?.startsWith("/admin")) {
+    return role === "Admin" ? requestedPath : null;
+  }
+
+  if (role === "Admin") {
+    return "/admin";
+  }
+
+  if (requestedPath) {
+    return requestedPath;
+  }
+
+  return "/home";
+}
+
+function getRoleFromToken(accessToken) {
+  const payload = getPayloadFromToken(accessToken);
+
+  if (!payload) {
+    return null;
+  }
+
+  return (
+    payload.role ||
+    payload.Role ||
+    payload.roles ||
+    payload["http://schemas.microsoft.com/ws/2008/06/identity/claims/role"] ||
+    null
+  );
+}
+
+function getPayloadFromToken(accessToken) {
+  if (!accessToken) {
+    return null;
+  }
+
+  try {
+    const payload = accessToken.split(".")[1];
+
+    if (!payload) {
+      return null;
+    }
+
+    const normalizedPayload = payload.replace(/-/g, "+").replace(/_/g, "/");
+
+    return JSON.parse(atob(normalizedPayload));
+  } catch {
+    return null;
+  }
 }
 
 export default LoginPage;

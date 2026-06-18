@@ -4,9 +4,6 @@ import { tokenStorage } from "../auth/tokenStorage";
 
 const httpClient = axios.create({
   baseURL: environment.apiBaseUrl,
-  headers: {
-    "Content-Type": "application/json",
-  },
 });
 
 httpClient.interceptors.request.use((config) => {
@@ -14,6 +11,10 @@ httpClient.interceptors.request.use((config) => {
 
   if (accessToken) {
     config.headers.Authorization = `Bearer ${accessToken}`;
+  }
+
+  if (!(config.data instanceof FormData)) {
+    config.headers["Content-Type"] = "application/json";
   }
 
   return config;

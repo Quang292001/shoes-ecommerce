@@ -65,7 +65,7 @@ function AppRoutes() {
       <Route
         path="/admin"
         element={
-          <ProtectedRoute>
+          <ProtectedRoute allowedRoles={["Admin"]}>
             <AdminLayout />
           </ProtectedRoute>
         }

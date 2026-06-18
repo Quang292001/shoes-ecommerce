@@ -37,22 +37,20 @@ const buildUpdateProductFormData = (request) => {
 export const adminProductApi = {
   getProducts: async () => {
     const response = await httpClient.get(baseUrl);
+
     return response.data;
   },
 
   getProductById: async (productId) => {
     const response = await httpClient.get(`${baseUrl}/${productId}`);
+
     return response.data;
   },
 
   createProduct: async (request) => {
     const formData = buildCreateProductFormData(request);
 
-    const response = await httpClient.post(baseUrl, formData, {
-      headers: {
-        "Content-Type": "multipart/form-data",
-      },
-    });
+    const response = await httpClient.post(`${baseUrl}/create`, formData);
 
     return response.data;
   },
@@ -60,16 +58,15 @@ export const adminProductApi = {
   updateProduct: async (productId, request) => {
     const formData = buildUpdateProductFormData(request);
 
-    const response = await httpClient.put(`${baseUrl}/${productId}`, formData, {
-      headers: {
-        "Content-Type": "multipart/form-data",
-      },
-    });
+    const response = await httpClient.put(
+      `${baseUrl}/${productId}/update`,
+      formData
+    );
 
     return response.data;
   },
 
   deleteProduct: async (productId) => {
-    await httpClient.delete(`${baseUrl}/${productId}`);
+    await httpClient.delete(`${baseUrl}/${productId}/delete`);
   },
 };
