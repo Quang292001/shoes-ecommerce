@@ -3,6 +3,8 @@ import "../styles/AdminProduct.css";
 function ProductForm({
   value,
   mode,
+  categories = [],
+  loadingCategories = false,
   submitting,
   submitText,
   onChange,
@@ -42,13 +44,22 @@ function ProductForm({
         </div>
 
         <div className="form-group">
-          <label>Category Id</label>
-          <input
-            type="text"
+          <label>Category</label>
+          <select
             value={value.categoryId}
             onChange={(event) => onChange("categoryId", event.target.value)}
-            placeholder="Category Guid"
-          />
+            disabled={submitting || loadingCategories}
+          >
+            <option value="">
+              {loadingCategories ? "Loading categories..." : "Select category"}
+            </option>
+
+            {categories.map((category) => (
+              <option key={category.id} value={category.id}>
+                {category.name}
+              </option>
+            ))}
+          </select>
         </div>
       </div>
 
