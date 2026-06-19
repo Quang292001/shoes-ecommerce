@@ -1,7 +1,9 @@
+import { useEffect, useState } from "react";
 import "../styles/AdminProduct.css";
 
 function ProductForm({
   value,
+  categories,
   mode,
   submitting,
   submitText,
@@ -42,13 +44,19 @@ function ProductForm({
         </div>
 
         <div className="form-group">
-          <label>Category Id</label>
-          <input
-            type="text"
+          <label>Category </label>
+          <select
             value={value.categoryId}
             onChange={(event) => onChange("categoryId", event.target.value)}
-            placeholder="Category Guid"
-          />
+          >
+            <option value="">Select Category</option>
+
+            {categories?.map((category) => (
+              <option key={category.id} value={category.id}>
+                {category.name}
+              </option>
+            ))}
+          </select>
         </div>
       </div>
 

@@ -1,8 +1,9 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { adminProductApi } from "../api/adminProductApi";
 import ProductForm from "../components/ProductForm";
 import "../styles/AdminProduct.css";
+import { adminCategoryApi } from "../../categories/api/adminCategoryApi";
 
 const initialProduct = {
   name: "",
@@ -19,7 +20,21 @@ function CreateProducts() {
   const [product, setProduct] = useState(initialProduct);
   const [submitting, setSubmitting] = useState(false);
   const [errorMessage, setErrorMessage] = useState("");
+  const [categories, setCategories] = useState([]);
 
+  useEffect(() => {
+    loadCategories();
+  }, []);
+  const loadCategories = async () => {
+    try {
+      const res = await adminCategoryApi.getCategories();
+          console.log("Categories:", res.data);
+      setCategories(res.data);
+    } catch (error) {
+      console.error(error);
+    }
+  };
+ 
   const handleChange = (field, value) => {
     setProduct((currentProduct) => ({
       ...currentProduct,
@@ -35,8 +50,8 @@ function CreateProducts() {
       return;
     }
 
-    if (!product.categoryId.trim()) {
-      setErrorMessage("Category Id is required");
+    if (!product.categoryId) {
+      setErrorMessage("Please select a category");
       return;
     }
 
@@ -71,7 +86,15 @@ function CreateProducts() {
       setSubmitting(false);
     }
   };
-
+ <ProductForm
+    mode="create"
+    value={product}
+    categories={categories}
+    submitting={submitting}
+    submitText="Create Product"
+    onChange={handleChange}
+    onSubmit={handleSubmit}
+  />;
   return (
     <div className="admin-product-page">
       <div className="admin-page-header">

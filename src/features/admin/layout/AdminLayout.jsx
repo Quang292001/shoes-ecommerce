@@ -1,5 +1,6 @@
 import { NavLink, Outlet, useNavigate } from "react-router-dom";
 import "./AdminLayout.css";
+import { useEffect, useState } from "react";
 
 function AdminLayout() {
   const navigate = useNavigate();
@@ -50,7 +51,6 @@ function AdminLayout() {
         <div className="admin-sidebar-bottom">
           <div className="admin-user-card">
             <div className="admin-user-avatar">A</div>
-
             <div>
               <h3>Admin</h3>
               <p>System manager</p>
@@ -80,6 +80,16 @@ function AdminLayout() {
               <i className="fa-solid fa-store"></i>
               View Store
             </button>
+            <div
+              className="admin-profile"
+              onClick={() => navigate("/admin/profile")}
+            >
+              <div className="admin-profile-avatar">A</div>
+
+              <span className="admin-profile-name">Admin</span>
+
+              <i className="fa-solid fa-chevron-down"></i>
+            </div>
           </div>
         </div>
 

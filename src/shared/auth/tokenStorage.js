@@ -1,6 +1,6 @@
 const AccessTokenKey = "accessToken";
 
-function getPayload(accessToken) {
+function getPayload(accessToken) { // lấy thông tin
   if (!accessToken) {
     return null;
   }
