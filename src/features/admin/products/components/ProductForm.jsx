@@ -5,6 +5,8 @@ function ProductForm({
   value,
   categories,
   mode,
+  categories = [],
+  loadingCategories = false,
   submitting,
   submitText,
   onChange,
@@ -44,12 +46,15 @@ function ProductForm({
         </div>
 
         <div className="form-group">
-          <label>Category </label>
+          <label>Category</label>
           <select
             value={value.categoryId}
             onChange={(event) => onChange("categoryId", event.target.value)}
+            disabled={submitting || loadingCategories}
           >
-            <option value="">Select Category</option>
+            <option value="">
+              {loadingCategories ? "Loading categories..." : "Select category"}
+            </option>
 
             {categories?.map((category) => (
               <option key={category.id} value={category.id}>

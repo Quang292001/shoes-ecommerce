@@ -1,5 +1,6 @@
 import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
+import { adminCategoryApi } from "../../categories/api/adminCategoryApi";
 import { adminProductApi } from "../api/adminProductApi";
 import ProductForm from "../components/ProductForm";
 import "../styles/AdminProduct.css";
@@ -18,23 +19,33 @@ function CreateProducts() {
   const navigate = useNavigate();
 
   const [product, setProduct] = useState(initialProduct);
+  const [categories, setCategories] = useState([]);
+  const [loadingCategories, setLoadingCategories] = useState(false);
   const [submitting, setSubmitting] = useState(false);
   const [errorMessage, setErrorMessage] = useState("");
-  const [categories, setCategories] = useState([]);
 
   useEffect(() => {
     loadCategories();
   }, []);
+
   const loadCategories = async () => {
     try {
-      const res = await adminCategoryApi.getCategories();
-          console.log("Categories:", res.data);
-      setCategories(res.data);
+      setLoadingCategories(true);
+      setErrorMessage("");
+
+      const response = await adminCategoryApi.getCategories(false);
+
+      setCategories(response);
     } catch (error) {
       console.error(error);
+      setErrorMessage(
+        error.response?.data?.message || "Load categories failed",
+      );
+    } finally {
+      setLoadingCategories(false);
     }
   };
- 
+
   const handleChange = (field, value) => {
     setProduct((currentProduct) => ({
       ...currentProduct,
@@ -51,7 +62,7 @@ function CreateProducts() {
     }
 
     if (!product.categoryId) {
-      setErrorMessage("Please select a category");
+      setErrorMessage("Category is required");
       return;
     }
 
@@ -86,7 +97,7 @@ function CreateProducts() {
       setSubmitting(false);
     }
   };
- <ProductForm
+  <ProductForm
     mode="create"
     value={product}
     categories={categories}
@@ -116,6 +127,8 @@ function CreateProducts() {
       <ProductForm
         mode="create"
         value={product}
+        categories={categories}
+        loadingCategories={loadingCategories}
         submitting={submitting}
         submitText="Create Product"
         onChange={handleChange}
