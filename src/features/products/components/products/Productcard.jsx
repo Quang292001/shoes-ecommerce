@@ -5,13 +5,16 @@ import { useState } from "react";
 import Toast from "../../../../shared/toast/Toast";
 import { useLanguage } from "../../../../context/LanguageContext";
 import { useFavorite } from "/src/context/FavoriteContext";
+import { tokenStorage } from "../../../../shared/auth/tokenStorage";
+import { cartApi } from "../../../cart/api/cartApi";
+
 function ProductCard({ id, image, name, description, price }) {
   const navigate = useNavigate();
   const { t } = useLanguage();
   const { toggleFavorite, isFavorite } = useFavorite();
-
   const { addToCart } = useCart();
 
+  const [isAddingToCart, setIsAddingToCart] = useState(false);
   const [toast, setToast] = useState({
     show: false,
     message: "",
@@ -34,12 +37,56 @@ function ProductCard({ id, image, name, description, price }) {
     }, 1000);
   };
 
+  const handleAddToCart = async () => {
+    const accessToken = tokenStorage.getAccessToken();
+
+    if (!accessToken) {
+      navigate("/login", {
+        state: {
+          from: "/products",
+        },
+      });
+
+      return;
+    }
+
+    try {
+      setIsAddingToCart(true);
+
+      await cartApi.addItem({
+        productId: id,
+        quantity: 1,
+      });
+
+      addToCart({
+        id,
+        name,
+        price,
+        image,
+        quantity: 1,
+      });
+
+      showToast(`${name} added to cart`, "success");
+    } catch (error) {
+      console.error("Add to cart failed:", error);
+
+      showToast(
+        error.response?.data?.message ||
+          error.response?.data?.title ||
+          "Failed to add product to cart",
+        "error"
+      );
+    } finally {
+      setIsAddingToCart(false);
+    }
+  };
+
   return (
     <div className="card">
       <div className="small_card">
         <i
           className={`fa-heart ${
-            isFavorite(id) ? "fa-solid active-heart" : "fa-solid "
+            isFavorite(id) ? "fa-solid active-heart" : "fa-solid"
           }`}
           onClick={() =>
             toggleFavorite({
@@ -78,12 +125,10 @@ function ProductCard({ id, image, name, description, price }) {
       <div className="button">
         <button
           className="add-cart-btn"
-          onClick={() => {
-            addToCart({ id, name, price, image, quantity: 1 });
-            showToast(`${name} added to cart`, "success");
-          }}
+          onClick={handleAddToCart}
+          disabled={isAddingToCart}
         >
-          {t.add_to_cart}
+          {isAddingToCart ? "Adding..." : t.add_to_cart}
         </button>
       </div>
 

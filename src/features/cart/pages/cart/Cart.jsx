@@ -1,8 +1,11 @@
+import { useState } from "react";
+import { useNavigate } from "react-router-dom";
 import "./Cart.css";
 import Navbar from "../../../../shared/layout/navbar/Navbar";
-import { useCart } from "/src/context/CartContext";
-import { useNavigate } from "react-router-dom";
 import { tokenStorage } from "../../../../shared/auth/tokenStorage";
+import { useCart } from "/src/context/CartContext";
+import { ordersApi } from "../../api/ordersApi";
+
 function Cart() {
   const {
     cartItems,
@@ -11,29 +14,58 @@ function Cart() {
     decreaseQuantity,
     totalPrice,
   } = useCart();
+
   const navigate = useNavigate();
-const handleCheckout = () => {
-  const accessToken = tokenStorage.getAccessToken();
 
-  if (!accessToken) {
-    navigate("/login", {
-      state: {
-        from: "/checkout", //"Tôi muốn sau login quay lại checkout"
-      },
-    });
+  const [isCheckingOut, setIsCheckingOut] = useState(false);
+  const [checkoutError, setCheckoutError] = useState("");
 
-    return;
-  }
+  const handleCheckout = async () => {
+    const accessToken = tokenStorage.getAccessToken();
 
-  navigate("/checkout");
-};
+    if (!accessToken) {
+      navigate("/login", {
+        state: {
+          from: "/checkout",
+        },
+      });
+
+      return;
+    }
+
+    if (cartItems.length === 0) {
+      setCheckoutError("Your cart is empty.");
+      return;
+    }
+
+    try {
+      setIsCheckingOut(true);
+      setCheckoutError("");
+
+      const response = await ordersApi.checkoutCart();
+
+      console.log("Checkout success:", response);
+
+      navigate("/orders");
+    } catch (error) {
+      console.error("Checkout failed:", error);
+
+      setCheckoutError(
+        error.response?.data?.message ||
+          error.response?.data?.title ||
+          error.message ||
+          "Checkout failed."
+      );
+    } finally {
+      setIsCheckingOut(false);
+    }
+  };
+
   return (
     <div className="cart-page">
       <Navbar />
 
-      <h1 className="cart-title">
-        Shopping Cart
-      </h1>
+      <h1 className="cart-title">Shopping Cart</h1>
 
       <div className="cart-container">
         <div className="cart-table">
@@ -46,38 +78,34 @@ const handleCheckout = () => {
             <p>SUBTOTAL</p>
           </div>
 
+          {cartItems.length === 0 && (
+            <div className="cart-empty">
+              Your cart is empty.
+            </div>
+          )}
+
           {cartItems.map((item) => (
-            <div
-              className="cart-item"
-              key={item.id}
-            >
+            <div className="cart-item" key={item.id}>
               <button
                 className="remove-btn"
-                onClick={() =>
-                  removeFromCart(item.id)
-                }
+                onClick={() => removeFromCart(item.id)}
+                disabled={isCheckingOut}
               >
                 <i className="fa-solid fa-xmark"></i>
               </button>
 
               <div className="cart-image">
-                <img
-                  src={item.image}
-                  alt={item.name}
-                />
+                <img src={item.image} alt={item.name} />
               </div>
 
-              <p className="product-name">
-                {item.name}
-              </p>
+              <p className="product-name">{item.name}</p>
 
               <p>{item.price} VNĐ</p>
 
               <div className="quantity-box">
                 <button
-                  onClick={() =>
-                    decreaseQuantity(item.id)
-                  }
+                  onClick={() => decreaseQuantity(item.id)}
+                  disabled={isCheckingOut}
                 >
                   -
                 </button>
@@ -85,17 +113,15 @@ const handleCheckout = () => {
                 <span>{item.quantity}</span>
 
                 <button
-                  onClick={() =>
-                    increaseQuantity(item.id)
-                  }
+                  onClick={() => increaseQuantity(item.id)}
+                  disabled={isCheckingOut}
                 >
                   +
                 </button>
               </div>
 
               <p className="subtotal">
-                {item.price * item.quantity}
-                VNĐ
+                {item.price * item.quantity} VNĐ
               </p>
             </div>
           ))}
@@ -109,9 +135,10 @@ const handleCheckout = () => {
               <input
                 type="text"
                 placeholder="Enter your coupon"
+                disabled={isCheckingOut}
               />
 
-              <button>Apply</button>
+              <button disabled={isCheckingOut}>Apply</button>
             </div>
           </div>
 
@@ -120,28 +147,31 @@ const handleCheckout = () => {
 
             <div className="total-row">
               <span>Subtotal</span>
-
-              <span>
-                {totalPrice} VNĐ
-              </span>
+              <span>{totalPrice} VNĐ</span>
             </div>
 
             <div className="total-row">
               <span>Shipping</span>
-
               <span>Free</span>
             </div>
 
             <div className="total-row total">
               <span>Total</span>
-
-              <span>
-                {totalPrice} VNĐ
-              </span>
+              <span>{totalPrice} VNĐ</span>
             </div>
 
-            <button className="checkout-btn" onClick={handleCheckout}>
-              Proceed To Checkout
+            {checkoutError && (
+              <p className="checkout-error">
+                {checkoutError}
+              </p>
+            )}
+
+            <button
+              className="checkout-btn"
+              onClick={handleCheckout}
+              disabled={isCheckingOut || cartItems.length === 0}
+            >
+              {isCheckingOut ? "Processing..." : "Proceed To Checkout"}
             </button>
           </div>
         </div>
