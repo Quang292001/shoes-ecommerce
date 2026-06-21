@@ -83,10 +83,7 @@ function LoginPage() {
 
       tokenStorage.setAccessToken(accessToken);
       showToast("Login successful!", "success");
-
-      setTimeout(() => {
-        navigate(redirectPath, { replace: true });
-      }, 1000);
+      navigate(redirectPath, { replace: true });
     } catch (error) {
       console.error(error);
       showToast(error.response?.data?.message || "Login failed", "error");
