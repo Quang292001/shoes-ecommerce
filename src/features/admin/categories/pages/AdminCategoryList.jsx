@@ -45,7 +45,9 @@ function CreateCategory() {
       navigate("/admin/categories");
     } catch (error) {
       console.error(error);
-      setErrorMessage(error.response?.data?.message || "Create category failed");
+      setErrorMessage(
+        error.response?.data?.message || "Create category failed",
+      );
     } finally {
       setSubmitting(false);
     }

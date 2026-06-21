@@ -1,0 +1,53 @@
+
+.profile-card {
+  max-width: 600px;
+  margin: auto;
+  background: white;
+  border-radius: 20px;
+  padding: 30px;
+  box-shadow: 0 5px 20px rgba(0, 0, 0, 0.08);
+}
+
+.avatar {
+  width: 100px;
+  height: 100px;
+  margin: auto;
+  border-radius: 50%;
+  background: linear-gradient(to right, #c72092, #6c14d0);
+
+  display: flex;
+  justify-content: center;
+  align-items: center;
+
+  color: white;
+  font-size: 40px;
+}
+
+.profile-card h2 {
+  text-align: center;
+  margin-top: 20px;
+}
+
+.role {
+  display: block;
+  text-align: center;
+  color: #6c14d0;
+  font-weight: 600;
+  margin-bottom: 30px;
+}
+
+.info-item {
+  margin-bottom: 20px;
+}
+
+.info-item label {
+  display: block;
+  font-weight: 600;
+  margin-bottom: 5px;
+}
+
+.info-item p {
+  padding: 12px;
+  background: #f5f5f5;
+  border-radius: 10px;
+}

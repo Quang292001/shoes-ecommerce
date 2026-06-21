@@ -74,7 +74,9 @@ function EditCategory() {
       navigate("/admin/categories");
     } catch (error) {
       console.error(error);
-      setErrorMessage(error.response?.data?.message || "Update category failed");
+      setErrorMessage(
+        error.response?.data?.message || "Update category failed",
+      );
     } finally {
       setSubmitting(false);
     }

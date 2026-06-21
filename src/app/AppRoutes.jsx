@@ -17,7 +17,7 @@ import Favorites from "../features/auth/pages/favorites/Favorites";
 
 import AdminLayout from "../features/admin/layout/AdminLayout";
 import AdminDashboard from "../features/admin/pages/AdminDashboard";
-
+import AdminProfile from "../features/admin/pages/profile/AdminProfile"
 import AdminProductList from "../features/admin/products/pages/AdminProductList";
 import CreateProducts from "../features/admin/products/pages/CreateProducts";
 import EditProducts from "../features/admin/products/pages/EditProducts";
@@ -71,11 +71,10 @@ function AppRoutes() {
         }
       >
         <Route index element={<AdminDashboard />} />
-
         <Route path="products" element={<AdminProductList />} />
         <Route path="products/create" element={<CreateProducts />} />
         <Route path="products/:id/edit" element={<EditProducts />} />
-
+        <Route path="profile" element={<AdminProfile />} />
         <Route path="categories" element={<AdminCategoryList />} />
         <Route path="categories/create" element={<CreateCategory />} />
         <Route path="categories/:id/edit" element={<EditCategory />} />

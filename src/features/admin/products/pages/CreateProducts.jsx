@@ -4,6 +4,7 @@ import { adminCategoryApi } from "../../categories/api/adminCategoryApi";
 import { adminProductApi } from "../api/adminProductApi";
 import ProductForm from "../components/ProductForm";
 import "../styles/AdminProduct.css";
+import { adminCategoryApi } from "../../categories/api/adminCategoryApi";
 
 const initialProduct = {
   name: "",
@@ -38,7 +39,7 @@ function CreateProducts() {
     } catch (error) {
       console.error(error);
       setErrorMessage(
-        error.response?.data?.message || "Load categories failed"
+        error.response?.data?.message || "Load categories failed",
       );
     } finally {
       setLoadingCategories(false);
@@ -96,7 +97,15 @@ function CreateProducts() {
       setSubmitting(false);
     }
   };
-
+  <ProductForm
+    mode="create"
+    value={product}
+    categories={categories}
+    submitting={submitting}
+    submitText="Create Product"
+    onChange={handleChange}
+    onSubmit={handleSubmit}
+  />;
   return (
     <div className="admin-product-page">
       <div className="admin-page-header">

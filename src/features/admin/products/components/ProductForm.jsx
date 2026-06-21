@@ -1,7 +1,9 @@
+import { useEffect, useState } from "react";
 import "../styles/AdminProduct.css";
 
 function ProductForm({
   value,
+  categories,
   mode,
   categories = [],
   loadingCategories = false,
@@ -54,7 +56,7 @@ function ProductForm({
               {loadingCategories ? "Loading categories..." : "Select category"}
             </option>
 
-            {categories.map((category) => (
+            {categories?.map((category) => (
               <option key={category.id} value={category.id}>
                 {category.name}
               </option>
