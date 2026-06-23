@@ -51,7 +51,15 @@ function CreateProducts() {
   };
 
   const handleSubmit = async (event) => {
-    event.preventDefault();
+  event.preventDefault();
+  console.log({
+  name: product.name,
+  description: product.description,
+  price: product.price,
+  categoryId: product.categoryId,
+  initialStock: product.initialStock,
+  image: product.image,
+});
 
     if (!product.name.trim()) {
       setErrorMessage("Product name is required");
@@ -88,6 +96,9 @@ function CreateProducts() {
 
       navigate("/admin/products");
     } catch (error) {
+      console.log("STATUS:", error.response?.status);
+  console.log("DATA:", error.response?.data);
+  console.log("FULL:", error.response);
       console.error(error);
       setErrorMessage(error.response?.data?.message || "Create product failed");
     } finally {
