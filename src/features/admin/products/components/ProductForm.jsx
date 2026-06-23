@@ -2,7 +2,6 @@ import "../styles/AdminProduct.css";
 
 function ProductForm({
   value,
-  mode,
   categories = [],
   mode,
   loadingCategories = false,
