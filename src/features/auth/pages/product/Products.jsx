@@ -102,11 +102,11 @@ function Products() {
       {/* FILTER SIDEBAR */}
       <div className="products-layout">
         <div className="filter-sidebar">
-          <h2>Filters</h2>
+          <h2>{t.filters}</h2>
 
           {/* BRAND */}
           <div className="filter-group">
-            <label>Brand</label>
+            <label>{t.Brand}</label>
 
             <select
               value={brandFilter}
@@ -114,7 +114,7 @@ function Products() {
                 setBrandFilter(e.target.value)
               }
             >
-              <option value="">All</option>
+              <option value="">{t.All}</option>
               <option value="Nike">Nike</option>
               <option value="Adidas">Adidas</option>
               <option value="Puma">Puma</option>
@@ -123,7 +123,7 @@ function Products() {
 
           {/* COLOR */}
           <div className="filter-group">
-            <label>Color</label>
+            <label>{t.Color}</label>
 
             <select
               value={colorFilter}
@@ -131,7 +131,7 @@ function Products() {
                 setColorFilter(e.target.value)
               }
             >
-              <option value="">All</option>
+              <option value="">{t.All}</option>
               <option value="Black">Black</option>
               <option value="White">White</option>
               <option value="Blue">Blue</option>
@@ -140,7 +140,7 @@ function Products() {
 
           {/* PRICE */}
           <div className="filter-group">
-            <label>Price</label>
+            <label>{t.Price}</label>
 
             <select
               value={priceFilter}
@@ -148,7 +148,7 @@ function Products() {
                 setPriceFilter(e.target.value)
               }
             >
-              <option value="">All</option>
+              <option value="">{t.All}</option>
               <option value="under100">
                 Under 100$
               </option>
@@ -165,7 +165,7 @@ function Products() {
 
           {/* SORT */}
           <div className="filter-group">
-            <label>Sort By</label>
+            <label>{t.Sort_By}</label>
 
             <select
               value={sortOption}
@@ -173,18 +173,18 @@ function Products() {
                 setSortOption(e.target.value)
               }
             >
-              <option value="">Default</option>
+              <option value="">{t.Default}</option>
 
               <option value="lowToHigh">
-                Price Low To High
+                {t.Price_Low_To_High}
               </option>
 
               <option value="highToLow">
-                Price High To Low
+                {t.Price_High_To_Low}
               </option>
 
               <option value="newest">
-                Newest
+                {t.Newest}
               </option>
             </select>
           </div>

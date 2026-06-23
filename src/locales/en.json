@@ -42,5 +42,15 @@
  "sv1":"Free shipping for orders over 500,000 VND. Orders are processed within 24 hours and shipped to customers as quickly as possible.",
  "sv2":"Customers can request a replacement within 10 days if the product has manufacturing defects or does not match the description. Full refund guaranteed if the product does not meet the described quality.",
  "sv3":"Our customer support team is available 24/7 to answer questions and assist with any order-related issues.",
- "customer":"Customer"
+ "customer":"Customer",
+ "filters":"Filters",
+ "Brand":"Brand",
+ "All":"All",
+ "Color":"Color",
+ "Price":"Price",
+ "Sort_By":"Sort By",
+ "Default":"Default",
+ "Price_Low_To_High":"Price Low To High",
+ "Price_High_To_Low":"Price High To Low",
+ "Newest":"Newest"
 }

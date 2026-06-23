@@ -41,5 +41,15 @@
   "sv1":"Miễn phí giao hàng cho đơn hàng từ 500.000 VNĐ. Chúng tôi cung cấp dịch vụ giao hàng nhanh trên toàn quốc. Đơn hàng sẽ được xử lý trong vòng 24 giờ và giao đến tay khách hàng trong thời gian sớm nhất.",
   "sv2":"Khách hàng được hỗ trợ đổi mới sản phẩm trong vòng 10 ngày nếu phát hiện lỗi từ nhà sản xuất hoặc sản phẩm không đúng mô tả. Cam kết hoàn tiền nếu sản phẩm không đạt chất lượng như mô tả.",
   "sv3":"Đội ngũ chăm sóc khách hàng luôn sẵn sàng hỗ trợ 24/7 để giải đáp thắc mắc và xử lý các vấn đề liên quan đến đơn hàng.",
-  "customer":"Những khách hàng đã"
+  "customer":"Những khách hàng đã",
+  "filters":"Bộ lọc",
+  "Brand":"Thương hiệu",
+  "All":"Tất cả",
+  "Color":"Màu sắc",
+  "Price":"Giá",
+  "Sort_By":"Sắp xếp",
+  "Default":"Mặc định",
+  "Price_Low_To_High":"Giá từ thấp đến cao",
+  "Price_High_To_Low":"Giá từ cao đến thấp",
+  "Newest":"Mới nhất"
 }
