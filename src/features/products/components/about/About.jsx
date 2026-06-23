@@ -3,12 +3,13 @@ import red_shoes1 from "../../../../assets/image/red_shoes1.png";
 import red_shoes2 from "../../../../assets/image/red_shoes2.png";
 import red_shoes3 from "../../../../assets/image/red_shoes3.png";
 import red_shoes4 from "../../../../assets/image/red_shoes4.png";
-
+import { useLanguage } from "../../../../context/LanguageContext";
 function About() {
+  const {t}=useLanguage();
   return (
     <div className="about" id="About">
       <h1>
-        Web<span>About</span>
+        {t.web}<span>{t.about}</span>
       </h1>
       <div className="about_main">
         <div className="about_image">
@@ -63,7 +64,7 @@ function About() {
       </div>
       <div className="btn_container">
         <a href="" className="about_btn">
-          Show now
+          {t.shop_now}
         </a>
       </div>
     </div>

@@ -95,7 +95,8 @@ function Products() {
     <Navbar/>
     <div className="products-page">
       <h1 className="products-title">
-        {t.products}
+        <span>{t.products}</span>
+        
       </h1>
 
       {/* FILTER SIDEBAR */}

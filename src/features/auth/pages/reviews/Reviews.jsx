@@ -2,7 +2,9 @@ import React from 'react'
 import Navbar from '../../../../shared/layout/navbar/Navbar'
 import Footer from '../../../../shared/layout/footer/Footer';
 import './Reviews.css'
+import { useLanguage } from '../../../../context/LanguageContext';
 function Reviews() {
+  const {t}=useLanguage();
    const reviews = [
     {
       id: 1,
@@ -33,7 +35,7 @@ function Reviews() {
       <Navbar />
       <section className="reviews" id="Reviews">
       <h1>
-        Customer <span>Reviews</span>
+        {t.customer} <span>{t.reviews}</span>
       </h1>
 
       <div className="reviews-container">

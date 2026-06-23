@@ -123,7 +123,14 @@ function ProductDetail() {
 
         <div className="product_info">
           <h1>{product.name}</h1>
-
+         
+      <div className="product_star">
+        <i className="fas fa-star"></i>
+        <i className="fas fa-star"></i>
+        <i className="fas fa-star"></i>
+        <i className="fas fa-star"></i>
+        <i className="fas fa-star"></i>
+      </div> 
           <h2>{product.price} VNĐ</h2>
 
           <div className="size_select">

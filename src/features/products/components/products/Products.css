@@ -49,7 +49,8 @@
   text-align: center;
   padding: 10px 20px;
   background: #f6f6f6;
-
+  display: flex;
+  flex-direction: column;
   transition: 0.3s ease;
   cursor: pointer;
 }
@@ -91,11 +92,23 @@
   cursor: pointer;
   color: #c72092; /* thay đổi màu sắc khi hover vào phần tử i bên trong phần tử có class small_card khi hover vào phần tử có class card */
 }
+.products .box .card .product_text {
+  flex: 1;
+}
 .products .box .card .product_text h2 {
-  font-size: 30px; /* đặt kích thước font cho phần tử h2 bên trong phần tử có class product_text bên trong phần tử có class card */
+  font-size: 24px;
+
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
   margin-top: 10px; /* đặt khoảng cách trên là 10px cho phần tử h2 bên trong phần tử có class product_text bên trong phần tử có class card */
 }
 .products .box .card .product_text p {
+  display: -webkit-box;
+  -webkit-line-clamp: 1;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
   color: #91919191; /* đặt màu sắc cho phần tử p bên trong phần tử có class product_text bên trong phần tử có class card */
   line-height: 21px; /* đặt khoảng cách giữa các dòng cho phần tử p bên trong phần tử có class product_text bên trong phần tử có class card */
   margin: 8px 0; /* đặt khoảng cách trên và dưới là 8px cho phần tử p bên trong phần tử có class product_text bên trong phần tử có class card */
@@ -285,8 +298,7 @@
 .view-more-btn {
   border: 2px solid transparent;
 
-  background:
-    linear-gradient(white, white) padding-box,
+  background: linear-gradient(white, white) padding-box,
     linear-gradient(to right, #c72092, #6c14d0) border-box;
 
   color: transparent;
@@ -311,8 +323,7 @@
   margin: 20px;
 }
 .view-more-btn {
-  background:
-    linear-gradient(white, white) padding-box,
+  background: linear-gradient(white, white) padding-box,
     linear-gradient(to right, #c72092, #6c14d0) border-box;
 }
 

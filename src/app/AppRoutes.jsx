@@ -14,7 +14,7 @@ import Products from "../features/auth/pages/product/Products";
 import Services from "../features/auth/pages/services/Services";
 import Reviews from "../features/auth/pages/reviews/Reviews";
 import Favorites from "../features/auth/pages/favorites/Favorites";
-
+import Checkout from "../features/auth/pages/checkout/Checkout"
 import AdminLayout from "../features/admin/layout/AdminLayout";
 import AdminDashboard from "../features/admin/pages/AdminDashboard";
 import AdminProfile from "../features/admin/pages/profile/AdminProfile"
@@ -43,7 +43,7 @@ function AppRoutes() {
       <Route path="/forgot-password" element={<ForgotPassword />} />
       <Route path="/reset-password" element={<ResetPassword />} />
       <Route path="/favorites" element={<Favorites />} />
-
+      <Route path="/checkout" element={<Checkout />} />
       <Route
         path="/profile"
         element={

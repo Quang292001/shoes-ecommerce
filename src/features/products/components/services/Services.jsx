@@ -13,24 +13,21 @@ function Services() {
           <i className="fa-solid fa-truck-fast"></i>
           <h3>{t.fast_delivery}</h3>
           <p>
-            Lorem ipsum dolor sit amet consectetur adipisicing elit. Voluptas,
-            voluptate.
+            {t.sv1}
           </p>
         </div>
         <div className="services-box">
           <i className="fa-solid fa-rotate-left"></i>
           <h3>{t.replacement}</h3>
           <p>
-            Lorem ipsum dolor sit amet consectetur adipisicing elit. Voluptas,
-            voluptate.
+            {t.sv2}
           </p>
         </div>
         <div className="services-box">
           <i className="fa-solid fa-headset"></i>
           <h3>{t.support}</h3>
           <p>
-            Lorem ipsum dolor sit amet consectetur adipisicing elit. Voluptas,
-            voluptate.
+            {t.sv3}
           </p>
         </div>
       </div>
