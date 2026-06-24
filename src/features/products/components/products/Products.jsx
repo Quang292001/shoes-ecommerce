@@ -55,7 +55,7 @@ function Products() {
       <div className="box">{renderProducts(bestSellingProducts)}</div>
       <div className="view-more-wrapper">
         <button className="view-more-btn" onClick={() => navigate("/products")}>
-          <span>Xem thêm →</span>
+          <span>{t.see_more}</span>
         </button>
       </div>
 
@@ -64,7 +64,7 @@ function Products() {
       <div className="box">{renderProducts(saleProducts)}</div>
       <div className="view-more-wrapper">
         <button className="view-more-btn" onClick={() => navigate("/products")}>
-          <span>Xem thêm →</span>
+          <span>{t.see_more}</span>
         </button>
       </div>
 
@@ -73,7 +73,7 @@ function Products() {
       <div className="box">{renderProducts(topSearchProducts)}</div>
       <div className="view-more-wrapper">
         <button className="view-more-btn" onClick={() => navigate("/products")}>
-          <span>Xem thêm →</span>
+          <span>{t.see_more}</span>
         </button>
       </div>
     </div>

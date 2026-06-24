@@ -3,32 +3,34 @@ import { useState } from "react";
 import { authApi } from "../../api/authApi";
 import Toast from "../../../../shared/toast/Toast";
 import Navbar from "../../../../shared/layout/navbar/Navbar";
+import { useLanguage } from "../../../../context/LanguageContext";
 function ForgotPassword() {
+  const {t}=useLanguage();
   const [email, setEmail] = useState("");
   const [message, setMessage] = useState("");
 
   const handleForgotPassword = async () => {
     if (!email.trim()) {
-      showToast("Email is required", "warning");
+      showToast(t.Email_required, "warning");
       return;
     }
 
     const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
 
     if (!emailRegex.test(email)) {
-      showToast("Invalid email format", "warning");
+      showToast(t.enter_email_address, "warning");
       return;
     }
 
     try {
       await authApi.forgotPassword(email);
 
-      showToast("Password reset link sent to your email", "success");
+      showToast(t.Password_reset, "success");
     } catch (error) {
       console.error(error);
 
       showToast(
-        error.response?.data?.message || "Something went wrong",
+        error.response?.data?.message || t.Something_went_wrong,
         "error",
       );
     }
@@ -39,18 +41,18 @@ function ForgotPassword() {
     <Navbar />
     <div className="forgot-password-page">
       <div className="forgot-box">
-        <h1>Forgot Password</h1>
+        <h1>{t.Forget_Password}</h1>
 
-        <p>Enter your email to reset password</p>
+        <p>{t.Enter_reset_password}</p>
 
         <input
           type="email"
-          placeholder="Enter your email"
+          placeholder={t.Enter_your_email}
           value={email}
           onChange={(e) => setEmail(e.target.value)}
         />
 
-        <button onClick={handleForgotPassword}>Send Reset Link</button>
+        <button onClick={handleForgotPassword}>{t.Send_Reset_Link}</button>
 
         {message && <div className="message">{message}</div>}
       </div>

@@ -132,9 +132,9 @@ function Products() {
               }
             >
               <option value="">{t.All}</option>
-              <option value="Black">Black</option>
-              <option value="White">White</option>
-              <option value="Blue">Blue</option>
+              <option value="Black">{t.Black}</option>
+              <option value="White">{t.White}</option>
+              <option value="Blue">{t.Blue}</option>
             </select>
           </div>
 

@@ -155,7 +155,7 @@ function ProductDetail() {
             />
 
             <button onClick={handleAddToCart} disabled={isAddingToCart}>
-              {isAddingToCart ? "Adding..." : t.add_to_cart}
+              {isAddingToCart ? t.Adding : t.add_to_cart}
             </button>
           </div>
 

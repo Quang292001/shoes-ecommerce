@@ -5,8 +5,10 @@ import Navbar from "../../../../shared/layout/navbar/Navbar";
 import { tokenStorage } from "../../../../shared/auth/tokenStorage";
 import { useCart } from "/src/context/CartContext";
 import { ordersApi } from "../../api/ordersApi";
+import { useLanguage } from "../../../../context/LanguageContext";
 
 function Cart() {
+  const {t}=useLanguage();
   const {
     cartItems,
     removeFromCart,
@@ -34,7 +36,7 @@ function Cart() {
     }
 
     if (cartItems.length === 0) {
-      setCheckoutError("Your cart is empty.");
+      setCheckoutError(t.Your_cart_is_empty);
       return;
     }
 
@@ -65,22 +67,22 @@ function Cart() {
     <div className="cart-page">
       <Navbar />
 
-      <h1 className="cart-title">Shopping Cart</h1>
+      <h1 className="cart-title">{t.Cart}</h1>
 
       <div className="cart-container">
         <div className="cart-table">
           <div className="cart-header">
-            <p>REMOVE</p>
-            <p>IMAGE</p>
-            <p>PRODUCT</p>
-            <p>PRICE</p>
-            <p>QUANTITY</p>
-            <p>SUBTOTAL</p>
+            <p>{t.REMOVE}</p>
+            <p>{t.IMAGE}</p>
+            <p>{t.PRODUCT}</p>
+            <p>{t.PRICE}</p>
+            <p>{t.QUANTITY}</p>
+            <p>{t.SUBTOTAL}</p>
           </div>
 
           {cartItems.length === 0 && (
             <div className="cart-empty">
-              Your cart is empty.
+              {t.Your_cart_is_empty}
             </div>
           )}
 
@@ -129,34 +131,34 @@ function Cart() {
 
         <div className="cart-bottom">
           <div className="coupon-box">
-            <h2>Apply Coupon</h2>
+            <h2>{t.Apply_Coupon}</h2>
 
             <div className="coupon-input">
               <input
                 type="text"
-                placeholder="Enter your coupon"
+                placeholder={t.Enter_your_coupon}
                 disabled={isCheckingOut}
               />
 
-              <button disabled={isCheckingOut}>Apply</button>
+              <button disabled={isCheckingOut}>{t.Apply}</button>
             </div>
           </div>
 
           <div className="cart-total">
-            <h2>Cart Totals</h2>
+            <h2>{t.Cart_Totals}</h2>
 
             <div className="total-row">
-              <span>Subtotal</span>
+              <span>{t.SUBTOTAL}</span>
               <span>{totalPrice} VNĐ</span>
             </div>
 
             <div className="total-row">
-              <span>Shipping</span>
-              <span>Free</span>
+              <span>{t.Shipping}</span>
+              <span>{t.Free}</span>
             </div>
 
             <div className="total-row total">
-              <span>Total</span>
+              <span>{t.Total}</span>
               <span>{totalPrice} VNĐ</span>
             </div>
 
@@ -171,7 +173,7 @@ function Cart() {
               onClick={handleCheckout}
               disabled={isCheckingOut || cartItems.length === 0}
             >
-              {isCheckingOut ? "Processing..." : "Proceed To Checkout"}
+              {isCheckingOut ? t.Processing : t.Proceed_To_Checkout}
             </button>
           </div>
         </div>

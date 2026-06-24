@@ -4,8 +4,9 @@ import { authApi } from "../../api/authApi";
 import Toast from "../../../../shared/toast/Toast";
 import shoes from "../../../../assets/image/logshoes.png";
 import bg from "../../../../assets/image/loging_bg.png";
-
+import { useLanguage } from "../../../../context/LanguageContext";
 function RegisterPage() {
+  const {t}=useLanguage();
   const [formData, setFormData] = useState({
     fullName: "",
     email: "",
@@ -42,22 +43,22 @@ function RegisterPage() {
 
   const handleRegister = async () => {
     if (!formData.fullName.trim()) {
-      showToast("Full name is required", "warning");
+      showToast(t.Full_name_required, "warning");
       return;
     }
 
     if (!formData.email.trim()) {
-      showToast("Email is required", "warning");
+      showToast(t.Email_required, "warning");
       return;
     }
 
     if (formData.password.length < 8) {
-      showToast("Password must be at least 8 characters", "warning");
+      showToast(t.Password_8_characters, "warning");
       return;
     }
 
     if (formData.password !== formData.confirmPassword) {
-      showToast("Confirm password does not match", "warning");
+      showToast(t.Confirm_password_match, "warning");
       return;
     }
 
@@ -68,10 +69,10 @@ function RegisterPage() {
         password: formData.password,
       });
 
-      showToast("Register success", "success");
+      showToast(t.Register_success, "success");
     } catch (error) {
       console.error(error);
-      showToast(error.response?.data?.message || "Register failed", "error");
+      showToast(error.response?.data?.message || t.Register_failed, "error");
     }
   };
 
@@ -90,17 +91,17 @@ function RegisterPage() {
 
       <div className="register-right">
         <div className="register-box">
-          <h1>Create Account</h1>
+          <h1>{t.Create_Account}</h1>
 
           <div className="input-group">
-            <label>User Name</label>
+            <label>{t.User_Name}</label>
 
             <div className="input-box">
               <i className="fa-solid fa-user"></i>
 
               <input
                 type="text"
-                placeholder="Full Name"
+                placeholder={t.User_Name}
                 value={formData.fullName}
                 onChange={(event) =>
                   setFormData({
@@ -133,14 +134,14 @@ function RegisterPage() {
           </div>
 
           <div className="input-group">
-            <label>Password</label>
+            <label>{t.Password}</label>
 
             <div className="input-box">
               <i className="fa-solid fa-lock"></i>
 
               <input
                 type="password"
-                placeholder="Password"
+                placeholder={t.Password}
                 value={formData.password}
                 onChange={(event) =>
                   setFormData({
@@ -153,14 +154,14 @@ function RegisterPage() {
           </div>
 
           <div className="input-group">
-            <label>Confirm Password</label>
+            <label>{t.Confirm_Password}</label>
 
             <div className="input-box">
               <i className="fa-solid fa-lock"></i>
 
               <input
                 type="password"
-                placeholder="Confirm Password"
+                placeholder={t.Confirm_Password}
                 value={formData.confirmPassword}
                 onChange={(event) =>
                   setFormData({
@@ -173,7 +174,7 @@ function RegisterPage() {
           </div>
 
           <button className="register-btn" onClick={handleRegister}>
-            Register
+            {t.Register}
           </button>
 
           <div className="social-register">

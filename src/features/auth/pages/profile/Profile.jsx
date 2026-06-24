@@ -7,8 +7,11 @@ import { tokenStorage } from "../../../../shared/auth/tokenStorage";
 
 import Navbar from "../../../../shared/layout/navbar/Navbar";
 import Footer from "../../../../shared/layout/footer/Footer";
+import { useLanguage } from "../../../../context/LanguageContext";
 
 function Profile() {
+
+  const {t}=useLanguage();
   const navigate = useNavigate();
 
   const [profile, setProfile] = useState(null);
@@ -61,7 +64,7 @@ function Profile() {
 
         <div className="profile-page">
           <div className="profile-card">
-            <p className="profile-loading">Loading...</p>
+            <p className="profile-loading">{t.Loading}</p>
           </div>
         </div>
 
@@ -82,10 +85,10 @@ function Profile() {
               <i className="fas fa-user-lock"></i>
             </div>
 
-            <h2>Please Login</h2>
+            <h2>{t.Please_Login}</h2>
 
             <p>
-              You need to login first to view your profile information.
+              {t.Login_first}
             </p>
 
             <div className="login-actions">
@@ -93,14 +96,14 @@ function Profile() {
                 className="login-btn"
                 onClick={() => navigate("/login")}
               >
-                Login
+                {t.Login}
               </button>
 
               <button
                 className="register-btn"
                 onClick={() => navigate("/register")}
               >
-                Register
+                {t.Register}
               </button>
             </div>
           </div>
@@ -121,10 +124,10 @@ function Profile() {
       <div className="profile-page">
         <div className="profile-hero">
           <h1>
-            My <span>Profile</span>
+           <span>{t.Profile}</span>
           </h1>
 
-          <p>Manage your account information and shopping activity.</p>
+          <p>{t.title_information}</p>
         </div>
 
         <div className="profile-content">
@@ -139,7 +142,7 @@ function Profile() {
 
             <div className="profile-info">
               <div className="profile-info-row">
-                <span>Full name</span>
+                <span>{t.Full_name}</span>
                 <strong>{displayName}</strong>
               </div>
 
@@ -150,7 +153,7 @@ function Profile() {
             </div>
 
             <button className="logout-btn" onClick={handleLogout}>
-              Logout
+              {t.Logout}
             </button>
           </div>
 
@@ -158,21 +161,21 @@ function Profile() {
             <div className="summary-box">
               <i className="fas fa-shopping-cart"></i>
 
-              <h3>Cart</h3>
+              <h3>{t.Cart}</h3>
 
-              <p>View your selected products.</p>
+              <p>{t.your_products}</p>
 
               <button onClick={() => navigate("/cart")}>
-                Go to Cart
+                {t.Go_to_Cart}
               </button>
             </div>
 
             <div className="summary-box">
               <i className="fas fa-box"></i>
 
-              <h3>Orders</h3>
+              <h3>{t.Orders}</h3>
 
-              <p>Your order history will appear here.</p>
+              <p>{t.Your_order_history}</p>
 
               <button disabled>Coming Soon</button>
             </div>
@@ -180,9 +183,9 @@ function Profile() {
             <div className="summary-box">
               <i className="fas fa-heart"></i>
 
-              <h3>Wishlist</h3>
+              <h3>{t.Wishlist}</h3>
 
-              <p>Save products you love.</p>
+              <p>{t.products_you_love}</p>
 
               <button disabled>Coming Soon</button>
             </div>

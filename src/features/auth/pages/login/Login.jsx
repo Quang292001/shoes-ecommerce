@@ -9,11 +9,12 @@ import googleIcon from "../../../../assets/image/google.png";
 import facebookIcon from "../../../../assets/image/facebook.png";
 import twitterIcon from "../../../../assets/image/twitter.png";
 import Toast from "../../../../shared/toast/Toast";
+import { useLanguage } from "../../../../context/LanguageContext";
 
 function LoginPage() {
   const navigate = useNavigate();
   const location = useLocation();
-
+  const {t}=useLanguage();
   const [toast, setToast] = useState({
     show: false,
     message: "",
@@ -43,19 +44,19 @@ function LoginPage() {
 
   const handleLogin = async () => {
     if (!formData.email.trim()) {
-      showToast("Email is required", "warning");
+      showToast(t.Email_required, "warning");
       return;
     }
 
     const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
 
     if (!emailRegex.test(formData.email)) {
-      showToast("Please enter a valid email address", "warning");
+      showToast(t.enter_email_address, "warning");
       return;
     }
 
     if (!formData.password.trim()) {
-      showToast("Password is required", "warning");
+      showToast(t.Password_required, "warning");
       return;
     }
 
@@ -68,7 +69,7 @@ function LoginPage() {
       const accessToken = result.accessToken || result.token;
 
       if (!accessToken) {
-        showToast("Login response does not contain access token", "error");
+        showToast(t.Login_response, "error");
         return;
       }
 
@@ -77,16 +78,16 @@ function LoginPage() {
       const redirectPath = getRedirectPath(role, requestedPath);
 
       if (!redirectPath) {
-        showToast("Your account does not have permission to access this page", "error");
+        showToast(t.permission_page, "error");
         return;
       }
 
       tokenStorage.setAccessToken(accessToken);
-      showToast("Login successful!", "success");
+      showToast(t.Login_successful, "success");
       navigate(redirectPath, { replace: true });
     } catch (error) {
       console.error(error);
-      showToast(error.response?.data?.message || "Login failed", "error");
+      showToast(error.response?.data?.message || t.Login_failed, "error");
     }
   };
 
@@ -98,7 +99,7 @@ function LoginPage() {
 
       <div className="login-right">
         <div className="login-box">
-          <h1>Welcome Back!</h1>
+          <h1>{t.welcome}</h1>
 
           <div className="input-group">
             <label>Email</label>
@@ -121,7 +122,7 @@ function LoginPage() {
           </div>
 
           <div className="input-group">
-            <label>Password</label>
+            <label>{t.Password}</label>
 
             <div className="input-box">
               <i className="fa-solid fa-lock"></i>
@@ -141,15 +142,15 @@ function LoginPage() {
           </div>
 
           <p className="forgot-password">
-            <Link to="/forgot-password">Forget Password ?</Link>
+            <Link to="/forgot-password">{t.Forget_Password}</Link>
           </p>
 
           <button className="login-btn" onClick={handleLogin}>
-            Login
+            {t.Login}
           </button>
 
           <p className="auth-switch">
-            Don't have an account? <Link to="/register">Register</Link>
+            {t.dont_account} <Link to="/register">{t.Register}</Link>
           </p>
 
           <div className="social-login">

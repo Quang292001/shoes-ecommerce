@@ -1,5 +1,8 @@
+import { useLanguage } from "../../../../context/LanguageContext";
 import "./Hero.css";
 import { useEffect, useState } from "react";
+
+
 
 const slides = [
   {
@@ -30,6 +33,7 @@ const slides = [
 ];
 
 function Hero() {
+  const {t}=useLanguage();
   const [currentSlide, setCurrentSlide] = useState(0);
 
   // AUTO SLIDE
@@ -70,7 +74,7 @@ function Hero() {
 
             <span>{slide.description}</span>
 
-            <button>Shop Now</button>
+            <button>{t.shop_now}</button>
           </div>
         </div>
       ))}

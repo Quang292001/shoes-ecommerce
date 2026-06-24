@@ -4,16 +4,15 @@ import axios from "axios";
 import "./ResetPassword.css";
 import { useNavigate } from "react-router-dom";
 import Toast from "../../../../shared/toast/Toast";
+import { useLanguage } from "../../../../context/LanguageContext";
 function ResetPassword() {
+  const {t}=useLanguage();
   const navigate = useNavigate();
   const [searchParams] = useSearchParams();
-
   const email = searchParams.get("email");
   const token = decodeURIComponent(searchParams.get("token"));
-
   const [newPassword, setNewPassword] = useState("");
   const [confirmPassword, setConfirmPassword] = useState("");
-
   const handleResetPassword = async (e) => {
     e.preventDefault();
 
@@ -33,12 +32,12 @@ function ResetPassword() {
         },
       );
 
-      showToast("Password reset successful", "success");
+      showToast(t.Password_reset_successful, "success");
       console.log(response.data);
         navigate("/");
     } catch (error) {
       console.error(error);
-      showToast("Reset password failed", "error");
+      showToast(t.Reset_password_failed, "error");
     }
   };
 
@@ -46,23 +45,23 @@ function ResetPassword() {
     <>  <Navbar />   
     <div className="reset-password-container">
       <form onSubmit={handleResetPassword}>
-        <h1>Reset Password</h1>
+        <h1>{t.Reset_Password}</h1>
 
         <input
           type="password"
-          placeholder="New Password"
+          placeholder={t.New_Password}
           value={newPassword}
           onChange={(e) => setNewPassword(e.target.value)}
         />
 
         <input
           type="password"
-          placeholder="Confirm Password"
+          placeholder={t.Confirm_Password}
           value={confirmPassword}
           onChange={(e) => setConfirmPassword(e.target.value)}
         />
 
-        <button type="submit">Reset Password</button>
+        <button type="submit">{t.Reset_Password}</button>
       </form>
     </div>
      </>

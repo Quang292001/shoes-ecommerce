@@ -1,16 +1,17 @@
 import { useFavorite } from "../../../../context/FavoriteContext";
+import { useLanguage } from "../../../../context/LanguageContext";
 import Footer from "../../../../shared/layout/footer/Footer";
 import Navbar from "../../../../shared/layout/navbar/Navbar";
 
 function Favorites() {
   const { favoriteItems } = useFavorite();
-
+  const {t}=useLanguage();
   return (
 
     <>
     <Navbar/>
     <div className="favorites-page">
-      <h1>Favorite Products</h1>
+      <h1>{t.Favorite_Products}</h1>
 
       <div className="products-grid">
         {favoriteItems.map((item) => (
