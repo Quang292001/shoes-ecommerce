@@ -5,7 +5,7 @@ import Products from "../../components/products/Products";
 import About from "../../components/about/About";
 import Reviews from "../../components/reviews/Reviews";
 import Services from "../../components/services/Services";
-
+import "./Home.css"
 function Home() {
   return (
     <>

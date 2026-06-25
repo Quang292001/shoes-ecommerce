@@ -3,6 +3,7 @@
   padding: 0;
   box-sizing: border-box;
   font-family: sans-serif;
+  
 }
 html {
   scroll-behavior: smooth;
@@ -19,7 +20,7 @@ nav {
   background-color: white; /* đặt màu nền cho phần tử nav */
   top: 0; /* đặt phần tử nav ở phía trên của trang */
   z-index: 100; /* đảm bảo phần tử nav hiển thị trên các phần tử khác */
- background: rgba(255,255,255,0.9);
+ background-color: var(--bg-color);
 }
 nav .logo {
   font-size: 35px; /* đặt kích thước font cho phần tử có class logo */
@@ -40,7 +41,7 @@ nav ul li {
   margin: 5px 15px; /* đặt khoảng cách trên và dưới là 5px, và khoảng cách trái và phải là 20px cho phần tử li */
 }
 nav ul li a {
-  color: black; /* đặt màu sắc cho phần tử a bên trong phần tử li */
+  color: var( --text-primary); /* đặt màu sắc cho phần tử a bên trong phần tử li */
   text-decoration: none; /* loại bỏ gạch chân cho phần tử a bên trong phần tử li */
   transition: 0.2s; /* thêm hiệu ứng chuyển đổi mượt mà khi thay đổi trạng thái của phần tử a bên trong phần tử li */
 }
@@ -52,6 +53,7 @@ nav .icons i {
   cursor: pointer; /* thay đổi con trỏ chuột khi hover vào phần tử i bên trong phần tử có class icons */
   transition: 0.3s; /* thêm hiệu ứng chuyển đổi mượt mà khi thay đổi trạng thái của phần tử i bên trong phần tử có class icons */
   font-size: 22px; /* đặt kích thước font cho phần tử i bên trong phần tử có class icons */
+  color: var(--text-primary);
 }
 nav .icons i:hover {
   color: #c72092; /* thay đổi màu sắc khi hover vào phần tử i bên trong phần tử có class icons */
@@ -132,4 +134,5 @@ position: absolute;
   display: flex;
   align-items: center;
   gap: 8px;
+ 
 }

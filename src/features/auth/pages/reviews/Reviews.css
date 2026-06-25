@@ -3,7 +3,7 @@
   width: 100%;
   min-height: 100vh;
   padding: 80px 10%;
-  background: #f9f3fc;
+  background: var(--bg-color);
 }
 
 .reviews h1 {
@@ -11,6 +11,7 @@
   font-size: 60px;
   margin-bottom: 60px;
   text-transform: uppercase;
+  color: var(--text-primary);
 }
 
 .reviews h1 span {
@@ -26,7 +27,7 @@
 }
 
 .review-card {
-  background: white;
+  background: var(--card-color);
   padding: 35px 25px;
   border-radius: 20px;
   text-align: center;
@@ -54,4 +55,7 @@
 .review-card p {
   color: #666;
   line-height: 1.7;
+}
+.review-card h2{
+  color: var(--text-primary);
 }

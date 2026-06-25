@@ -2,7 +2,7 @@
 .about {
   width: 100%;
   min-height: 100vh;
-  
+  background-color: var(--bg-color);
 }
 .about h1 {
   font-size: 70px; /* đặt kích thước font cho phần tử h1 bên trong phần tử có class about */
@@ -10,10 +10,11 @@
   display: flex; /* bật flexbox - giúp sắp xếp các phần tử con ngang hoặc dọc */
   align-items: center; /* căn giữa các phần tử con theo trục dọc */
   justify-content: center; /* căn giữa các phần tử con theo trục ngang */
-  background: black;
+
   -webkit-background-clip: text; /* cắt nền của phần tử h1 bên trong phần tử có class about theo hình dạng của chữ */
   -webkit-text-fill-color: transparent; /* làm cho phần tử h1 bên trong phần tử có class about có màu trong suốt */
   text-transform: uppercase; /* chuyển đổi văn bản thành chữ hoa cho phần tử h1 bên trong phần tử có class about */
+  background-color: var(--text-primary);
 }
 .about h1 span {
   font-size: 70px; /* đặt kích thước font cho phần tử span bên trong phần tử h1 bên trong phần tử có class about */
@@ -90,7 +91,7 @@
   box-shadow: 0 0 8px #c72092; /* tạo hiệu ứng bóng đổ cho phần tử p bên trong phần tử có class about_text bên trong phần tử có class about_main */
 }
 .about .about_btn {
-   display: inline-block;
+  display: inline-block;
   color: black;
   text-decoration: none;
   padding: 10px 20px;
@@ -107,4 +108,10 @@
 .btn_container {
   display: flex;
   justify-content: center;
+}
+.btn_container a {
+  background-color: var(--bg-color);
+}
+.about .about_btn {
+  color: var(--text-primary);
 }

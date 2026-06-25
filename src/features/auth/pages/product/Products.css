@@ -3,7 +3,7 @@
   width: 100%;
   min-height: 100vh;
   padding: 80px 10%;
-  background: #f9f3fc;
+  background: var( --bg-color);
 }
 
 .products-page h1 {
@@ -120,11 +120,20 @@
 
 /* SIDEBAR */
 .filter-sidebar {
-  width: 250px;
-  padding: 20px;
-  border-radius: 12px;
-  background: #fff;
-  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+  width: 280px;
+  height: 500px;
+
+  padding: 30px;
+  border-radius: 20px;
+
+  background: var(--bg-color-secondary);
+
+  border: 2px solid transparent;
+
+  background:
+    linear-gradient(var(--bg-color-secondary),
+      var(--bg-color-secondary)) padding-box,
+    linear-gradient(to right, #c72092, #6c14d0) border-box;
 }
 
 .filter-sidebar h2 {

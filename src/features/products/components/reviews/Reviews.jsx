@@ -1,5 +1,5 @@
 import React from "react";
-import "./Reviews.css";
+import "./../../../../features/products/components/reviews/Reviews.css";
 import { useLanguage } from "../../../../context/LanguageContext";
 import ReviewCard from "./ReviewCard";
 function Reviews() {

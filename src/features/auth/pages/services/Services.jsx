@@ -31,17 +31,13 @@ function Services() {
 
           <div className="service-card">
             <i className="fas fa-headset"></i>
-
             <h2>{t.support}</h2>
-
             <p>{t.sp}</p>
           </div>
 
           <div className="service-card">
             <i className="fas fa-shield-alt"></i>
-
             <h2>{t.secure_payment}</h2>
-
             <p>{t.scp}</p>
           </div>
         </div>

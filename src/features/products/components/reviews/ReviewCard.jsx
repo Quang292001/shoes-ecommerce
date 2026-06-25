@@ -1,4 +1,4 @@
-import "./Reviews.css";
+import "./../../../../features/products/components/reviews/Reviews.css";
 
 import profile from "../../../../assets/image/girl_dp1.jpg";
 function ReviewCard() {

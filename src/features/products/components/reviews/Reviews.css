@@ -2,6 +2,7 @@
   width: 100%; /*so với phần tử cha*/
   min-height: 100vh; /*so với khung hình*/
   padding-top: 80px;
+  background: var(--bg-color);
 }
 .review h1 {
   font-size: 60px;
@@ -10,6 +11,7 @@
   align-items: center;
   margin-bottom: 30px;
   text-transform: uppercase;
+  color: var(--text-primary);
 }
 .review h1 span {
   background: linear-gradient(to left, #c72092, #6c14d0);
@@ -68,7 +70,7 @@
   width: 100%;
   max-width: 450px;
 
-  background: #f3f1f1;
+  background: var(--card-color);
   border-radius: 10px;
   box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
 
@@ -88,6 +90,7 @@
 .review .review_box .review_card .card_top .profile .name strong {
   display: block;
   font-size: 18px;
+  color: var(--text-primary);
 }
 .review .review_box .review_card .card_top .profile .name .like i {
   color: orange;
@@ -98,6 +101,7 @@
   text-align: justify;
   line-height: 22px;
   margin-top: 15px;
+  color: var(--text-secondary);
 }
 @media (max-width: 1400px) {
   .review .review_box {

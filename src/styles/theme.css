@@ -1,0 +1,17 @@
+:root {
+
+  --bg-color: #ffffff;
+  --card-color: #eaeaea;
+  --bg-color-secondary: #f0f0f0e8;
+
+  --text-primary: #222;
+  --text-secondary: #3b3b3b;
+}
+
+body.dark-theme {
+ --bg-color: #121212;
+  --card-color: #424141;
+--bg-color-secondary:#444444e8;
+  --text-primary: #ffffff;
+  --text-secondary: #bdbdbd;
+}

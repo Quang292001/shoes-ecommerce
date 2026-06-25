@@ -3,7 +3,7 @@
   width: 100%;
   min-height: 100vh;
   padding: 80px 10%;
-  background: #fff;
+    background:var( --bg-color);
 }
 
 .services h1 {
@@ -25,7 +25,7 @@
 }
 
 .service-card {
-  background: white;
+  background: var( --card-color);
   padding: 40px 25px;
   border-radius: 20px;
   text-align: center;
@@ -45,6 +45,7 @@
 
 .service-card h2 {
   margin-bottom: 15px;
+  color: var(--text-primary);
 }
 
 .service-card p {

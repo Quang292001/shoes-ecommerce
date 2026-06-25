@@ -2,7 +2,7 @@
   width: 100%;
   min-height: 100vh;
   padding: 80px 10%;
-  background: #f9f3fc;
+  background:var( --bg-color);
 }
 
 .about h1 {
@@ -42,6 +42,7 @@
 .about-text h2 {
   font-size: 40px;
   margin-bottom: 20px;
+  color: var(--text-primary);
 }
 
 .about-text p {

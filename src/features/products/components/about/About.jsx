@@ -1,4 +1,4 @@
-import "./About.css";
+import "./../../../../features/products/components/about/About.css";
 import red_shoes1 from "../../../../assets/image/red_shoes1.png";
 import red_shoes2 from "../../../../assets/image/red_shoes2.png";
 import red_shoes3 from "../../../../assets/image/red_shoes3.png";

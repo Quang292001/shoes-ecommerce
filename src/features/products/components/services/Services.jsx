@@ -1,5 +1,5 @@
 import React from "react";
-import "./Services.css";
+import "./../../../../features/products/components/services/Services.css";
 import { useLanguage } from "../../../../context/LanguageContext";
 function Services() {
   const {t}=useLanguage();

@@ -3,6 +3,7 @@
   width: 100%;
   min-height: 140vh;
   padding: 25px 0;
+  background-color: var(--bg-color);
 }
 .products h1 {
   display: flex; /* bật flexbox - giúp sắp xếp các phần tử con ngang hoặc dọc */
@@ -48,7 +49,7 @@
   border-radius: 5px;
   text-align: center;
   padding: 10px 20px;
-  background: #f6f6f6;
+  background: var(--bg-color);
   display: flex;
   flex-direction: column;
   transition: 0.3s ease;
@@ -87,6 +88,8 @@
   line-height: 40px; /* đặt khoảng cách giữa các dòng cho phần tử i bên trong phần tử có class small_card khi hover vào phần tử có class card */
   transition: 0.4s; /* thêm hiệu ứng chuyển đổi mượt mà khi thay đổi trạng thái của phần tử i bên trong phần tử có class small_card khi hover vào phần tử có class card */
   border: 2px solid #999999;
+  color: var(--text-primary);
+  
 }
 .products .box .card .small_card i:hover {
   cursor: pointer;
@@ -97,12 +100,15 @@
 }
 .products .box .card .product_text h2 {
   font-size: 24px;
-
+  color: var( --text-primary);;
   display: -webkit-box;
   -webkit-line-clamp: 2;
   -webkit-box-orient: vertical;
   overflow: hidden;
   margin-top: 10px; /* đặt khoảng cách trên là 10px cho phần tử h2 bên trong phần tử có class product_text bên trong phần tử có class card */
+}
+.products .box .card .product_text h3{
+  color: var(--text-primary);
 }
 .products .box .card .product_text p {
   display: -webkit-box;
@@ -298,7 +304,7 @@
 .view-more-btn {
   border: 2px solid transparent;
 
-  background: linear-gradient(white, white) padding-box,
+  background: linear-gradient(var(--bg-color), var(--bg-color)) padding-box,
     linear-gradient(to right, #c72092, #6c14d0) border-box;
 
   color: transparent;
@@ -321,10 +327,6 @@
 
   position: relative;
   margin: 20px;
-}
-.view-more-btn {
-  background: linear-gradient(white, white) padding-box,
-    linear-gradient(to right, #c72092, #6c14d0) border-box;
 }
 
 .view-more-btn span {
