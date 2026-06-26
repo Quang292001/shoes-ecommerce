@@ -1,48 +1,104 @@
-/*Products*/
-.products {
+.card {
+  position: relative;
+
   width: 100%;
-  min-height: 140vh;
-  padding: 25px 0;
-  background-color: var(--bg-color);
+  max-width: 320px;
+
+  height: 450px;
+
+  padding: 20px;
+
+  border-radius: 10px;
+
+  background: var(--card-color);
+
+  box-shadow: 0 0 8px #6c14d0;
+
+  display: flex;
+  flex-direction: column;
+
+  transition: 0.3s;
 }
-.products h1 {
+
+.card:hover {
+  transform: translateY(-10px);
+}
+.small_card {
+  position: absolute;
+
+  top: 15px;
+  left: 15px;
+
+  display: flex;
+  flex-direction: column;
+
+  opacity: 0;
+
+  transform: translateX(-20px);
+
+  transition: 0.3s;
+}
+
+.card:hover .small_card {
+  opacity: 1;
+
+  transform: translateX(0);
+}
+.image {
+  height: 220px;
+
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.image img {
+  width: 180px;
+
+  transition: 0.3s;
+}
+
+.card:hover img {
+  transform: scale(1.1);
+}
+.product_text {
+  flex: 1;
+}
+
+.product_text h2 {
+  color: var(--text-primary);
+
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+
+  overflow: hidden;
+}
+
+.product_text p {
+  display: -webkit-box;
+  -webkit-line-clamp: 1;
+  -webkit-box-orient: vertical;
+
+  overflow: hidden;
+}
+
+.card .image {
   display: flex; /* bật flexbox - giúp sắp xếp các phần tử con ngang hoặc dọc */
   align-items: center; /* căn giữa các phần tử con theo trục dọc */
   justify-content: center; /* căn giữa các phần tử con theo trục ngang */
-  margin: 35px 0; /* đặt khoảng cách trên và dưới là 25px cho phần tử có class h1 */
-  font-size: 70px; /* đặt kích thước font cho phần tử có class h1 */
-  text-transform: uppercase; /* chuyển đổi văn bản thành chữ hoa cho phần tử có class h1 */
-  background: linear-gradient(
-    to right,
-    #c72092,
-    #6c14d0
-  ); /* tạo hiệu ứng gradient cho phần tử có class h1 */
-  -webkit-background-clip: text; /* cắt nền của phần tử có class h1 theo hình dạng của chữ */
-  -webkit-text-fill-color: transparent; /* làm cho phần tử có class h1 có màu trong suốt */
 }
-.products .box {
-  width: 90%; /* đặt chiều rộng cho phần tử có class card bên trong phần tử có class box */
-  display: grid; /* bật grid - giúp sắp xếp các phần tử con theo dạng lưới */
-  grid-template-columns: repeat(4, 1fr); /* tạo 4 cột */
-  grid-gap: 25px 0; /* tạo khoảng cách giữa các phần tử con theo chiều ngang là 25px và theo chiều dọc là 0 */
-  margin: 0 auto; /* căn giữa phần tử có class box */
-}
-.products .box .card .image {
-  display: flex; /* bật flexbox - giúp sắp xếp các phần tử con ngang hoặc dọc */
-  align-items: center; /* căn giữa các phần tử con theo trục dọc */
-  justify-content: center; /* căn giữa các phần tử con theo trục ngang */
-}
-.products .box .card .image img {
+.card .image img {
   width: 150px; /* đặt chiều rộng cho phần tử img bên trong phần tử có class image bên trong phần tử có class card */
   height: auto; /* giữ nguyên tỷ lệ ảnh */
   margin: 15px 0; /* đặt khoảng cách trên và dưới là 15px cho phần tử img bên trong phần tử có class image bên trong phần tử có class card */
   transition: 0.3s; /* thêm hiệu ứng chuyển đổi mượt mà khi thay đổi trạng thái của phần tử img bên trong phần tử có class image bên trong phần tử có class card */
 }
-.products .box .card:hover .image img {
+.card:hover .image img {
   transform: scale(1.1);
   cursor: pointer;
 }
-.products .box .card {
+.card {
   width: 290px; /* đặt chiều rộng cho phần tử có class card bên trong phần tử có class box */
   height: 440px; /* đặt chiều cao cho phần tử có class card bên trong phần tử có class box */
   box-shadow: 0 0 8px #6c14d0;
@@ -61,7 +117,7 @@
 
   box-shadow: 0 20px 40px rgba(0, 0, 0, 0.15), 0 0 20px rgba(199, 32, 146, 0.3);
 }
-.products .box .card .small_card {
+.card .small_card {
   display: flex; /* bật flexbox - giúp sắp xếp các phần tử con ngang hoặc dọc */
   flex-flow: column; /* sắp xếp các phần tử con theo chiều dọc */
   position: absolute; /* đặt phần tử có class small_card ở vị trí tuyệt đối so với phần tử cha */
@@ -72,14 +128,14 @@
   transition: 0.3s; /* thêm hiệu ứng chuyển đổi mượt mà khi thay đổi trạng thái của phần tử có class small_card */
   opacity: 0; /* làm cho phần tử có class small_card có màu trong suốt khi không hover vào phần tử có class card */
 }
-.products .box .card:hover .small_card {
+.card:hover .small_card {
   cursor: pointer;
   transform: translateX(
     2px
   ); /* dịch chuyển phần tử có class small_card trở lại vị trí ban đầu khi hover vào phần tử có class card */
   opacity: 1; /* làm cho phần tử có class small_card hiển thị khi hover vào phần tử có class card */
 }
-.products .box .card .small_card i {
+.card .small_card i {
   width: 45px; /* đặt chiều rộng cho phần tử i bên trong phần tử có class small_card khi hover vào phần tử có class card */
   height: 45px; /* đặt chiều cao cho phần tử i bên trong phần tử có class small_card khi hover vào phần tử có class card */
   border-radius: 5px; /* tạo bo tròn cho phần tử i bên trong phần tử có class small_card khi hover vào phần tử có class card */
@@ -89,28 +145,27 @@
   transition: 0.4s; /* thêm hiệu ứng chuyển đổi mượt mà khi thay đổi trạng thái của phần tử i bên trong phần tử có class small_card khi hover vào phần tử có class card */
   border: 2px solid #999999;
   color: var(--text-primary);
-  
 }
-.products .box .card .small_card i:hover {
+.card .small_card i:hover {
   cursor: pointer;
   color: #c72092; /* thay đổi màu sắc khi hover vào phần tử i bên trong phần tử có class small_card khi hover vào phần tử có class card */
 }
-.products .box .card .product_text {
+.card .product_text {
   flex: 1;
 }
-.products .box .card .product_text h2 {
+.card .product_text h2 {
   font-size: 24px;
-  color: var( --text-primary);;
+  color: var(--text-primary);
   display: -webkit-box;
   -webkit-line-clamp: 2;
   -webkit-box-orient: vertical;
   overflow: hidden;
   margin-top: 10px; /* đặt khoảng cách trên là 10px cho phần tử h2 bên trong phần tử có class product_text bên trong phần tử có class card */
 }
-.products .box .card .product_text h3{
+.card .product_text h3 {
   color: var(--text-primary);
 }
-.products .box .card .product_text p {
+.card .product_text p {
   display: -webkit-box;
   -webkit-line-clamp: 1;
   -webkit-box-orient: vertical;
@@ -119,19 +174,19 @@
   line-height: 21px; /* đặt khoảng cách giữa các dòng cho phần tử p bên trong phần tử có class product_text bên trong phần tử có class card */
   margin: 8px 0; /* đặt khoảng cách trên và dưới là 8px cho phần tử p bên trong phần tử có class product_text bên trong phần tử có class card */
 }
-.products .box .card .product_text h3 {
+.card .product_text h3 {
   margin: 5px 0;
 }
-.products .box .card .product_star {
+.card .product_star {
   color: orange; /* đặt màu sắc cho phần tử có class product_star bên trong phần tử có class product_text bên trong phần tử có class card */
   margin-bottom: 19px; /* đặt khoảng cách dưới là 19px cho phần tử có class product_star bên trong phần tử có class product_text bên trong phần tử có class card */
   cursor: pointer;
 }
-.products .box .card .button a {
+.card .button a {
   text-decoration: none; /* loại bỏ gạch chân cho phần tử a bên trong phần tử có class button bên trong phần tử có class card */
   color: white; /* đặt màu sắc cho phần tử có class button bên trong phần tử có class card */
 }
-.products .box .card .button {
+.card .button {
   padding: 10px 20px; /* đặt khoảng cách trên và dưới là 10px, và khoảng cách trái và phải là 20px cho phần tử có class button bên trong phần tử có class card */
   background: linear-gradient(
     to right,
@@ -140,220 +195,4 @@
   ); /* tạo hiệu ứng gradient cho phần tử có class button bên trong phần tử có class card */
   display: inline-block;
   border-radius: 5px;
-}
-
-/* .pagination {
-  width: 100%;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  gap: 12px;
-  margin-top: 40px;
-}
-
-.pagination button {
-  width: 45px;
-  height: 45px;
-  border-radius: 50%;
-  border: none;
-  cursor: pointer;
-  font-size: 16px;
-  font-weight: 600;
-  transition: 0.3s;
-}
-
-/* Nút số */
-/* .pagination .page_number {
-  background: white;
-  color: #6c14d0;
-  border: 2px solid #6c14d0;
-}
-
-/* Hover */
-/* .pagination .page_number:hover {
-  background: linear-gradient(to right, #c72092, #6c14d0);
-  color: white;
-  transform: translateY(-3px);
-  box-shadow: 0 0 10px rgba(108, 20, 208, 0.5);
-} */ */
-
-/* Active page */
-/* .pagination .page_number.active {
-  background: linear-gradient(to right, #c72092, #6c14d0);
-  color: white;
-  box-shadow: 0 0 12px rgba(108, 20, 208, 0.7);
-} */
-
-/* Prev Next */
-/* .pagination .page_btn {
-  background: #f3f1f1;
-  color: #6c14d0;
-  border: 2px solid transparent;
-} */
-
-/* .pagination .page_btn:hover:not(:disabled) {
-  background: linear-gradient(to right, #c72092, #6c14d0);
-  color: white;
-  transform: scale(1.1);
-} */ 
-
-/* Disabled */
-.pagination button:disabled {
-  opacity: 0.4;
-  cursor: not-allowed;
-  transform: none;
-  box-shadow: none;
-}
-
-.add-cart-btn {
-  width: 100%;
-  padding: 10px;
-  border: none;
-  border-radius: 25px;
-  background: linear-gradient(to right, #c72092, #6c14d0);
-  color: white;
-  font-size: 16px;
-  cursor: pointer;
-  transition: 0.3s;
-}
-
-.add-cart-btn:hover {
-  transform: scale(1.05);
-}
-
-.products-page {
-  width: 100%;
-  padding: 50px 8%;
-  background: #f5f5f5;
-}
-
-.product_section {
-  margin-bottom: 80px;
-}
-
-.section_title {
-  margin-top: 30px;
-  text-align: center;
-  font-size: 38px;
-  font-weight: bold;
-  margin-bottom: 40px;
-  color: #c72092;
-  text-transform: uppercase;
-  position: relative;
-}
-
-.section_title::after {
-  content: "";
-  width: 120px;
-  height: 4px;
-  background: linear-gradient(to right, #c72092, #6c14d0);
-  position: absolute;
-  left: 50%;
-  bottom: -10px;
-  transform: translateX(-50%);
-  border-radius: 20px;
-}
-
-.product_grid {
-  display: grid;
-  grid-template-columns: repeat(4, 1fr);
-  gap: 30px;
-}
-
-/* Responsive */
-@media (max-width: 1200px) {
-  .product_grid {
-    grid-template-columns: repeat(3, 1fr);
-  }
-}
-
-@media (max-width: 900px) {
-  .product_grid {
-    grid-template-columns: repeat(2, 1fr);
-  }
-}
-
-@media (max-width: 600px) {
-  .product_grid {
-    grid-template-columns: 1fr;
-  }
-}
-.favorite-icon {
-  position: absolute;
-  top: 15px;
-  right: 15px;
-  font-size: 22px;
-  cursor: pointer;
-  transition: 0.1s;
-}
-
-.favorite-icon i {
-  color: #999;
-}
-
-.favorite-icon .fa-solid {
-  color: red;
-}
-
-.favorite-icon:hover {
-  transform: scale(1.2);
-}
-.active-heart {
-  color: red;
-}
-.view-more-btn {
-  border: 2px solid transparent;
-
-  background: linear-gradient(var(--bg-color), var(--bg-color)) padding-box,
-    linear-gradient(to right, #c72092, #6c14d0) border-box;
-
-  color: transparent;
-
-  background-clip: padding-box, border-box;
-
-  -webkit-background-clip: padding-box, border-box;
-
-  padding: 12px 25px;
-
-  border-radius: 5px;
-
-  cursor: pointer;
-
-  font-size: 16px;
-
-  font-weight: bold;
-
-  transition: 0.3s ease;
-
-  position: relative;
-  margin: 20px;
-}
-
-.view-more-btn span {
-  background: linear-gradient(to right, #c72092, #6c14d0);
-
-  -webkit-background-clip: text;
-
-  -webkit-text-fill-color: transparent;
-}
-
-.view-more-btn:hover {
-  transform: translateY(-3px);
-  box-shadow: 0 10px 20px rgba(199, 32, 146, 0.3);
-}
-.section-header {
-  width: 90%;
-  margin: 0 auto 30px auto;
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-}
-
-.section-header .section_title {
-  margin: 0;
-}
-.view-more-wrapper {
-  width: 96vw;
-  display: flex;
-  justify-content: center;
 }

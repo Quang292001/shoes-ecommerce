@@ -1,4 +1,4 @@
-import "./../../../../features/products/components/products/Products.css";
+import "./ProductCard.css";
 import { useNavigate } from "react-router-dom";
 import { useCart } from "/src/context/CartContext";
 import { useState } from "react";

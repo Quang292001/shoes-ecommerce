@@ -1,20 +1,46 @@
-
 import "./Products.css";
-import ProductCard from "../../../../features/products/components/products/Productcard";
 import { useEffect, useMemo, useState } from "react";
 import { authApi } from "../../../auth/api/authApi";
-import Navbar from "../../../../shared/layout/navbar/Navbar"
-import Footer from "../../../../shared/layout/footer/Footer"
+import Navbar from "../../../../shared/layout/navbar/Navbar";
+import Footer from "../../../../shared/layout/footer/Footer";
 import { useLanguage } from "../../../../context/LanguageContext";
+import ProductCard from "../../../products/components/products/Productcard";
+import Nike from "../../../../assets/image/brands/nike.png";
+import Adidas from "../../../../assets/image/brands/adidas.png";
+import Puma from "../../../../assets/image/brands/puma.png";
+import Converse from "../../../../assets/image/brands/converse.png";
+import Vans from "../../../../assets/image/brands/vans.png";
+const brands = [
+  {
+    name: "Nike",
+    logo: Nike,
+  },
+  {
+    name: "Adidas",
+    logo: Adidas,
+  },
+  {
+    name: "Puma",
+    logo: Puma,
+  },
+  {
+    name: "Vans",
+    logo: Vans,
+  },
+  {
+    name: "Converse",
+    logo: Converse,
+  },
+];
 function Products() {
   const [products, setProducts] = useState([]);
-  const {t}=useLanguage();
+  const { t } = useLanguage();
   // FILTER STATES
   const [brandFilter, setBrandFilter] = useState("");
   const [colorFilter, setColorFilter] = useState("");
   const [priceFilter, setPriceFilter] = useState("");
   const [sortOption, setSortOption] = useState("");
-
+  const [categoryFilter, setCategoryFilter] = useState("");
   useEffect(() => {
     const fetchProducts = async () => {
       try {
@@ -35,18 +61,19 @@ function Products() {
     // BRAND
     if (brandFilter) {
       result = result.filter(
-        (item) =>
-          item.brand?.toLowerCase() ===
-          brandFilter.toLowerCase()
+        (item) => item.brand?.toLowerCase() === brandFilter.toLowerCase(),
+      );
+    }
+    if (categoryFilter) {
+      result = result.filter(
+        (item) => item.category?.toLowerCase() === categoryFilter.toLowerCase(),
       );
     }
 
     // COLOR
     if (colorFilter) {
       result = result.filter(
-        (item) =>
-          item.color?.toLowerCase() ===
-          colorFilter.toLowerCase()
+        (item) => item.color?.toLowerCase() === colorFilter.toLowerCase(),
       );
     }
 
@@ -56,9 +83,7 @@ function Products() {
     }
 
     if (priceFilter === "100to200") {
-      result = result.filter(
-        (item) => item.price >= 100 && item.price <= 200
-      );
+      result = result.filter((item) => item.price >= 100 && item.price <= 200);
     }
 
     if (priceFilter === "over200") {
@@ -75,140 +100,152 @@ function Products() {
     }
 
     if (sortOption === "newest") {
-      result.sort(
-        (a, b) =>
-          new Date(b.createdAt) - new Date(a.createdAt)
-      );
+      result.sort((a, b) => new Date(b.createdAt) - new Date(a.createdAt));
     }
 
     return result;
-  }, [
-    products,
-    brandFilter,
-    colorFilter,
-    priceFilter,
-    sortOption,
-  ]);
+  }, [products, brandFilter, colorFilter, priceFilter, sortOption]);
 
   return (
     <>
-    <Navbar/>
-    <div className="products-page">
-      <h1 className="products-title">
-        <span>{t.products}</span>
-        
-      </h1>
+      <Navbar />
+      <div className="products-page">
+        <h1 className="products-title">
+          <span>{t.products}</span>
+        </h1>
 
-      {/* FILTER SIDEBAR */}
-      <div className="products-layout">
-        <div className="filter-sidebar">
-          <h2>{t.filters}</h2>
+        {/* FILTER SIDEBAR */}
+        <>
+          <div className="filter-bar">
+            <div className="filter-section">
+              <h3>Thương hiệu</h3>
+              <div className="brand-chips">
+                {brands.map((brand) => (
+                  <button
+                    key={brand.name}
+                    className={`brand-btn ${
+                      brandFilter === brand.name ? "active" : ""
+                    }`}
+                    onClick={() =>
+                      setBrandFilter(
+                        brandFilter === brand.name ? "" : brand.name,
+                      )
+                    }
+                  >
+                    <img
+                      src={brand.logo}
+                      alt={brand.name}
+                      className="brand-logo"
+                    />
 
-          {/* BRAND */}
-          <div className="filter-group">
-            <label>{t.Brand}</label>
+                    <span>{brand.name}</span>
+                  </button>
+                ))}
+              </div>
+            </div>
+            <div className="filter-section">
+              <h3>Danh mục</h3>
+              <div className="category-grid">
+                <div
+                  className={`category-card ${
+                    categoryFilter === "Running" ? "active" : ""
+                  }`}
+                  onClick={() =>
+                    setCategoryFilter(
+                      categoryFilter === "Running" ? "" : "Running",
+                    )
+                  }
+                >
+                  <i className="fa-solid fa-person-running"></i>
+                  <span>Running</span>
+                </div>
 
-            <select
-              value={brandFilter}
-              onChange={(e) =>
-                setBrandFilter(e.target.value)
-              }
-            >
-              <option value="">{t.All}</option>
-              <option value="Nike">Nike</option>
-              <option value="Adidas">Adidas</option>
-              <option value="Puma">Puma</option>
-            </select>
+                <div
+                  className={`category-card ${
+                    categoryFilter === "Basketball" ? "active" : ""
+                  }`}
+                  onClick={() =>
+                    setCategoryFilter(
+                      categoryFilter === "Basketball" ? "" : "Basketball",
+                    )
+                  }
+                >
+                  <i className="fa-solid fa-basketball"></i>
+                  <span>Basketball</span>
+                </div>
+
+                <div
+                  className={`category-card ${
+                    categoryFilter === "Fashion" ? "active" : ""
+                  }`}
+                  onClick={() =>
+                    setCategoryFilter(
+                      categoryFilter === "Fashion" ? "" : "Fashion",
+                    )
+                  }
+                >
+                  <i className="fa-solid fa-shirt"></i>
+                  <span>Fashion</span>
+                </div>
+              </div>
+            </div>
+            {/* TOOLBAR */}
+            <div className="filter-section">
+              <h3>Bộ lọc</h3>
+              <div className="filter-toolbar">
+                <select
+                  value={colorFilter}
+                  onChange={(e) => setColorFilter(e.target.value)}
+                >
+                  <option value="">Màu sắc</option>
+                  <option value="Black">Đen</option>
+                  <option value="White">Trắng</option>
+                  <option value="Blue">Xanh</option>
+                  <option value="Red">Đỏ</option>
+                </select>
+
+                <select
+                  value={priceFilter}
+                  onChange={(e) => setPriceFilter(e.target.value)}
+                >
+                  <option value="">Giá</option>
+                  <option value="under100">Dưới 100$</option>
+                  <option value="100to200">100$ - 200$</option>
+                  <option value="over200">Trên 200$</option>
+                </select>
+
+                <select
+                  value={sortOption}
+                  onChange={(e) => setSortOption(e.target.value)}
+                >
+                  <option value="">Sắp xếp</option>
+                  <option value="lowToHigh">Giá thấp → cao</option>
+
+                  <option value="highToLow">Giá cao → thấp</option>
+
+                  <option value="newest">Mới nhất</option>
+                </select>
+              </div>
+            </div>
           </div>
 
-          {/* COLOR */}
-          <div className="filter-group">
-            <label>{t.Color}</label>
-
-            <select
-              value={colorFilter}
-              onChange={(e) =>
-                setColorFilter(e.target.value)
-              }
-            >
-              <option value="">{t.All}</option>
-              <option value="Black">{t.Black}</option>
-              <option value="White">{t.White}</option>
-              <option value="Blue">{t.Blue}</option>
-            </select>
+          <div className="products-grid">
+            {filteredProducts.map((product) => (
+              <ProductCard
+                key={product.id}
+                id={product.id}
+                image={product.imageUrl}
+                name={product.name}
+                description={product.description}
+                price={product.price}
+              />
+            ))}
           </div>
-
-          {/* PRICE */}
-          <div className="filter-group">
-            <label>{t.Price}</label>
-
-            <select
-              value={priceFilter}
-              onChange={(e) =>
-                setPriceFilter(e.target.value)
-              }
-            >
-              <option value="">{t.All}</option>
-              <option value="under100">
-                Under 100$
-              </option>
-
-              <option value="100to200">
-                100$ - 200$
-              </option>
-
-              <option value="over200">
-                Over 200$
-              </option>
-            </select>
-          </div>
-
-          {/* SORT */}
-          <div className="filter-group">
-            <label>{t.Sort_By}</label>
-
-            <select
-              value={sortOption}
-              onChange={(e) =>
-                setSortOption(e.target.value)
-              }
-            >
-              <option value="">{t.Default}</option>
-
-              <option value="lowToHigh">
-                {t.Price_Low_To_High}
-              </option>
-
-              <option value="highToLow">
-                {t.Price_High_To_Low}
-              </option>
-
-              <option value="newest">
-                {t.Newest}
-              </option>
-            </select>
-          </div>
-        </div>
-
-        {/* PRODUCTS */}
-        <div className="products-grid">
-          {filteredProducts.map((product) => (
-            <ProductCard
-              key={product.id}
-              id={product.id}
-              image={product.imageUrl}
-              name={product.name}
-              description={product.description}
-              price={product.price}
-            />
-          ))}
-        </div>
+        </>
       </div>
-    </div>
-    <Footer/>
+      <Footer />
     </>
   );
 }
 
 export default Products;
-

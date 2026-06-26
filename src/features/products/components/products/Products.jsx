@@ -1,4 +1,4 @@
-import "./Products.css";
+import "./../../../../features/products/components/products/Products.css";
 import ProductCard from "./ProductCard";
 import { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
