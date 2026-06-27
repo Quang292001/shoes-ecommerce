@@ -118,7 +118,7 @@ function Products() {
         <>
           <div className="filter-bar">
             <div className="filter-section">
-              <h3>Thương hiệu</h3>
+              <h3>{t.Brand}</h3>
               <div className="brand-chips">
                 {brands.map((brand) => (
                   <button
@@ -144,7 +144,7 @@ function Products() {
               </div>
             </div>
             <div className="filter-section">
-              <h3>Danh mục</h3>
+              <h3>{t.categories}</h3>
               <div className="category-grid">
                 <div
                   className={`category-card ${
@@ -157,7 +157,7 @@ function Products() {
                   }
                 >
                   <i className="fa-solid fa-person-running"></i>
-                  <span>Running</span>
+                  <span>{t.Running}</span>
                 </div>
 
                 <div
@@ -171,7 +171,7 @@ function Products() {
                   }
                 >
                   <i className="fa-solid fa-basketball"></i>
-                  <span>Basketball</span>
+                  <span>{t.Basketball}</span>
                 </div>
 
                 <div
@@ -185,30 +185,71 @@ function Products() {
                   }
                 >
                   <i className="fa-solid fa-shirt"></i>
-                  <span>Fashion</span>
+                  <span>{t.Fashion}</span>
+                </div>
+                <div
+                  className={`category-card ${
+                    categoryFilter === "Training" ? "active" : ""
+                  }`}
+                  onClick={() =>
+                    setCategoryFilter(
+                      categoryFilter === "Training" ? "" : "Training",
+                    )
+                  }
+                >
+                  <i className="fa-solid fa-dumbbell"></i>
+                  <span>{t.Training}</span>
+                </div>
+
+                <div
+                  className={`category-card ${
+                    categoryFilter === "Hiking" ? "active" : ""
+                  }`}
+                  onClick={() =>
+                    setCategoryFilter(
+                      categoryFilter === "Hiking" ? "" : "Hiking",
+                    )
+                  }
+                >
+                  <i className="fa-solid fa-mountain"></i>
+                  <span>{t.Hiking}</span>
+                </div>
+
+                <div
+                  className={`category-card ${
+                    categoryFilter === "Casual" ? "active" : ""
+                  }`}
+                  onClick={() =>
+                    setCategoryFilter(
+                      categoryFilter === "Casual" ? "" : "Casual",
+                    )
+                  }
+                >
+                  <i className="fa-solid fa-person-walking"></i>
+                  <span>{t.Casual}</span>
                 </div>
               </div>
             </div>
             {/* TOOLBAR */}
             <div className="filter-section">
-              <h3>Bộ lọc</h3>
+              <h3>{t.filters}</h3>
               <div className="filter-toolbar">
                 <select
                   value={colorFilter}
                   onChange={(e) => setColorFilter(e.target.value)}
                 >
-                  <option value="">Màu sắc</option>
-                  <option value="Black">Đen</option>
-                  <option value="White">Trắng</option>
-                  <option value="Blue">Xanh</option>
-                  <option value="Red">Đỏ</option>
+                  <option value="">{t.Color}</option>
+                  <option value="Black">{t.Black}</option>
+                  <option value="White">{t.White}</option>
+                  <option value="Blue">{t.Blue}</option>
+                  <option value="Red">{t.Red}</option>
                 </select>
 
                 <select
                   value={priceFilter}
                   onChange={(e) => setPriceFilter(e.target.value)}
                 >
-                  <option value="">Giá</option>
+                  <option value="">{t.Price}</option>
                   <option value="under100">Dưới 100$</option>
                   <option value="100to200">100$ - 200$</option>
                   <option value="over200">Trên 200$</option>
@@ -218,12 +259,12 @@ function Products() {
                   value={sortOption}
                   onChange={(e) => setSortOption(e.target.value)}
                 >
-                  <option value="">Sắp xếp</option>
-                  <option value="lowToHigh">Giá thấp → cao</option>
+                  <option value="">{t.Sort}</option>
+                  <option value="lowToHigh">{t.Low_price_to_high}</option>
 
-                  <option value="highToLow">Giá cao → thấp</option>
+                  <option value="highToLow">{t.Low_high_to_low}</option>
 
-                  <option value="newest">Mới nhất</option>
+                  <option value="newest">{t.Newest}</option>
                 </select>
               </div>
             </div>

@@ -117,5 +117,17 @@
   "New_Password":"Mật khẩu mới",
   "Black":"Đen",
   "White":"Trắng",
-  "Blue":"Xanh"
+  "Blue":"Xanh",
+  "Red":"Đỏ",
+  "categories":"Danh mục",
+  "Running":"Chạy bộ",
+  "Basketball":"Bóng rổ",
+  "Fashion":"Thời trang",
+  "Training":"Tập luyện",
+  "Hiking":"Leo núi",
+  "Casual":"Tiện dụng",
+  "Sort":"Sắp xếp",
+  "Low_price_to_high":"Giá thấp → cao",
+  "Low_high_to_low":"Giá cao → thấp",
+  "Newest":"Mới nhất"
 }

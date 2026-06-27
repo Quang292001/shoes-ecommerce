@@ -244,7 +244,7 @@
   font-size: 14px;
   font-weight: 600;
 
-  transition: 0.3s;
+  transition: 0.2s;
 }
 
 /* Hover hiện tên */
@@ -297,7 +297,7 @@
 
   cursor: pointer;
 
-  transition: .3s;
+  transition: 0.2s;
 }
 .category-card span{
   margin-top: 7px;

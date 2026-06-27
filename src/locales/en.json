@@ -119,5 +119,17 @@
   "Black":"Black",
   "White":"White",
   "Blue":"Blue",
-  "easy_return":"Easy Return"
+  "Red":"Red",
+  "easy_return":"Easy Return",
+  "categories":"Categories",
+  "Running":"Running",
+  "Basketball":"Basketball",
+  "Fashion":"Fashion",
+  "Training":"Training",
+  "Hiking":"Hiking",
+  "Casual":"Casual",
+  "Sort":"Sort",
+  "Low_price_to_high":"Low price → high price",
+  "Low_high_to_low":"High price → low price",
+  "Newest":"Newest"
 }
