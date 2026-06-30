@@ -272,7 +272,7 @@
 /* Tên khi active */
 .brand-btn.active span {
   color: #c72092;
-  opacity: 1;
+  
 }
 .category-grid {
   display: flex;
@@ -351,3 +351,170 @@
   row-gap: 40px;
 }
 
+.search-result-info{
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+
+    margin-bottom:30px;
+
+    padding:15px 20px;
+
+    border-radius:12px;
+
+    background:var(--bg-color-secondary);
+}
+
+.search-result-info strong{
+    color:#c72092;
+}
+
+.search-result-info button{
+    padding:8px 18px;
+
+    border:none;
+
+    border-radius:8px;
+
+    cursor:pointer;
+
+    color:white;
+
+    background:linear-gradient(to right,#c72092,#6c14d0);
+}
+
+.filter-actions{
+
+    display:flex;
+
+    justify-content:flex-end;
+
+    margin-top:20px;
+}
+
+.reset-btn{
+
+    padding:12px 24px;
+
+    border:none;
+
+    border-radius:12px;
+
+    cursor:pointer;
+
+    color:white;
+
+    font-weight:600;
+
+    background:linear-gradient(
+        to right,
+        #c72092,
+        #6c14d0
+    );
+
+    transition:.3s;
+}
+
+.reset-btn:hover{
+
+    transform:translateY(-2px);
+
+    opacity:.9;
+}
+.active-filters{
+
+    display:flex;
+
+    align-items:center;
+
+    flex-wrap:wrap;
+
+    gap:12px;
+
+    margin:30px;
+}
+
+.filter-tag{
+
+    display:flex;
+
+    align-items:center;
+
+    gap:10px;
+
+    padding:8px 18px;
+
+    border-radius:30px;
+
+    background:#f4f4f4;
+
+    border:1px solid #ddd;
+}
+
+.filter-tag i{
+
+    cursor:pointer;
+
+    transition:.3s;
+}
+
+.filter-tag i:hover{
+
+    color:#c72092;
+}
+
+.reset-all{
+
+    margin-left:auto;
+
+    border:none;
+
+    padding:10px 22px;
+
+    border-radius:30px;
+
+    background:linear-gradient(
+        to right,
+        #c72092,
+        #6c14d0
+    );
+
+    color:white;
+
+    cursor:pointer;
+}
+
+
+
+.filter-tag {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+
+  padding: 8px 14px;
+
+  background: white;
+
+  border-radius: 20px;
+
+  border: 1px solid #ddd;
+}
+
+.clear-all-btn {
+  margin-left: auto;
+  border: none;
+
+  padding: 8px 16px;
+
+  border-radius: 20px;
+
+  background: linear-gradient(
+    to right,
+    #c72092,
+    #6c14d0
+  );
+
+  color: white;
+
+  cursor: pointer;
+}

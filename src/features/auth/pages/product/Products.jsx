@@ -10,6 +10,7 @@ import Adidas from "../../../../assets/image/brands/adidas.png";
 import Puma from "../../../../assets/image/brands/puma.png";
 import Converse from "../../../../assets/image/brands/converse.png";
 import Vans from "../../../../assets/image/brands/vans.png";
+import { useSearchParams } from "react-router-dom";
 const brands = [
   {
     name: "Nike",
@@ -32,15 +33,55 @@ const brands = [
     logo: Converse,
   },
 ];
+
 function Products() {
+  const [searchParams, setSearchParams] = useSearchParams();
+  const searchTerm = searchParams.get("search") || "";
   const [products, setProducts] = useState([]);
   const { t } = useLanguage();
   // FILTER STATES
-  const [brandFilter, setBrandFilter] = useState("");
+  const [brandFilter, setBrandFilter] = useState([]);
   const [colorFilter, setColorFilter] = useState("");
   const [priceFilter, setPriceFilter] = useState("");
   const [sortOption, setSortOption] = useState("");
-  const [categoryFilter, setCategoryFilter] = useState("");
+  const [categoryFilter, setCategoryFilter] = useState([]);
+
+  const handleResetFilters = () => {
+    setBrandFilter([]);
+
+    setCategoryFilter([]);
+
+    setColorFilter("");
+
+    setPriceFilter("");
+
+    setSortOption("");
+
+    setSearchParams({});
+  };
+  const clearSearch = () => {
+    const params = new URLSearchParams(searchParams);
+    params.delete("search");
+    setSearchParams(params);
+  };
+  const toggleBrand = (brand) => {
+    // truyền vào thương hiệu
+    setBrandFilter(
+      (
+        prev, // tạo biến prev
+      ) =>
+        prev.includes(brand) //gán thương hiện đó cho prev để kiểm tra đã có brand đó hay chưa
+          ? prev.filter((b) => b !== brand) // có rồi thì bỏ chọn
+          : [...prev, brand], // chưa thì thêm vào
+    );
+  };
+  const toggleCategory = (category) => {
+    setCategoryFilter((prev) =>
+      prev.includes(category)
+        ? prev.filter((c) => c !== category)
+        : [...prev, category],
+    );
+  };
   useEffect(() => {
     const fetchProducts = async () => {
       try {
@@ -58,16 +99,27 @@ function Products() {
   const filteredProducts = useMemo(() => {
     let result = [...products];
 
-    // BRAND
-    if (brandFilter) {
+    if (searchTerm) {
       result = result.filter(
-        (item) => item.brand?.toLowerCase() === brandFilter.toLowerCase(),
+        (item) =>
+          item.name?.toLowerCase().includes(searchTerm.toLowerCase()) ||
+          item.brand?.toLowerCase().includes(searchTerm.toLowerCase()) ||
+          item.description?.toLowerCase().includes(searchTerm.toLowerCase()),
       );
     }
-    if (categoryFilter) {
-      result = result.filter(
-        (item) => item.category?.toLowerCase() === categoryFilter.toLowerCase(),
-      );
+
+    // BRAND
+    if (brandFilter.length > 0) {
+      result = result.filter(item =>
+    item.brand &&
+    brandFilter.includes(item.brand)
+);
+    }
+    if (categoryFilter.length > 0) {
+      result = result.filter(item =>
+    item.category &&
+    categoryFilter.includes(item.category)
+);
     }
 
     // COLOR
@@ -104,7 +156,15 @@ function Products() {
     }
 
     return result;
-  }, [products, brandFilter, colorFilter, priceFilter, sortOption]);
+  }, [
+    products,
+    searchTerm,
+    brandFilter,
+    categoryFilter,
+    colorFilter,
+    priceFilter,
+    sortOption,
+  ]);
 
   return (
     <>
@@ -113,10 +173,52 @@ function Products() {
         <h1 className="products-title">
           <span>{t.products}</span>
         </h1>
+        <div className="active-filters">
+          {searchTerm && (
+            <div className="filter-tag">
+              🔍 {searchTerm}
+              <i className="fa-solid fa-xmark" onClick={clearSearch}></i>
+            </div>
+          )}
 
+          {brandFilter.map((brand) =>(
+            <div className="filter-tag" key={brand}>
+              {brand}
+              <i
+                className="fa-solid fa-xmark"
+                onClick={() => setBrandFilter(brandFilter.filter((b)=>b!==brand))}
+              ></i>
+            </div>
+          ))}
+
+          {categoryFilter.map((category)=> (
+            <div className="filter-tag" key={category}>
+              {category}
+              <i
+                className="fa-solid fa-xmark"
+                onClick={() => setCategoryFilter(categoryFilter.filter((c)=> c!==category))}
+              ></i>
+            </div>
+          ))}
+
+           {(searchTerm ||
+    brandFilter.length > 0 ||
+    categoryFilter.length > 0 ||
+    colorFilter ||
+    priceFilter) && (
+      <button
+        className="clear-all-btn"
+        onClick={handleResetFilters}
+      >
+        <i className="fa-solid fa-filter-circle-xmark"></i>
+        Xóa tất cả
+      </button>
+  )}
+        </div>
         {/* FILTER SIDEBAR */}
         <>
           <div className="filter-bar">
+            <div className="filter-actions"></div>
             <div className="filter-section">
               <h3>{t.Brand}</h3>
               <div className="brand-chips">
@@ -124,13 +226,14 @@ function Products() {
                   <button
                     key={brand.name}
                     className={`brand-btn ${
-                      brandFilter === brand.name ? "active" : ""
+                      brandFilter.includes(brand.name) ? "active" : ""
                     }`}
-                    onClick={() =>
-                      setBrandFilter(
-                        brandFilter === brand.name ? "" : brand.name,
-                      )
-                    }
+                    onClick={() => {
+                      toggleBrand(brand.name);
+
+                      //nếu chọn brand thì bỏ chọn search
+                      clearSearch();
+                    }}
                   >
                     <img
                       src={brand.logo}
@@ -148,13 +251,9 @@ function Products() {
               <div className="category-grid">
                 <div
                   className={`category-card ${
-                    categoryFilter === "Running" ? "active" : ""
+                    categoryFilter.includes("Running") ? "active" : ""
                   }`}
-                  onClick={() =>
-                    setCategoryFilter(
-                      categoryFilter === "Running" ? "" : "Running",
-                    )
-                  }
+                  onClick={() => toggleCategory("Running")}
                 >
                   <i className="fa-solid fa-person-running"></i>
                   <span>{t.Running}</span>
@@ -162,12 +261,10 @@ function Products() {
 
                 <div
                   className={`category-card ${
-                    categoryFilter === "Basketball" ? "active" : ""
+                    categoryFilter.includes("Basketball") ? "active" : ""
                   }`}
                   onClick={() =>
-                    setCategoryFilter(
-                      categoryFilter === "Basketball" ? "" : "Basketball",
-                    )
+                    toggleCategory("Basketball")
                   }
                 >
                   <i className="fa-solid fa-basketball"></i>
@@ -176,26 +273,18 @@ function Products() {
 
                 <div
                   className={`category-card ${
-                    categoryFilter === "Fashion" ? "active" : ""
+                    categoryFilter.includes("Fashion") ? "active" : ""
                   }`}
-                  onClick={() =>
-                    setCategoryFilter(
-                      categoryFilter === "Fashion" ? "" : "Fashion",
-                    )
-                  }
+                  onClick={() => toggleCategory("Fashion")}
                 >
                   <i className="fa-solid fa-shirt"></i>
                   <span>{t.Fashion}</span>
                 </div>
                 <div
                   className={`category-card ${
-                    categoryFilter === "Training" ? "active" : ""
+                    categoryFilter.includes("Training") ? "active" : ""
                   }`}
-                  onClick={() =>
-                    setCategoryFilter(
-                      categoryFilter === "Training" ? "" : "Training",
-                    )
-                  }
+                  onClick={() => toggleCategory("Training")}
                 >
                   <i className="fa-solid fa-dumbbell"></i>
                   <span>{t.Training}</span>
@@ -203,13 +292,9 @@ function Products() {
 
                 <div
                   className={`category-card ${
-                    categoryFilter === "Hiking" ? "active" : ""
+                    categoryFilter.includes("Hiking") ? "active" : ""
                   }`}
-                  onClick={() =>
-                    setCategoryFilter(
-                      categoryFilter === "Hiking" ? "" : "Hiking",
-                    )
-                  }
+                  onClick={() => toggleCategory("Hiking")}
                 >
                   <i className="fa-solid fa-mountain"></i>
                   <span>{t.Hiking}</span>
@@ -217,13 +302,9 @@ function Products() {
 
                 <div
                   className={`category-card ${
-                    categoryFilter === "Casual" ? "active" : ""
+                    categoryFilter.includes("Casual") ? "active" : ""
                   }`}
-                  onClick={() =>
-                    setCategoryFilter(
-                      categoryFilter === "Casual" ? "" : "Casual",
-                    )
-                  }
+                  onClick={() => toggleCategory("Casual")}
                 >
                   <i className="fa-solid fa-person-walking"></i>
                   <span>{t.Casual}</span>
@@ -271,7 +352,10 @@ function Products() {
           </div>
 
           <div className="products-grid">
-            {filteredProducts.map((product) => (
+            {filteredProducts.length===0 ?(
+              <div className="empty-product">Không tìm thấy sản phẩm</div>
+            ):(
+            filteredProducts.map((product) => (
               <ProductCard
                 key={product.id}
                 id={product.id}
@@ -280,7 +364,7 @@ function Products() {
                 description={product.description}
                 price={product.price}
               />
-            ))}
+            )))}
           </div>
         </>
       </div>

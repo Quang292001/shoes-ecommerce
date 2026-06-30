@@ -6,11 +6,18 @@ import { useLanguage } from "../../../context/LanguageContext";
 import { useCart } from "../../../context/CartContext";
 import ThemeToggle from "../../theme/ThemeToggle";
 import { useFavorite } from "../../../context/FavoriteContext";
+import { useState } from "react";
 function Navbar() {
+  const [product, setProducts] = useState();
+  const [searchTerm, setSearchTerm] = useState("");
   const navigate = useNavigate();
   const { t } = useLanguage();
   const { totalItems } = useCart();
   const { favoriteItems } = useFavorite();
+
+  const handleSearch = () => {
+    navigate(`/products?search=${encodeURIComponent(searchTerm)}`);
+  };
   return (
     <nav>
       <div className="logo" onClick={() => navigate("/")}>
@@ -41,9 +48,16 @@ function Navbar() {
       </ul>
       {/* Thanh tìm kiếm */}
       <div className="search-box">
-        <input type="text" placeholder={t.search} />
-        <i className="fa-solid fa-magnifying-glass"></i>
+        <input
+          type="text"
+          placeholder={t.search}
+          value={searchTerm}
+          onChange={(e) => setSearchTerm(e.target.value)}
+          onKeyDown={(e) => e.key === "Enter" && handleSearch()}
+        />
+        <i className="fa-solid fa-magnifying-glass" onClick={handleSearch}></i>
       </div>
+
       <div className="icons">
         <Link to="/favorites" className="favorite_icon">
           <i className="fas fa-heart"></i>
