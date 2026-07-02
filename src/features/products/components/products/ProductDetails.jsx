@@ -8,7 +8,30 @@ import { useCart } from "/src/context/CartContext";
 import { useLanguage } from "../../../../context/LanguageContext";
 import { tokenStorage } from "../../../../shared/auth/tokenStorage";
 import { cartApi } from "../../../cart/api/cartApi";
-
+import Footer from "../../../../shared/layout/footer/Footer";
+const reviews = [
+  {
+    id: 1,
+    name: "Nguyễn Văn A",
+    rating: 5,
+    comment: "Giày rất đẹp, mang cực kỳ êm chân.",
+    date: "2 ngày trước",
+  },
+  {
+    id: 2,
+    name: "Lê Minh",
+    rating: 4,
+    comment: "Đúng như hình, giao nhanh.",
+    date: "1 tuần trước",
+  },
+  {
+    id: 3,
+    name: "Hoàng Nam",
+    rating: 5,
+    comment: "Sẽ mua thêm lần nữa.",
+    date: "2 tuần trước",
+  },
+];
 function ProductDetail() {
   const { id } = useParams();
   const navigate = useNavigate();
@@ -17,7 +40,7 @@ function ProductDetail() {
   const [quantity, setQuantity] = useState(1);
   const [isAddingToCart, setIsAddingToCart] = useState(false);
   const [toast, setToast] = useState({ show: false, message: "", type: "" });
-
+  const [activeTab, setActiveTab] = useState("details");
   const { addToCart } = useCart();
   const { t } = useLanguage();
 
@@ -92,7 +115,7 @@ function ProductDetail() {
         error.response?.data?.message ||
           error.response?.data?.title ||
           "Failed to add product to cart",
-        "error"
+        "error",
       );
     } finally {
       setIsAddingToCart(false);
@@ -104,71 +127,201 @@ function ProductDetail() {
   }
 
   return (
-    <div>
+    <>
       <Navbar />
-
       <div className="product_detail_container">
         <div className="product_images">
-          <div className="main_image_detail">
-            <img src={product.imageUrl} alt={product.name} />
-          </div>
-
           <div className="thumbnail_list">
             <img src={product.imageUrl} alt="" />
             <img src={product.imageUrl} alt="" />
             <img src={product.imageUrl} alt="" />
             <img src={product.imageUrl} alt="" />
           </div>
+          <div className="main_image_detail">
+            <img src={product.imageUrl} alt={product.name} />
+          </div>
         </div>
 
         <div className="product_info">
           <h1>{product.name}</h1>
-         
-      <div className="product_star">
-        <i className="fas fa-star"></i>
-        <i className="fas fa-star"></i>
-        <i className="fas fa-star"></i>
-        <i className="fas fa-star"></i>
-        <i className="fas fa-star"></i>
-      </div> 
-          <h2>{product.price} VNĐ</h2>
 
-          <div className="size_select">
-            <label>{t.size}</label>
-
-            <select>
-              <option>39</option>
-              <option>40</option>
-              <option>41</option>
-              <option>42</option>
-              <option>43</option>
-            </select>
+          <div className="product_star">
+            <i className="fas fa-star"></i>
+            <i className="fas fa-star"></i>
+            <i className="fas fa-star"></i>
+            <i className="fas fa-star"></i>
+            <i className="fas fa-star"></i>
+            <span>(123 Reviews)</span>
           </div>
 
-          <div className="cart_section">
-            <input
-              type="number"
-              min="1"
-              value={quantity}
-              disabled={isAddingToCart}
-              onChange={(event) => setQuantity(Number(event.target.value) || 1)}
-            />
+          <p className="stock">
+            Còn hàng<span>(8)</span>
+          </p>
+          <h2>{product.price} VNĐ</h2>
 
-            <button onClick={handleAddToCart} disabled={isAddingToCart}>
+          <div className="color-section">
+            <h3>Màu sắc</h3>
+            <div className="color-list">
+              <button className="active">
+                <img src={product.imageUrl} />
+              </button>
+
+              <button>
+                <img src={product.imageUrl} />
+              </button>
+
+              <button>
+                <img src={product.imageUrl} />
+              </button>
+            </div>
+          </div>
+
+          <div className="size_section">
+            <div className="size_header">
+              <label>{t.size}</label>
+              <div className="choose_size">
+                <i className="fa-solid fa-ruler"></i>hướng dẫn chọn size
+              </div>
+            </div>
+            <div className="size_list">
+              <button>39</button>
+              <button>40</button>
+              <button>41</button>
+              <button>42</button>
+              <button>43</button>
+            </div>
+          </div>
+
+          <h3 className="quantity-label">Số lượng</h3>
+          <div className="quantity-box">
+            <button onClick={() => setQuantity(Math.max(1, quantity - 1))}>
+              -
+            </button>
+            <span>{quantity}</span>
+            <button onClick={() => setQuantity(quantity + 1)}>+</button>
+          </div>
+
+          <div className="action-buttons">
+            <button className="buy-now">Mua ngay</button>
+            <button
+              className="add-to-cart"
+              onClick={handleAddToCart}
+              disabled={isAddingToCart}
+            >
               {isAddingToCart ? t.Adding : t.add_to_cart}
+            </button>
+            <div className="favorite-btn">
+              <i className="fa-regular fa-heart"></i>
+            </div>
+          </div>
+
+        </div>
+        
+      </div>
+
+        <div className="container-tabs">
+          <div className="product-tabs">
+            <button
+              className={activeTab === "details" ? "active" : ""}
+              onClick={() => setActiveTab("details")}
+            >
+              Chi tiết
+            </button>
+
+            <button
+              className={activeTab === "description" ? "active" : ""}
+              onClick={() => setActiveTab("description")}
+            >
+              Mô tả
+            </button>
+
+            <button
+              className={activeTab === "reviews" ? "active" : ""}
+              onClick={() => setActiveTab("reviews")}
+            >
+              Đánh giá ({reviews.length})
             </button>
           </div>
 
-          <div className="product_description">
-            <h3>{t.product_details}</h3>
+          <div className="tab-content">
+            {activeTab === "details" && (
+              <div className="detail-table">
+                <div className="detail-row">
+                  <span>Thương hiệu</span>
+                  <p>{product.brand}</p>
+                </div>
 
-            <p>{product.description}</p>
+                <div className="detail-row">
+                  <span>Danh mục</span>
+                  <p>{product.category}</p>
+                </div>
+
+                <div className="detail-row">
+                  <span>Màu sắc</span>
+                  <p>{product.color}</p>
+                </div>
+
+                <div className="detail-row">
+                  <span>Chất liệu</span>
+                  <p>Mesh Fabric</p>
+                </div>
+
+                <div className="detail-row">
+                  <span>Đế giày</span>
+                  <p>Rubber</p>
+                </div>
+
+                <div className="detail-row">
+                  <span>Bảo hành</span>
+                  <p>12 tháng</p>
+                </div>
+              </div>
+            )}
+
+            {activeTab === "description" && (
+              <div className="description-box">
+                <p>{product.description}</p>
+
+                <ul>
+                  <li>✔ Thiết kế thời trang hiện đại.</li>
+
+                  <li>✔ Chất liệu cao cấp.</li>
+
+                  <li>✔ Thoáng khí.</li>
+
+                  <li>✔ Đế chống trơn trượt.</li>
+
+                  <li>✔ Phù hợp đi học, đi chơi và chạy bộ.</li>
+                </ul>
+              </div>
+            )}
+
+            {activeTab === "reviews" && (
+              <div className="review-list">
+                {reviews.map((review) => (
+                  <div className="review-card" key={review.id}>
+                    <div className="review-header">
+                      <strong>{review.name}</strong>
+
+                      <span>{review.date}</span>
+                    </div>
+
+                    <div className="review-stars">
+                      {[...Array(review.rating)].map((_, index) => (
+                        <i key={index} className="fas fa-star"></i>
+                      ))}
+                    </div>
+
+                    <p>{review.comment}</p>
+                  </div>
+                ))}
+              </div>
+            )}
           </div>
-        </div>
       </div>
-
       <Toast show={toast.show} message={toast.message} type={toast.type} />
-    </div>
+    <Footer/>
+    </>
   );
 }
 
