@@ -9,6 +9,7 @@ import { useLanguage } from "../../../../context/LanguageContext";
 import { tokenStorage } from "../../../../shared/auth/tokenStorage";
 import { cartApi } from "../../../cart/api/cartApi";
 import Footer from "../../../../shared/layout/footer/Footer";
+import ProductCard from "../../../products/components/products/ProductCard";
 const reviews = [
   {
     id: 1,
@@ -35,7 +36,7 @@ const reviews = [
 function ProductDetail() {
   const { id } = useParams();
   const navigate = useNavigate();
-
+  const [selectedImage, setSelectedImage] = useState("");
   const [product, setProduct] = useState(null);
   const [quantity, setQuantity] = useState(1);
   const [isAddingToCart, setIsAddingToCart] = useState(false);
@@ -43,6 +44,8 @@ function ProductDetail() {
   const [activeTab, setActiveTab] = useState("details");
   const { addToCart } = useCart();
   const { t } = useLanguage();
+  const [showSizeGuide, setShowSizeGuide] = useState(false);
+  const [relatedProducts, setRelatedProducts] = useState([]);
 
   const showToast = (message, type) => {
     setToast({ show: true, message, type });
@@ -51,13 +54,40 @@ function ProductDetail() {
       setToast({ show: false, message: "", type: "" });
     }, 1000);
   };
+useEffect(() => {
+  const fetchData = async () => {
+    try {
+      const detail = await authApi.getProductDetails(id);
 
+      setProduct(detail);
+      setSelectedImage(detail.imageUrl);
+
+      const list = await authApi.getProducts(1, 50);
+
+      const related = list.items.filter(
+        (item) =>
+          item.id !== detail.id &&
+          (
+            item.brand === detail.brand ||
+            item.category === detail.category
+          )
+      );
+
+      setRelatedProducts(related.slice(0, 4));
+    } catch (err) {
+      console.log(err);
+    }
+  };
+
+  fetchData();
+}, [id]);
   useEffect(() => {
     const fetchProductDetails = async () => {
       try {
         const data = await authApi.getProductDetails(id);
 
         setProduct(data);
+        setSelectedImage(data.imageUrl);
       } catch (error) {
         console.error("Error fetching product details:", error);
         showToast("Failed to load product details", "error");
@@ -132,13 +162,34 @@ function ProductDetail() {
       <div className="product_detail_container">
         <div className="product_images">
           <div className="thumbnail_list">
-            <img src={product.imageUrl} alt="" />
-            <img src={product.imageUrl} alt="" />
-            <img src={product.imageUrl} alt="" />
-            <img src={product.imageUrl} alt="" />
+            <img
+              src={product.imageUrl}
+              onClick={() => setSelectedImage(product.imageUrl)}
+              alt=""
+            />
+            <img
+              src={product.imageUrl}
+              onClick={() => setSelectedImage(product.imageUrl)}
+              alt=""
+            />
+            <img
+              src={product.imageUrl}
+              onClick={() => setSelectedImage(product.imageUrl)}
+              alt=""
+            />
+            <img
+              src={product.imageUrl}
+              onClick={() => setSelectedImage(product.imageUrl)}
+              alt=""
+            />
+            <img
+              src={product.imageUrl}
+              onClick={() => setSelectedImage(product.imageUrl)}
+              alt=""
+            />
           </div>
           <div className="main_image_detail">
-            <img src={product.imageUrl} alt={product.name} />
+            <img src={selectedImage} alt={product.name} />
           </div>
         </div>
 
@@ -151,7 +202,7 @@ function ProductDetail() {
             <i className="fas fa-star"></i>
             <i className="fas fa-star"></i>
             <i className="fas fa-star"></i>
-            <span>(123 Reviews)</span>
+            <span>(123 Đánh giá)</span>
           </div>
 
           <p className="stock">
@@ -179,9 +230,69 @@ function ProductDetail() {
           <div className="size_section">
             <div className="size_header">
               <label>{t.size}</label>
-              <div className="choose_size">
-                <i className="fa-solid fa-ruler"></i>hướng dẫn chọn size
+              <div
+                className="choose_size"
+                onClick={() => setShowSizeGuide(true)}
+              >
+                <i className="fa-solid fa-ruler"></i>
+                Hướng dẫn chọn size
               </div>
+              {showSizeGuide && (
+                <div className="size-modal">
+                  <div className="size-content">
+                    <button
+                      className="close-btn"
+                      onClick={() => setShowSizeGuide(false)}
+                    >
+                      ×
+                    </button>
+
+                    <h2>Hướng dẫn chọn size</h2>
+
+                    <table>
+                      <thead>
+                        <tr>
+                          <th>Size</th>
+                          <th>Chiều dài chân</th>
+                          <th>US</th>
+                        </tr>
+                      </thead>
+
+                      <tbody>
+                        <tr>
+                          <td>39</td>
+                          <td>24.5 cm</td>
+                          <td>6</td>
+                        </tr>
+
+                        <tr>
+                          <td>40</td>
+                          <td>25 cm</td>
+                          <td>7</td>
+                        </tr>
+
+                        <tr>
+                          <td>41</td>
+                          <td>26 cm</td>
+                          <td>8</td>
+                        </tr>
+
+                        <tr>
+                          <td>42</td>
+                          <td>26.5 cm</td>
+                          <td>9</td>
+                        </tr>
+
+                        <tr>
+                          <td>43</td>
+                          <td>27.5 cm</td>
+                          <td>10</td>
+                        </tr>
+                      </tbody>
+                    </table>
+                  </div>
+                </div>
+              )}
             </div>
             <div className="size_list">
               <button>39</button>
@@ -214,113 +325,127 @@ function ProductDetail() {
               <i className="fa-regular fa-heart"></i>
             </div>
           </div>
-
         </div>
-        
       </div>
 
-        <div className="container-tabs">
-          <div className="product-tabs">
-            <button
-              className={activeTab === "details" ? "active" : ""}
-              onClick={() => setActiveTab("details")}
-            >
-              Chi tiết
-            </button>
+      <div className="container-tabs">
+        <div className="product-tabs">
+          <button
+            className={activeTab === "details" ? "active" : ""}
+            onClick={() => setActiveTab("details")}
+          >
+            Chi tiết
+          </button>
 
-            <button
-              className={activeTab === "description" ? "active" : ""}
-              onClick={() => setActiveTab("description")}
-            >
-              Mô tả
-            </button>
+          <button
+            className={activeTab === "description" ? "active" : ""}
+            onClick={() => setActiveTab("description")}
+          >
+            Mô tả
+          </button>
 
-            <button
-              className={activeTab === "reviews" ? "active" : ""}
-              onClick={() => setActiveTab("reviews")}
-            >
-              Đánh giá ({reviews.length})
-            </button>
-          </div>
+          <button
+            className={activeTab === "reviews" ? "active" : ""}
+            onClick={() => setActiveTab("reviews")}
+          >
+            Đánh giá ({reviews.length})
+          </button>
+        </div>
 
-          <div className="tab-content">
-            {activeTab === "details" && (
-              <div className="detail-table">
-                <div className="detail-row">
-                  <span>Thương hiệu</span>
-                  <p>{product.brand}</p>
-                </div>
-
-                <div className="detail-row">
-                  <span>Danh mục</span>
-                  <p>{product.category}</p>
-                </div>
-
-                <div className="detail-row">
-                  <span>Màu sắc</span>
-                  <p>{product.color}</p>
-                </div>
-
-                <div className="detail-row">
-                  <span>Chất liệu</span>
-                  <p>Mesh Fabric</p>
-                </div>
-
-                <div className="detail-row">
-                  <span>Đế giày</span>
-                  <p>Rubber</p>
-                </div>
-
-                <div className="detail-row">
-                  <span>Bảo hành</span>
-                  <p>12 tháng</p>
-                </div>
+        <div className="tab-content">
+          {activeTab === "details" && (
+            <div className="detail-table">
+              <div className="detail-row">
+                <span>Thương hiệu</span>
+                <p>{product.brand}</p>
               </div>
-            )}
 
-            {activeTab === "description" && (
-              <div className="description-box">
-                <p>{product.description}</p>
-
-                <ul>
-                  <li>✔ Thiết kế thời trang hiện đại.</li>
-
-                  <li>✔ Chất liệu cao cấp.</li>
-
-                  <li>✔ Thoáng khí.</li>
-
-                  <li>✔ Đế chống trơn trượt.</li>
-
-                  <li>✔ Phù hợp đi học, đi chơi và chạy bộ.</li>
-                </ul>
+              <div className="detail-row">
+                <span>Danh mục</span>
+                <p>{product.category}</p>
               </div>
-            )}
 
-            {activeTab === "reviews" && (
-              <div className="review-list">
-                {reviews.map((review) => (
-                  <div className="review-card" key={review.id}>
-                    <div className="review-header">
-                      <strong>{review.name}</strong>
+              <div className="detail-row">
+                <span>Màu sắc</span>
+                <p>{product.color}</p>
+              </div>
 
-                      <span>{review.date}</span>
-                    </div>
+              <div className="detail-row">
+                <span>Chất liệu</span>
+                <p>Mesh Fabric</p>
+              </div>
 
-                    <div className="review-stars">
-                      {[...Array(review.rating)].map((_, index) => (
-                        <i key={index} className="fas fa-star"></i>
-                      ))}
-                    </div>
+              <div className="detail-row">
+                <span>Đế giày</span>
+                <p>Rubber</p>
+              </div>
 
-                    <p>{review.comment}</p>
+              <div className="detail-row">
+                <span>Bảo hành</span>
+                <p>12 tháng</p>
+              </div>
+            </div>
+          )}
+
+          {activeTab === "description" && (
+            <div className="description-box">
+              <p>{product.description}</p>
+
+              <ul>
+                <li>✔ Thiết kế thời trang hiện đại.</li>
+
+                <li>✔ Chất liệu cao cấp.</li>
+
+                <li>✔ Thoáng khí.</li>
+
+                <li>✔ Đế chống trơn trượt.</li>
+
+                <li>✔ Phù hợp đi học, đi chơi và chạy bộ.</li>
+              </ul>
+            </div>
+          )}
+
+          {activeTab === "reviews" && (
+            <div className="review-list">
+              {reviews.map((review) => (
+                <div className="review-card" key={review.id}>
+                  <div className="review-header">
+                    <strong>{review.name}</strong>
+
+                    <span>{review.date}</span>
                   </div>
-                ))}
-              </div>
-            )}
-          </div>
+
+                  <div className="review-stars">
+                    {[...Array(review.rating)].map((_, index) => (
+                      <i key={index} className="fas fa-star"></i>
+                    ))}
+                  </div>
+
+                  <p>{review.comment}</p>
+                </div>
+              ))}
+            </div>
+          )}
+        </div>
       </div>
+      <div className="related-products">
+  <h2>Sản phẩm liên quan</h2>
+
+  <div className="related-grid">
+    {relatedProducts.map((item) => (
+      <ProductCard
+        key={item.id}
+        id={item.id}
+        image={item.imageUrl}
+        name={item.name}
+        description={item.description}
+        price={item.price}
+      />
+    ))}
+  </div>
+</div>
       <Toast show={toast.show} message={toast.message} type={toast.type} />
-    <Footer/>
+      <Footer />
     </>
   );
 }
