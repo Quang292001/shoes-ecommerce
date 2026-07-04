@@ -34,7 +34,7 @@ const reviews = [
   },
 ];
 function ProductDetail() {
-  const { id } = useParams();
+  const { id } = useParams(); //hàm hook của react router, nó sẽ trả về một object chứa các tham số trong URL, ở đây là id của sản phẩm
   const navigate = useNavigate();
   const [selectedImage, setSelectedImage] = useState("");
   const [product, setProduct] = useState(null);
@@ -46,56 +46,66 @@ function ProductDetail() {
   const { t } = useLanguage();
   const [showSizeGuide, setShowSizeGuide] = useState(false);
   const [relatedProducts, setRelatedProducts] = useState([]);
+  const [selectedSize, setSelectedSize] = useState("");
+  const [selectColor, setSelectColor] = useState("");
 
-  const showToast = (message, type) => {
-    setToast({ show: true, message, type });
+  const showToast = (message, type) => { //truyền vào message và type để hiển thị thông báo
+    setToast({ show: true, message, type }); // gán giá trị ban đầu của toast là true, message và type là giá trị truyền vào
 
-    setTimeout(() => {
-      setToast({ show: false, message: "", type: "" });
+    setTimeout(() => { //thiết lập thời gian để ẩn thông báo sau 100ms
+      setToast({ show: false, message: "", type: "" }); // gán giá trị của toast là false, message và type là rỗng
     }, 1000);
   };
-useEffect(() => {
-  const fetchData = async () => {
+useEffect(() => { // thực hiện khi component được render lần đầu tiên và khi id thay đổi, nó sẽ gọi API để lấy chi tiết sản phẩm dựa trên id từ URL,
+//  khi mở trang thì useEffect sẽ chạy và gọi API để lấy dữ liệu chi tiết sản phẩm, sau đó gán giá trị của product là detail trả về từ API,
+//  đồng thời tạo danh sách các sản phẩm để lọc ra những sản phẩm liên quan, chỉ lấy những sản phẩm có cùng thương hiệu hoặc cùng danh mục với sản phẩm hiện tại,
+//  và gán giá trị của relatedProducts là danh sách các sản phẩm liên quan.
+  const fetchData = async () => { // hàm bất đồng bộ để gọi API và lấy dữ liệu chi tiết sản phẩm
     try {
-      const detail = await authApi.getProductDetails(id);
+      const detail = await authApi.getProductDetails(id); // gọi API để lấy chi tiết sản phẩm dựa trên id từ URL, await để chờ kết quả trả vể rồi chạy tiếp
 
-      setProduct(detail);
+      setProduct(detail); //gán giá trị của product là detail trả về từ API
       setSelectedImage(detail.imageUrl);
-
-      const list = await authApi.getProducts(1, 50);
-
-      const related = list.items.filter(
+      const list = await authApi.getProducts(1, 50); // tạo danh sách các sản phẩm để lọc ra những sản phẩm liên quan, lấy 50 sản phẩm đầu tiên
+      const related = list.items.filter( //lọc dữ liệu sản phẩm để chỉ lấy những sản phẩm có cùng thương hiệu hoặc cùng danh mục với sản phẩm hiện tại,
+        // và không lấy sản phẩm hiện tại
         (item) =>
-          item.id !== detail.id &&
+          item.id !== detail.id && // không lấy sản phẩm hiện tại và chỉ lấy những sản phẩm có cùng thương hiệu hoặc cùng danh mục
           (
-            item.brand === detail.brand ||
+            item.brand === detail.brand || //lấy sản phẩm có cùng thương hiệu hoặc cùng danh mục
             item.category === detail.category
           )
       );
 
-      setRelatedProducts(related.slice(0, 4));
+      setRelatedProducts(related.slice(0, 4)); // lấy 4 sản phẩm liên quan đầu tiên và gán giá trị của relatedProducts là danh sách các sản phẩm liên quan
     } catch (err) {
       console.log(err);
     }
   };
 
-  fetchData();
-}, [id]);
-  useEffect(() => {
-    const fetchProductDetails = async () => {
-      try {
-        const data = await authApi.getProductDetails(id);
+  fetchData(); // gọi lại hàm fetchData để lấy dữ liệu chi tiết sản phẩm và danh sách các sản phẩm liên quan nếu không thì React chỉ biết có hàm thôi 
+  // và không biết hàm đó làm gì, nên phải gọi lại hàm để thực hiện
+}, [id]); // dọi dependency array là [id] để khi id thay đổi thì useEffect sẽ chạy lại và gọi API để lấy dữ liệu chi tiết sản phẩm mới
 
-        setProduct(data);
-        setSelectedImage(data.imageUrl);
+  useEffect(() => { //khi mở trang lên thì useEffect sẽ tự động chạy và gọi API để lấy dữ liệu chi tiết sản phẩm dựa trên id từ URL, 
+    //sau đó gán giá trị của product là detail trả về từ API, đồng thời gán giá trị của selectedImage là imageUrl của sản phẩm hiện tại
+    const fetchProductDetails = async () => { //hàm bất đồng bộ để gọi API và lấy dữ liệu chi tiết sản phẩm
+      try {
+        const data = await authApi.getProductDetails(id); // gọi API để lấy chi tiết sản phẩm dựa trên id từ URL, await để chờ kết quả trả về rồi chạy tiếp
+
+        setProduct(data); // gán giá trị của product là detail trả về từ API
+        setSelectedImage(data.imageUrl); 
+        setSelectColor(data.color);
+        setSelectedSize(data.size);
       } catch (error) {
         console.error("Error fetching product details:", error);
         showToast("Failed to load product details", "error");
       }
     };
 
-    fetchProductDetails();
-  }, [id]);
+    fetchProductDetails();// gọi lại hàm fetchProductDetails để lấy dữ liệu chi tiết sản phẩm nếu không thì React chỉ biết có hàm thôi và không biết hàm đó làm gì,
+    // nên phải gọi lại hàm để thực hiện
+  }, [id]); // là dependency array, khi id thay đổi thì useEffect sẽ chạy lại và gọi API để lấy dữ liệu chi tiết sản phẩm mới
 
   const handleAddToCart = async () => {
     const accessToken = tokenStorage.getAccessToken();
@@ -159,6 +169,18 @@ useEffect(() => {
   return (
     <>
       <Navbar />
+      <div className="container-product-detail">
+      <div className="breadcrumb">
+        <span onClick={() => navigate("/")}>
+          Trang chủ
+        </span>
+        <i className="fa-solid fa-chevron-right"></i>
+        <span onClick={() => navigate("/products")}>
+          Sản phẩm
+        </span>
+        <i className="fa-solid fa-chevron-right"></i>
+        <span>{product.name}</span>
+      </div>
       <div className="product_detail_container">
         <div className="product_images">
           <div className="thumbnail_list">
@@ -326,6 +348,7 @@ useEffect(() => {
             </div>
           </div>
         </div>
+      </div>
       </div>
 
       <div className="container-tabs">
