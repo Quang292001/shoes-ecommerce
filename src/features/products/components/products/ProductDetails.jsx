@@ -10,6 +10,7 @@ import { tokenStorage } from "../../../../shared/auth/tokenStorage";
 import { cartApi } from "../../../cart/api/cartApi";
 import Footer from "../../../../shared/layout/footer/Footer";
 import ProductCard from "../../../products/components/products/ProductCard";
+import { useFavorite } from "../../../../context/FavoriteContext";
 const reviews = [
   {
     id: 1,
