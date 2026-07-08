@@ -52,7 +52,12 @@ function ProductCard({ id, image, name, description, price }) {
 
     try {
       setIsAddingToCart(true);
+console.log("Product ID:", id);
 
+console.log({
+  productId: id,
+  quantity: 1,
+});
       await cartApi.addItem({
         productId: id,
         quantity: 1,

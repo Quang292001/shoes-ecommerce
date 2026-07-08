@@ -34,6 +34,29 @@ const reviews = [
     date: "2 tuần trước",
   },
 ];
+const sizes = [
+  {
+    size: 39,
+    stock: 0,
+  },
+  {
+    size: 40,
+    stock: 8,
+  },
+  {
+    size: 41,
+    stock: 15,
+  },
+  {
+    size: 42,
+    stock: 2,
+  },
+  {
+    size: 43,
+    stock: 0,
+  },
+];
+
 function ProductDetail() {
   const { id } = useParams(); //hàm hook của react router, nó sẽ trả về một object chứa các tham số trong URL, ở đây là id của sản phẩm
   const navigate = useNavigate();
@@ -47,66 +70,50 @@ function ProductDetail() {
   const { t } = useLanguage();
   const [showSizeGuide, setShowSizeGuide] = useState(false);
   const [relatedProducts, setRelatedProducts] = useState([]);
-  const [selectedSize, setSelectedSize] = useState("");
+  const [selectedSize, setSelectedSize] = useState(null);
   const [selectColor, setSelectColor] = useState("");
+  const { toggleFavorite, isFavorite } = useFavorite();
 
-  const showToast = (message, type) => { //truyền vào message và type để hiển thị thông báo
+  const showToast = (message, type) => {
+    //truyền vào message và type để hiển thị thông báo
     setToast({ show: true, message, type }); // gán giá trị ban đầu của toast là true, message và type là giá trị truyền vào
 
-    setTimeout(() => { //thiết lập thời gian để ẩn thông báo sau 100ms
+    setTimeout(() => {
+      //thiết lập thời gian để ẩn thông báo sau 100ms
       setToast({ show: false, message: "", type: "" }); // gán giá trị của toast là false, message và type là rỗng
     }, 1000);
   };
-useEffect(() => { // thực hiện khi component được render lần đầu tiên và khi id thay đổi, nó sẽ gọi API để lấy chi tiết sản phẩm dựa trên id từ URL,
-//  khi mở trang thì useEffect sẽ chạy và gọi API để lấy dữ liệu chi tiết sản phẩm, sau đó gán giá trị của product là detail trả về từ API,
-//  đồng thời tạo danh sách các sản phẩm để lọc ra những sản phẩm liên quan, chỉ lấy những sản phẩm có cùng thương hiệu hoặc cùng danh mục với sản phẩm hiện tại,
-//  và gán giá trị của relatedProducts là danh sách các sản phẩm liên quan.
-  const fetchData = async () => { // hàm bất đồng bộ để gọi API và lấy dữ liệu chi tiết sản phẩm
-    try {
-      const detail = await authApi.getProductDetails(id); // gọi API để lấy chi tiết sản phẩm dựa trên id từ URL, await để chờ kết quả trả vể rồi chạy tiếp
-
-      setProduct(detail); //gán giá trị của product là detail trả về từ API
-      setSelectedImage(detail.imageUrl);
-      const list = await authApi.getProducts(1, 50); // tạo danh sách các sản phẩm để lọc ra những sản phẩm liên quan, lấy 50 sản phẩm đầu tiên
-      const related = list.items.filter( //lọc dữ liệu sản phẩm để chỉ lấy những sản phẩm có cùng thương hiệu hoặc cùng danh mục với sản phẩm hiện tại,
-        // và không lấy sản phẩm hiện tại
-        (item) =>
-          item.id !== detail.id && // không lấy sản phẩm hiện tại và chỉ lấy những sản phẩm có cùng thương hiệu hoặc cùng danh mục
-          (
-            item.brand === detail.brand || //lấy sản phẩm có cùng thương hiệu hoặc cùng danh mục
-            item.category === detail.category
-          )
-      );
-
-      setRelatedProducts(related.slice(0, 4)); // lấy 4 sản phẩm liên quan đầu tiên và gán giá trị của relatedProducts là danh sách các sản phẩm liên quan
-    } catch (err) {
-      console.log(err);
-    }
-  };
-
-  fetchData(); // gọi lại hàm fetchData để lấy dữ liệu chi tiết sản phẩm và danh sách các sản phẩm liên quan nếu không thì React chỉ biết có hàm thôi 
-  // và không biết hàm đó làm gì, nên phải gọi lại hàm để thực hiện
-}, [id]); // dọi dependency array là [id] để khi id thay đổi thì useEffect sẽ chạy lại và gọi API để lấy dữ liệu chi tiết sản phẩm mới
-
-  useEffect(() => { //khi mở trang lên thì useEffect sẽ tự động chạy và gọi API để lấy dữ liệu chi tiết sản phẩm dựa trên id từ URL, 
-    //sau đó gán giá trị của product là detail trả về từ API, đồng thời gán giá trị của selectedImage là imageUrl của sản phẩm hiện tại
-    const fetchProductDetails = async () => { //hàm bất đồng bộ để gọi API và lấy dữ liệu chi tiết sản phẩm
+  useEffect(() => {
+    // thực hiện khi component được render lần đầu tiên và khi id thay đổi, nó sẽ gọi API để lấy chi tiết sản phẩm dựa trên id từ URL,
+    //  khi mở trang thì useEffect sẽ chạy và gọi API để lấy dữ liệu chi tiết sản phẩm, sau đó gán giá trị của product là detail trả về từ API,
+    //  đồng thời tạo danh sách các sản phẩm để lọc ra những sản phẩm liên quan, chỉ lấy những sản phẩm có cùng thương hiệu hoặc cùng danh mục với sản phẩm hiện tại,
+    //  và gán giá trị của relatedProducts là danh sách các sản phẩm liên quan.
+    const fetchData = async () => {
+      // hàm bất đồng bộ để gọi API và lấy dữ liệu chi tiết sản phẩm
       try {
-        const data = await authApi.getProductDetails(id); // gọi API để lấy chi tiết sản phẩm dựa trên id từ URL, await để chờ kết quả trả về rồi chạy tiếp
+        const detail = await authApi.getProductDetails(id); // gọi API để lấy chi tiết sản phẩm dựa trên id từ URL, await để chờ kết quả trả vể rồi chạy tiếp
 
-        setProduct(data); // gán giá trị của product là detail trả về từ API
-        setSelectedImage(data.imageUrl); 
-        setSelectColor(data.color);
-        setSelectedSize(data.size);
-      } catch (error) {
-        console.error("Error fetching product details:", error);
-        showToast("Failed to load product details", "error");
+        setProduct(detail); //gán giá trị của product là detail trả về từ API
+        setSelectedImage(detail.imageUrl);
+        const list = await authApi.getProducts(1, 50); // tạo danh sách các sản phẩm để lọc ra những sản phẩm liên quan, lấy 50 sản phẩm đầu tiên
+        const related = list.items.filter(
+          //lọc dữ liệu sản phẩm để chỉ lấy những sản phẩm có cùng thương hiệu hoặc cùng danh mục với sản phẩm hiện tại,
+          // và không lấy sản phẩm hiện tại
+          (item) =>
+            item.id !== detail.id && // không lấy sản phẩm hiện tại và chỉ lấy những sản phẩm có cùng thương hiệu hoặc cùng danh mục
+            (item.brand === detail.brand || //lấy sản phẩm có cùng thương hiệu hoặc cùng danh mục
+              item.category === detail.category),
+        );
+
+        setRelatedProducts(related.slice(0, 4)); // lấy 4 sản phẩm liên quan đầu tiên và gán giá trị của relatedProducts là danh sách các sản phẩm liên quan
+      } catch (err) {
+        console.log(err);
       }
     };
 
-    fetchProductDetails();// gọi lại hàm fetchProductDetails để lấy dữ liệu chi tiết sản phẩm nếu không thì React chỉ biết có hàm thôi và không biết hàm đó làm gì,
-    // nên phải gọi lại hàm để thực hiện
-  }, [id]); // là dependency array, khi id thay đổi thì useEffect sẽ chạy lại và gọi API để lấy dữ liệu chi tiết sản phẩm mới
+    fetchData(); // gọi lại hàm fetchData để lấy dữ liệu chi tiết sản phẩm và danh sách các sản phẩm liên quan nếu không thì React chỉ biết có hàm thôi
+    // và không biết hàm đó làm gì, nên phải gọi lại hàm để thực hiện
+  }, [id]); // dọi dependency array là [id] để khi id thay đổi thì useEffect sẽ chạy lại và gọi API để lấy dữ liệu chi tiết sản phẩm mới
 
   const handleAddToCart = async () => {
     const accessToken = tokenStorage.getAccessToken();
@@ -171,185 +178,229 @@ useEffect(() => { // thực hiện khi component được render lần đầu ti
     <>
       <Navbar />
       <div className="container-product-detail">
-      <div className="breadcrumb">
-        <span onClick={() => navigate("/")}>
-          Trang chủ
-        </span>
-        <i className="fa-solid fa-chevron-right"></i>
-        <span onClick={() => navigate("/products")}>
-          Sản phẩm
-        </span>
-        <i className="fa-solid fa-chevron-right"></i>
-        <span>{product.name}</span>
-      </div>
-      <div className="product_detail_container">
-        <div className="product_images">
-          <div className="thumbnail_list">
-            <img
-              src={product.imageUrl}
-              onClick={() => setSelectedImage(product.imageUrl)}
-              alt=""
-            />
-            <img
-              src={product.imageUrl}
-              onClick={() => setSelectedImage(product.imageUrl)}
-              alt=""
-            />
-            <img
-              src={product.imageUrl}
-              onClick={() => setSelectedImage(product.imageUrl)}
-              alt=""
-            />
-            <img
-              src={product.imageUrl}
-              onClick={() => setSelectedImage(product.imageUrl)}
-              alt=""
-            />
-            <img
-              src={product.imageUrl}
-              onClick={() => setSelectedImage(product.imageUrl)}
-              alt=""
-            />
-          </div>
-          <div className="main_image_detail">
-            <img src={selectedImage} alt={product.name} />
-          </div>
+        <div className="breadcrumb">
+          <span onClick={() => navigate("/")}>Trang chủ</span>
+          <i className="fa-solid fa-chevron-right"></i>
+          <span onClick={() => navigate("/products")}>Sản phẩm</span>
+          <i className="fa-solid fa-chevron-right"></i>
+          <span>{product.name}</span>
         </div>
-
-        <div className="product_info">
-          <h1>{product.name}</h1>
-
-          <div className="product_star">
-            <i className="fas fa-star"></i>
-            <i className="fas fa-star"></i>
-            <i className="fas fa-star"></i>
-            <i className="fas fa-star"></i>
-            <i className="fas fa-star"></i>
-            <span>(123 Đánh giá)</span>
-          </div>
-
-          <p className="stock">
-            Còn hàng<span>(8)</span>
-          </p>
-          <h2>{product.price} VNĐ</h2>
-
-          <div className="color-section">
-            <h3>Màu sắc</h3>
-            <div className="color-list">
-              <button className="active">
-                <img src={product.imageUrl} />
-              </button>
-
-              <button>
-                <img src={product.imageUrl} />
-              </button>
-
-              <button>
-                <img src={product.imageUrl} />
-              </button>
+        <div className="product_detail_container">
+          <div className="product_images">
+            <div className="thumbnail_list">
+              <img
+                src={product.imageUrl}
+                onClick={() => setSelectedImage(product.imageUrl)}
+                alt=""
+              />
+              <img
+                src={product.imageUrl}
+                onClick={() => setSelectedImage(product.imageUrl)}
+                alt=""
+              />
+              <img
+                src={product.imageUrl}
+                onClick={() => setSelectedImage(product.imageUrl)}
+                alt=""
+              />
+              <img
+                src={product.imageUrl}
+                onClick={() => setSelectedImage(product.imageUrl)}
+                alt=""
+              />
+              <img
+                src={product.imageUrl}
+                onClick={() => setSelectedImage(product.imageUrl)}
+                alt=""
+              />
+            </div>
+            <div className="main_image_detail">
+              <img src={selectedImage} alt={product.name} />
             </div>
           </div>
 
-          <div className="size_section">
-            <div className="size_header">
-              <label>{t.size}</label>
-              <div
-                className="choose_size"
-                onClick={() => setShowSizeGuide(true)}
-              >
-                <i className="fa-solid fa-ruler"></i>
-                Hướng dẫn chọn size
-              </div>
-              {showSizeGuide && (
-                <div className="size-modal">
-                  <div className="size-content">
-                    <button
-                      className="close-btn"
-                      onClick={() => setShowSizeGuide(false)}
-                    >
-                      ×
-                    </button>
+          <div className="product_info">
+            <h1>{product.name}</h1>
 
-                    <h2>Hướng dẫn chọn size</h2>
+            <div className="product_star">
+              <i className="fas fa-star"></i>
+              <i className="fas fa-star"></i>
+              <i className="fas fa-star"></i>
+              <i className="fas fa-star"></i>
+              <i className="fas fa-star"></i>
+              <span>(123 Đánh giá)</span>
+            </div>
 
-                    <table>
-                      <thead>
-                        <tr>
-                          <th>Size</th>
-                          <th>Chiều dài chân</th>
-                          <th>US</th>
-                        </tr>
-                      </thead>
+            <div className="stock-info">
+              {!selectedSize && <span className="have-stock">Còn hàng</span>}
 
-                      <tbody>
-                        <tr>
-                          <td>39</td>
-                          <td>24.5 cm</td>
-                          <td>6</td>
-                        </tr>
+              {selectedSize?.stock > 0 && selectedSize?.stock <= 5 && (
+                <span className="low-stock">
+                  Chỉ còn {selectedSize.stock} sản phẩm
+                </span>
+              )}
 
-                        <tr>
-                          <td>40</td>
-                          <td>25 cm</td>
-                          <td>7</td>
-                        </tr>
-
-                        <tr>
-                          <td>41</td>
-                          <td>26 cm</td>
-                          <td>8</td>
-                        </tr>
-
-                        <tr>
-                          <td>42</td>
-                          <td>26.5 cm</td>
-                          <td>9</td>
-                        </tr>
-
-                        <tr>
-                          <td>43</td>
-                          <td>27.5 cm</td>
-                          <td>10</td>
-                        </tr>
-                      </tbody>
-                    </table>
-                  </div>
-                </div>
+              {selectedSize?.stock > 5 && (
+                <span className="in-stock">
+                  Còn {selectedSize.stock} sản phẩm
+                </span>
               )}
             </div>
-            <div className="size_list">
-              <button>39</button>
-              <button>40</button>
-              <button>41</button>
-              <button>42</button>
-              <button>43</button>
+
+            <div className="price-box">
+              <h2>{product.price} VNĐ</h2>
+
+              <span className="old-price">
+                {product.originalPrice} 3,000,000 VNĐ
+              </span>
+
+              <span className="discount">-20%</span>
             </div>
-          </div>
 
-          <h3 className="quantity-label">Số lượng</h3>
-          <div className="quantity-box">
-            <button onClick={() => setQuantity(Math.max(1, quantity - 1))}>
-              -
-            </button>
-            <span>{quantity}</span>
-            <button onClick={() => setQuantity(quantity + 1)}>+</button>
-          </div>
+            <div className="color-section">
+              <h3>Màu sắc</h3>
+              <div className="color-list">
+                <button className="active">
+                  <img src={product.imageUrl} />
+                </button>
 
-          <div className="action-buttons">
-            <button className="buy-now">Mua ngay</button>
-            <button
-              className="add-to-cart"
-              onClick={handleAddToCart}
-              disabled={isAddingToCart}
-            >
-              {isAddingToCart ? t.Adding : t.add_to_cart}
-            </button>
-            <div className="favorite-btn">
-              <i className="fa-regular fa-heart"></i>
+                <button>
+                  <img src={product.imageUrl} />
+                </button>
+
+                <button>
+                  <img src={product.imageUrl} />
+                </button>
+              </div>
+            </div>
+
+            <div className="size_section">
+              <div className="size_header">
+                <label>{t.size}</label>
+                <div
+                  className="choose_size"
+                  onClick={() => setShowSizeGuide(true)}
+                >
+                  <i className="fa-solid fa-ruler"></i>
+                  Hướng dẫn chọn size
+                </div>
+                {showSizeGuide && (
+                  <div className="size-modal">
+                    <div className="size-content">
+                      <button
+                        className="close-btn"
+                        onClick={() => setShowSizeGuide(false)}
+                      >
+                        ×
+                      </button>
+
+                      <h2>Hướng dẫn chọn size</h2>
+
+                      <table>
+                        <thead>
+                          <tr>
+                            <th>Size</th>
+                            <th>Chiều dài chân</th>
+                            <th>US</th>
+                          </tr>
+                        </thead>
+
+                        <tbody>
+                          <tr>
+                            <td>39</td>
+                            <td>24.5 cm</td>
+                            <td>6</td>
+                          </tr>
+
+                          <tr>
+                            <td>40</td>
+                            <td>25 cm</td>
+                            <td>7</td>
+                          </tr>
+
+                          <tr>
+                            <td>41</td>
+                            <td>26 cm</td>
+                            <td>8</td>
+                          </tr>
+
+                          <tr>
+                            <td>42</td>
+                            <td>26.5 cm</td>
+                            <td>9</td>
+                          </tr>
+
+                          <tr>
+                            <td>43</td>
+                            <td>27.5 cm</td>
+                            <td>10</td>
+                          </tr>
+                        </tbody>
+                      </table>
+                    </div>
+                  </div>
+                )}
+              </div>
+              <div className="size_list">
+                {sizes.map((item) => (
+                  <button
+                    key={item.size}
+                    disabled={item.stock === 0}
+                    className={`${
+                      selectedSize?.size === item.size ? "active" : ""
+                    }
+                       ${item.stock === 0 ? "disabled-size" : ""}`}
+                    onClick={() => setSelectedSize(item)}
+                  >
+                    {item.size}
+                  </button>
+                ))}
+              </div>
+            </div>
+
+            <h3 className="quantity-label">Số lượng</h3>
+            <div className="quantity-box">
+              <button onClick={() => setQuantity(Math.max(1, quantity - 1))}>
+                -
+              </button>
+              <span>{quantity}</span>
+              <button onClick={() => setQuantity(quantity + 1)}>+</button>
+            </div>
+
+            <div className="action-buttons">
+              <button disabled={selectedSize?.stock === 0} className="buy-now">
+                Mua ngay
+              </button>
+              <button
+                className="add-to-cart"
+                onClick={handleAddToCart}
+                disabled={isAddingToCart || selectedSize?.stock === 0}
+              >
+                {isAddingToCart ? t.Adding : t.add_to_cart}
+              </button>
+              <div
+                className="favorite-btn"
+                onClick={() =>
+                  toggleFavorite({
+                    id: product.id,
+                    name: product.name,
+                    price: product.price,
+                    image: product.imageUrl,
+                    description: product.description,
+                  })
+                }
+              >
+                <i
+                  className={
+                    isFavorite(product.id)
+                      ? "fa-solid fa-heart active-heart"
+                      : "fa-regular fa-heart"
+                  }
+                ></i>
+              </div>
             </div>
           </div>
         </div>
-      </div>
       </div>
 
       <div className="container-tabs">
@@ -453,21 +504,21 @@ useEffect(() => { // thực hiện khi component được render lần đầu ti
         </div>
       </div>
       <div className="related-products">
-  <h2>Sản phẩm liên quan</h2>
+        <h2>Sản phẩm liên quan</h2>
 
-  <div className="related-grid">
-    {relatedProducts.map((item) => (
-      <ProductCard
-        key={item.id}
-        id={item.id}
-        image={item.imageUrl}
-        name={item.name}
-        description={item.description}
-        price={item.price}
-      />
-    ))}
-  </div>
-</div>
+        <div className="related-grid">
+          {relatedProducts.map((item) => (
+            <ProductCard
+              key={item.id}
+              id={item.id}
+              image={item.imageUrl}
+              name={item.name}
+              description={item.description}
+              price={item.price}
+            />
+          ))}
+        </div>
+      </div>
       <Toast show={toast.show} message={toast.message} type={toast.type} />
       <Footer />
     </>
