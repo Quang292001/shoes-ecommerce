@@ -248,7 +248,7 @@ function ProductDetail() {
             </div>
 
             <div className="price-box">
-              <h2>{product.price} VNĐ</h2>
+              <h2>{product.price.toLocaleString("vi-VN")} VNĐ VNĐ</h2>
 
               <span className="old-price">
                 {product.originalPrice} 3,000,000 VNĐ

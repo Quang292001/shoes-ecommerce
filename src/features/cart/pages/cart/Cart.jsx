@@ -8,7 +8,7 @@ import { ordersApi } from "../../api/ordersApi";
 import { useLanguage } from "../../../../context/LanguageContext";
 
 function Cart() {
-  const {t}=useLanguage();
+  const { t } = useLanguage();
   const {
     cartItems,
     removeFromCart,
@@ -25,10 +25,11 @@ function Cart() {
   const handleCheckout = async () => {
     const accessToken = tokenStorage.getAccessToken();
 
+console.log("Access Token:", accessToken);
     if (!accessToken) {
       navigate("/login", {
         state: {
-          from: "/checkout",
+          from: "/cart",
         },
       });
 
@@ -48,7 +49,7 @@ function Cart() {
 
       console.log("Checkout success:", response);
 
-      navigate("/orders");
+      navigate("/checkout");
     } catch (error) {
       console.error("Checkout failed:", error);
 
@@ -56,13 +57,17 @@ function Cart() {
         error.response?.data?.message ||
           error.response?.data?.title ||
           error.message ||
-          "Checkout failed."
+          "Checkout failed.",
       );
     } finally {
       setIsCheckingOut(false);
     }
   };
+  const shippingFee = totalPrice >= 1000000 ? 0 : 30000;
 
+  const discount = 0;
+
+  const finalTotal = totalPrice + shippingFee - discount;
   return (
     <div className="cart-page">
       <Navbar />
@@ -72,29 +77,22 @@ function Cart() {
       <div className="cart-container">
         <div className="cart-table">
           <div className="cart-header">
-            <p>{t.REMOVE}</p>
+            <input type="checkbox" />
             <p>{t.IMAGE}</p>
             <p>{t.PRODUCT}</p>
             <p>{t.PRICE}</p>
             <p>{t.QUANTITY}</p>
             <p>{t.SUBTOTAL}</p>
+            <p>{t.REMOVE}</p>
           </div>
 
           {cartItems.length === 0 && (
-            <div className="cart-empty">
-              {t.Your_cart_is_empty}
-            </div>
+            <div className="cart-empty">{t.Your_cart_is_empty}</div>
           )}
 
           {cartItems.map((item) => (
             <div className="cart-item" key={item.id}>
-              <button
-                className="remove-btn"
-                onClick={() => removeFromCart(item.id)}
-                disabled={isCheckingOut}
-              >
-                <i className="fa-solid fa-xmark"></i>
-              </button>
+              <input type="checkbox" />
 
               <div className="cart-image">
                 <img src={item.image} alt={item.name} />
@@ -102,9 +100,9 @@ function Cart() {
 
               <p className="product-name">{item.name}</p>
 
-              <p>{item.price} VNĐ</p>
+              <p>{item.price.toLocaleString("vi-VN")} VNĐ</p>
 
-              <div className="quantity-box">
+              <div className="quantity-box-cart">
                 <button
                   onClick={() => decreaseQuantity(item.id)}
                   disabled={isCheckingOut}
@@ -123,8 +121,15 @@ function Cart() {
               </div>
 
               <p className="subtotal">
-                {item.price * item.quantity} VNĐ
+                {(item.price * item.quantity).toLocaleString("vi-VN")} VNĐ
               </p>
+              <button
+                className="remove-btn"
+                onClick={() => removeFromCart(item.id)}
+                disabled={isCheckingOut}
+              >
+                <i className="fa-solid fa-xmark"></i>
+              </button>
             </div>
           ))}
         </div>
@@ -144,36 +149,60 @@ function Cart() {
             </div>
           </div>
 
-          <div className="cart-total">
-            <h2>{t.Cart_Totals}</h2>
-
-            <div className="total-row">
-              <span>{t.SUBTOTAL}</span>
-              <span>{totalPrice} VNĐ</span>
-            </div>
-
-            <div className="total-row">
-              <span>{t.Shipping}</span>
-              <span>{t.Free}</span>
-            </div>
-
-            <div className="total-row total">
-              <span>{t.Total}</span>
-              <span>{totalPrice} VNĐ</span>
-            </div>
-
-            {checkoutError && (
-              <p className="checkout-error">
-                {checkoutError}
-              </p>
+          <div className="cart-summary">
+            <h2>🧾 Tóm tắt đơn hàng</h2>
+            {shippingFee > 0 ? (
+              <div className="shipping-progress">
+                🚚 Mua thêm{" "}
+                <strong>
+                  {(1000000 - totalPrice).toLocaleString("vi-VN")} 
+                </strong>
+                <span className="currency"> VNĐ </span>
+                để được miễn phí vận chuyển.
+              </div>
+            ) : (
+              <div className="free-shipping">
+                🎉 Bạn đã được miễn phí vận chuyển.
+              </div>
             )}
+            <div className="summary-row">
+              <span>Tạm tính</span>
+
+              <span>{totalPrice.toLocaleString("vi-VN")} VNĐ</span>
+            </div>
+
+            <div className="summary-row">
+              <span>Giảm giá</span>
+
+              <span>-{discount.toLocaleString("vi-VN")} VNĐ</span>
+            </div>
+
+            <div className="summary-row">
+              <span>Vận chuyển</span>
+
+              <span>
+                {shippingFee === 0
+                  ? "Miễn phí"
+                  : `${shippingFee.toLocaleString("vi-VN")} VNĐ`}
+              </span>
+            </div>
+
+            <hr />
+
+            <div className="summary-total">
+              <span>Tổng cộng</span>
+
+              <span>{finalTotal.toLocaleString("vi-VN")} VNĐ</span>
+            </div>
+
+            {checkoutError && <p className="checkout-error">{checkoutError}</p>}
 
             <button
               className="checkout-btn"
               onClick={handleCheckout}
               disabled={isCheckingOut || cartItems.length === 0}
             >
-              {isCheckingOut ? t.Processing : t.Proceed_To_Checkout}
+              {isCheckingOut ? "Đang xử lý..." : "Thanh toán ngay"}
             </button>
           </div>
         </div>
