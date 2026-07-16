@@ -1,0 +1,57 @@
+.location-picker {
+  margin-top: 10px;
+}
+
+.location-picker-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 10px;
+  font-size: 14px;
+  font-weight: 600;
+  color: #333;
+}
+
+.location-picker-header i {
+  color: #c72092;
+  margin-right: 6px;
+}
+
+.location-picker-header button {
+  border: 1px solid #6c63ff;
+  background: white;
+  color: #6c63ff;
+  padding: 8px 14px;
+  border-radius: 10px;
+  font-size: 13px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: 0.3s;
+}
+
+.location-picker-header button:hover {
+  background: #6c63ff;
+  color: white;
+}
+
+.location-picker-map {
+  width: 100%;
+  height: 320px;
+  border-radius: 14px;
+  overflow: hidden;
+  border: 1px solid #ddd;
+  z-index: 0;
+}
+
+.location-picker-hint {
+  margin-top: 8px;
+  font-size: 13px;
+  color: #888;
+}
+
+.location-picker-coords {
+  margin-top: 6px;
+  font-size: 13px;
+  color: #6c14d0;
+  font-weight: 600;
+}
