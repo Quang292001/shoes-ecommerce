@@ -21,10 +21,11 @@ import AdminProfile from "../features/admin/pages/profile/AdminProfile"
 import AdminProductList from "../features/admin/products/pages/AdminProductList";
 import CreateProducts from "../features/admin/products/pages/CreateProducts";
 import EditProducts from "../features/admin/products/pages/EditProducts";
-
+import Orders from "../features/auth/pages/order/Orders"
 import AdminCategoryList from "../features/admin/categories/pages/AdminCategoryList";
 import CreateCategory from "../features/admin/categories/pages/CreateCategory";
 import EditCategory from "../features/admin/categories/pages/EditCategory";
+import OrderDetail from "../features/auth/pages/order/Orderdetail";
 
 function AppRoutes() {
   return (
@@ -44,6 +45,8 @@ function AppRoutes() {
       <Route path="/reset-password" element={<ResetPassword />} />
       <Route path="/favorites" element={<Favorites />} />
       <Route path="/checkout" element={<Checkout />} />
+      <Route path="/orders" element={<Orders />} />
+      <Route path="/orders/:orderId" element={<OrderDetail />} />
       <Route
         path="/profile"
         element={

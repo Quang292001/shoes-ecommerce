@@ -1,5 +1,6 @@
 import "./Checkout.css";
 import { useState, useEffect } from "react";
+import { useNavigate, Link } from "react-router-dom";
 import { useCart } from "/src/context/CartContext";
 
 import Navbar from "../../../../shared/layout/navbar/Navbar";
@@ -7,6 +8,7 @@ import Footer from "../../../../shared/layout/footer/Footer";
 import LocationPicker from "../../../../shared/components/LocationPicker/LocationPicker";
 import { VIETNAM_PROVINCES } from "../../../../data/vietnamProvinces";
 import { fetchWardsByProvinceName } from "../../../../services/vietnamAdministrativeApi";
+import { createOrder } from "../../api/OrdersApi";
 
 // Vị trí mặc định khi chưa chọn tỉnh/thành (TP. Hồ Chí Minh)
 const DEFAULT_MAP_CENTER = { lat: 10.7769, lng: 106.7009 };
@@ -18,7 +20,10 @@ const VOUCHERS = {
 };
 
 function Checkout() {
-  const { cartItems, totalPrice } = useCart();
+  const { cartItems, totalPrice, clearCart } = useCart();
+  const navigate = useNavigate();
+
+  const [placedOrder, setPlacedOrder] = useState(null);
 
   const [formData, setFormData] = useState({
     fullName: "",
@@ -176,18 +181,34 @@ function Checkout() {
     setIsSubmitting(true);
 
     try {
-      // TODO: thay bằng lời gọi API tạo đơn hàng thật, ví dụ:
-      // await fetch("/api/orders", {
-      //   method: "POST",
-      //   body: JSON.stringify({
-      //     ...formData, // bao gồm province, ward, address
-      //     location: mapPosition, // { lat, lng } - null nếu chưa ghim trên bản đồ
-      //     cartItems,
-      //     finalTotal,
-      //   }),
-      // });
-      await new Promise((resolve) => setTimeout(resolve, 1000));
+      const order = await createOrder({
+        customer: {
+          fullName: formData.fullName,
+          email: formData.email,
+          phone: formData.phone,
+        },
+        shipping: {
+          province: formData.province,
+          ward: formData.ward,
+          address: formData.address,
+          location: mapPosition, // { lat, lng } - null nếu chưa ghim trên bản đồ
+        },
+        payment: formData.payment,
+        items: cartItems,
+        subtotal: totalPrice,
+        shippingFee,
+        discount,
+        total: finalTotal,
+      });
 
+      // Nếu CartContext của bạn có sẵn hàm clearCart, gọi để dọn giỏ hàng
+      // sau khi đặt hàng thành công. Nếu chưa có, bạn cần tự thêm hàm này
+      // vào CartContext (thường chỉ là setCartItems([])).
+      if (typeof clearCart === "function") {
+        clearCart();
+      }
+
+      setPlacedOrder(order);
       setStep(3);
     } catch (err) {
       setErrors((prev) => ({
@@ -211,9 +232,9 @@ function Checkout() {
           </h1>
           <div className="checkout-empty">
             <p>Giỏ hàng của bạn đang trống.</p>
-            <a href="/products" className="checkout-btn checkout-btn-link">
+            <Link to="/products" className="checkout-btn checkout-btn-link">
               Tiếp tục mua sắm
-            </a>
+            </Link>
           </div>
         </section>
         <Footer />
@@ -252,12 +273,26 @@ function Checkout() {
             <i className="fa-solid fa-circle-check"></i>
             <h2>Đặt hàng thành công!</h2>
             <p>
-              Cảm ơn {formData.fullName}, chúng tôi đã nhận được đơn hàng của
-              bạn và sẽ liên hệ qua số {formData.phone} để xác nhận.
+              Cảm ơn {formData.fullName}, chúng tôi đã nhận được đơn hàng{" "}
+              {placedOrder && <strong>#{placedOrder.id}</strong>} và sẽ liên
+              hệ qua số {formData.phone} để xác nhận.
             </p>
-            <a href="/orders" className="checkout-btn checkout-btn-link">
-              Xem đơn hàng của tôi
-            </a>
+            <div className="checkout-success-actions">
+              {placedOrder && (
+                <Link
+                  to={`/orders/${placedOrder.id}`}
+                  className="checkout-btn checkout-btn-link"
+                >
+                  Xem chi tiết đơn hàng
+                </Link>
+              )}
+              <Link
+                to="/orders"
+                className="checkout-btn checkout-btn-link checkout-btn-outline"
+              >
+                Tất cả đơn hàng của tôi
+              </Link>
+            </div>
           </div>
         </section>
         <Footer />
