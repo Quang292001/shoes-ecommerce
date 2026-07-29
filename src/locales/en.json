@@ -131,5 +131,6 @@
   "Sort":"Sort",
   "Low_price_to_high":"Low price → high price",
   "Low_high_to_low":"High price → low price",
-  "Newest":"Newest"
+  "Newest":"Newest",
+  "Go_to_Orders":"Go to Orders"
 }
