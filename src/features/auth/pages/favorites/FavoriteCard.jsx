@@ -12,7 +12,6 @@ function FavoriteCard({ product }) {
 
   return (
     <div className="favorite-card">
-
       <button
         className="remove-favorite"
         onClick={() => toggleFavorite(product)}
@@ -24,20 +23,15 @@ function FavoriteCard({ product }) {
         className="favorite-image"
         onClick={() => navigate(`/products/${product.id}`)}
       >
-        <img
-          src={product.image}
-          alt={product.name}
-        />
+        <img src={product.image} alt={product.name} />
       </div>
 
       <div className="favorite-content">
-
         <h2>{product.name}</h2>
 
         <p>{product.description}</p>
 
         <div className="favorite-stars">
-
           <i className="fas fa-star"></i>
           <i className="fas fa-star"></i>
           <i className="fas fa-star"></i>
@@ -45,13 +39,11 @@ function FavoriteCard({ product }) {
           <i className="fas fa-star"></i>
 
           <span>(123)</span>
-
         </div>
 
         <h3>{product.price} VNĐ</h3>
 
         <div className="favorite-buttons">
-
           <button
             onClick={() =>
               addToCart({
@@ -61,23 +53,17 @@ function FavoriteCard({ product }) {
             }
           >
             <i className="fa-solid fa-cart-shopping"></i>
-
             Thêm vào giỏ
           </button>
 
           <button
             className="detail-btn"
-            onClick={() =>
-              navigate(`/products/${product.id}`)
-            }
+            onClick={() => navigate(`/products/${product.id}`)}
           >
             Xem chi tiết
           </button>
-
         </div>
-
       </div>
-
     </div>
   );
 }

@@ -37,55 +37,66 @@ function ProductCard({ id, image, name, description, price }) {
     }, 1000);
   };
 
-  const handleAddToCart = async () => {
-    const accessToken = tokenStorage.getAccessToken();
+//   const handleAddToCart = async () => {
+//     const accessToken = tokenStorage.getAccessToken();
 
-    if (!accessToken) {
-      navigate("/login", {
-        state: {
-          from: "/products",
-        },
-      });
+//     if (!accessToken) {
+//       navigate("/login", {
+//         state: {
+//           from: "/products",
+//         },
+//       });
 
-      return;
-    }
+//       return;
+//     }
 
-    try {
-      setIsAddingToCart(true);
-console.log("Product ID:", id);
+//     try {
+//       setIsAddingToCart(true);
+// console.log("Product ID:", id);
 
-console.log({
-  productId: id,
-  quantity: 1,
-});
-      await cartApi.addItem({
-        productId: id,
-        quantity: 1,
-      });
+// console.log({
+//   productId: id,
+//   quantity: 1,
+// });
+//       await cartApi.addItem({
+//         productId: id,
+//         quantity: 1,
+//       });
 
-      addToCart({
-        id,
-        name,
-        price,
-        image,
-        quantity: 1,
-      });
+//       addToCart({
+//         id,
+//         name,
+//         price,
+//         image,
+//         quantity: 1,
+//       });
 
-      showToast(`${name} added to cart`, "success");
-    } catch (error) {
-      console.error("Add to cart failed:", error);
+//       showToast(`${name} added to cart`, "success");
+//     } catch (error) {
+//       console.error("Add to cart failed:", error);
 
-      showToast(
-        error.response?.data?.message ||
-          error.response?.data?.title ||
-          "Failed to add product to cart",
-        "error"
-      );
-    } finally {
-      setIsAddingToCart(false);
-    }
-  };
+//       showToast(
+//         error.response?.data?.message ||
+//           error.response?.data?.title ||
+//           "Failed to add product to cart",
+//         "error"
+//       );
+//     } finally {
+//       setIsAddingToCart(false);
+//     }
+//   };
 
+const handleAddToCart = () => {
+  addToCart({
+    id,
+    name,
+    price,
+    image,
+    quantity: 1,
+  });
+
+  showToast(`${name} added to cart`, "success");
+};
   return (
     <div className="card">
       <div className="small_card">
@@ -128,13 +139,19 @@ console.log({
       </div>
 
       <div className="button">
-        <button
+        {/* <button
           className="add-cart-btn"
           onClick={handleAddToCart}
           disabled={isAddingToCart}
         >
           {isAddingToCart ? "Adding..." : t.add_to_cart}
-        </button>
+        </button> */}
+        <button
+  className="add-cart-btn"
+  onClick={handleAddToCart}
+>
+  {t.add_to_cart}
+</button>
       </div>
 
       <Toast show={toast.show} message={toast.message} type={toast.type} />
