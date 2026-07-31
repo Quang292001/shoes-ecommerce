@@ -6,7 +6,7 @@ import { tokenStorage } from "../../../../shared/auth/tokenStorage";
 import Navbar from "../../../../shared/layout/navbar/Navbar";
 import Footer from "../../../../shared/layout/footer/Footer";
 import { useLanguage } from "../../../../context/LanguageContext";
-import AccountInfoTab from "../../../../shared/components/Information/Accountinfotab";
+import AccountInfoTab from "../../../../shared/components/Information/AccountInfoTab";
 import ChangePasswordTab from "../../../../shared/components/Information/ChangePasswordTab";
 import AddressBookTab from "../../../../shared/components/Information/AddressBookTab";
 import { getOrders } from "../../../../features/auth/api/OrdersApi";

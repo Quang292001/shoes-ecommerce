@@ -7,7 +7,7 @@ import {
   updateAddress,
   deleteAddress,
   setDefaultAddress,
-} from "../../../shared/api/Addressbookapi";
+} from "../../api/Addressbookapi";
 
 function AddressBookTab() {
   const [addresses, setAddresses] = useState([]);

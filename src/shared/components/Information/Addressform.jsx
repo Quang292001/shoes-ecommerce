@@ -2,7 +2,7 @@ import { useState, useEffect } from "react";
 
 import LocationPicker from "../LocationPicker/LocationPicker";
 import { VIETNAM_PROVINCES } from "../../../data/vietnamProvinces";
-import { fetchWardsByProvinceName } from "../../../services/Vietnamadministrativeapi";
+import { fetchWardsByProvinceName } from "../../../services/vietnamAdministrativeApi";
 
 const DEFAULT_MAP_CENTER = { lat: 10.7769, lng: 106.7009 };
 
