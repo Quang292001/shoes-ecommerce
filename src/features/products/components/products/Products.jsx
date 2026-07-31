@@ -4,25 +4,28 @@ import { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import { authApi } from "../../../auth/api/authApi";
 import { useLanguage } from "../../../../context/LanguageContext";
-
+import productsData from "../../../../data/products";
 function Products() {
   const [products, setProducts] = useState([]);
   const navigate = useNavigate();
   const { t } = useLanguage();
 
+  // useEffect(() => {
+  //   const fetchProducts = async () => {
+  //     try {
+  //       const data = await authApi.getProducts(1, 50);
+  //       setProducts(data.items);
+  //     } catch (err) {
+  //       console.error(err);
+  //     }
+  //   };
+
+  //   fetchProducts();
+  // }, []);
+
   useEffect(() => {
-    const fetchProducts = async () => {
-      try {
-        const data = await authApi.getProducts(1, 50);
-        setProducts(data.items);
-      } catch (err) {
-        console.error(err);
-      }
-    };
-
-    fetchProducts();
-  }, []);
-
+    setProducts(productsData);
+}, []);
   // Bán chạy
   const bestSellingProducts = products.slice(0, 8);
 

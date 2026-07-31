@@ -11,6 +11,7 @@ import { cartApi } from "../../../cart/api/cartApi";
 import Footer from "../../../../shared/layout/footer/Footer";
 import ProductCard from "../../../products/components/products/ProductCard";
 import { useFavorite } from "../../../../context/FavoriteContext";
+import products from "../../../../data/products";
 const reviews = [
   {
     id: 1,
@@ -83,38 +84,62 @@ function ProductDetail() {
       setToast({ show: false, message: "", type: "" }); // gán giá trị của toast là false, message và type là rỗng
     }, 1000);
   };
+  // useEffect(() => {
+  //   // thực hiện khi component được render lần đầu tiên và khi id thay đổi, nó sẽ gọi API để lấy chi tiết sản phẩm dựa trên id từ URL,
+  //   //  khi mở trang thì useEffect sẽ chạy và gọi API để lấy dữ liệu chi tiết sản phẩm, sau đó gán giá trị của product là detail trả về từ API,
+  //   //  đồng thời tạo danh sách các sản phẩm để lọc ra những sản phẩm liên quan, chỉ lấy những sản phẩm có cùng thương hiệu hoặc cùng danh mục với sản phẩm hiện tại,
+  //   //  và gán giá trị của relatedProducts là danh sách các sản phẩm liên quan.
+  //   const fetchData = async () => {
+  //     // hàm bất đồng bộ để gọi API và lấy dữ liệu chi tiết sản phẩm
+  //     try {
+  //       const detail = await authApi.getProductDetails(id); // gọi API để lấy chi tiết sản phẩm dựa trên id từ URL, await để chờ kết quả trả vể rồi chạy tiếp
+
+  //       setProduct(detail); //gán giá trị của product là detail trả về từ API
+  //       setSelectedImage(detail.imageUrl);
+  //       const list = await authApi.getProducts(1, 50); // tạo danh sách các sản phẩm để lọc ra những sản phẩm liên quan, lấy 50 sản phẩm đầu tiên
+  //       const related = list.items.filter(
+  //         //lọc dữ liệu sản phẩm để chỉ lấy những sản phẩm có cùng thương hiệu hoặc cùng danh mục với sản phẩm hiện tại,
+  //         // và không lấy sản phẩm hiện tại
+  //         (item) =>
+  //           item.id !== detail.id && // không lấy sản phẩm hiện tại và chỉ lấy những sản phẩm có cùng thương hiệu hoặc cùng danh mục
+  //           (item.brand === detail.brand || //lấy sản phẩm có cùng thương hiệu hoặc cùng danh mục
+  //             item.category === detail.category),
+  //       );
+
+  //       setRelatedProducts(related.slice(0, 4)); // lấy 4 sản phẩm liên quan đầu tiên và gán giá trị của relatedProducts là danh sách các sản phẩm liên quan
+  //     } catch (err) {
+  //       console.log(err);
+  //     }
+  //   };
+
+  //   fetchData(); // gọi lại hàm fetchData để lấy dữ liệu chi tiết sản phẩm và danh sách các sản phẩm liên quan nếu không thì React chỉ biết có hàm thôi
+  //   // và không biết hàm đó làm gì, nên phải gọi lại hàm để thực hiện
+  // }, [id]); // dọi dependency array là [id] để khi id thay đổi thì useEffect sẽ chạy lại và gọi API để lấy dữ liệu chi tiết sản phẩm mới
+
+
   useEffect(() => {
-    // thực hiện khi component được render lần đầu tiên và khi id thay đổi, nó sẽ gọi API để lấy chi tiết sản phẩm dựa trên id từ URL,
-    //  khi mở trang thì useEffect sẽ chạy và gọi API để lấy dữ liệu chi tiết sản phẩm, sau đó gán giá trị của product là detail trả về từ API,
-    //  đồng thời tạo danh sách các sản phẩm để lọc ra những sản phẩm liên quan, chỉ lấy những sản phẩm có cùng thương hiệu hoặc cùng danh mục với sản phẩm hiện tại,
-    //  và gán giá trị của relatedProducts là danh sách các sản phẩm liên quan.
-    const fetchData = async () => {
-      // hàm bất đồng bộ để gọi API và lấy dữ liệu chi tiết sản phẩm
-      try {
-        const detail = await authApi.getProductDetails(id); // gọi API để lấy chi tiết sản phẩm dựa trên id từ URL, await để chờ kết quả trả vể rồi chạy tiếp
+  const detail = products.find(
+    (item) => item.id === Number(id)
+  );
 
-        setProduct(detail); //gán giá trị của product là detail trả về từ API
-        setSelectedImage(detail.imageUrl);
-        const list = await authApi.getProducts(1, 50); // tạo danh sách các sản phẩm để lọc ra những sản phẩm liên quan, lấy 50 sản phẩm đầu tiên
-        const related = list.items.filter(
-          //lọc dữ liệu sản phẩm để chỉ lấy những sản phẩm có cùng thương hiệu hoặc cùng danh mục với sản phẩm hiện tại,
-          // và không lấy sản phẩm hiện tại
-          (item) =>
-            item.id !== detail.id && // không lấy sản phẩm hiện tại và chỉ lấy những sản phẩm có cùng thương hiệu hoặc cùng danh mục
-            (item.brand === detail.brand || //lấy sản phẩm có cùng thương hiệu hoặc cùng danh mục
-              item.category === detail.category),
-        );
+  if (!detail) {
+    return;
+  }
 
-        setRelatedProducts(related.slice(0, 4)); // lấy 4 sản phẩm liên quan đầu tiên và gán giá trị của relatedProducts là danh sách các sản phẩm liên quan
-      } catch (err) {
-        console.log(err);
-      }
-    };
+  setProduct(detail);
+  setSelectedImage(detail.imageUrl);
 
-    fetchData(); // gọi lại hàm fetchData để lấy dữ liệu chi tiết sản phẩm và danh sách các sản phẩm liên quan nếu không thì React chỉ biết có hàm thôi
-    // và không biết hàm đó làm gì, nên phải gọi lại hàm để thực hiện
-  }, [id]); // dọi dependency array là [id] để khi id thay đổi thì useEffect sẽ chạy lại và gọi API để lấy dữ liệu chi tiết sản phẩm mới
+  const related = products.filter(
+    (item) =>
+      item.id !== detail.id &&
+      (
+        item.brand === detail.brand ||
+        item.category === detail.category
+      )
+  );
 
+  setRelatedProducts(related.slice(0, 4));
+}, [id]);
   const handleAddToCart = async () => {
     const accessToken = tokenStorage.getAccessToken();
 
@@ -248,7 +273,7 @@ function ProductDetail() {
             </div>
 
             <div className="price-box">
-              <h2>{product.price.toLocaleString("vi-VN")} VNĐ VNĐ</h2>
+              <h2>{product.price.toLocaleString("vi-VN")} VNĐ</h2>
 
               <span className="old-price">
                 {product.originalPrice} 3,000,000 VNĐ

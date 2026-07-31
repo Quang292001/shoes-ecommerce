@@ -11,6 +11,7 @@ import Puma from "../../../../assets/image/brands/puma.png";
 import Converse from "../../../../assets/image/brands/converse.png";
 import Vans from "../../../../assets/image/brands/vans.png";
 import { useSearchParams } from "react-router-dom";
+import productsData from "../../../../data/products";
 const brands = [
   {
     name: "Nike",
@@ -82,18 +83,21 @@ function Products() {
         : [...prev, category],
     );
   };
-  useEffect(() => {
-    const fetchProducts = async () => {
-      try {
-        const data = await authApi.getProducts(1, 50);
-        setProducts(data.items);
-      } catch (error) {
-        console.log(error);
-      }
-    };
+  // useEffect(() => {
+  //   const fetchProducts = async () => {
+  //     try {
+  //       const data = await authApi.getProducts(1, 50);
+  //       setProducts(data.items);
+  //     } catch (error) {
+  //       console.log(error);
+  //     }
+  //   };
 
-    fetchProducts();
-  }, []);
+  //   fetchProducts();
+  // }, []);
+  useEffect(() => {
+  setProducts(productsData);
+}, []);
 
   // FILTER + SORT
   const filteredProducts = useMemo(() => {

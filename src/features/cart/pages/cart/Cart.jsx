@@ -22,48 +22,62 @@ function Cart() {
   const [isCheckingOut, setIsCheckingOut] = useState(false);
   const [checkoutError, setCheckoutError] = useState("");
 
-  const handleCheckout = async () => {
-    const accessToken = tokenStorage.getAccessToken();
+//   const handleCheckout = async () => {
+//     const accessToken = tokenStorage.getAccessToken();
 
-console.log("Access Token:", accessToken);
-    if (!accessToken) {
-      navigate("/login", {
-        state: {
-          from: "/cart",
-        },
-      });
+// console.log("Access Token:", accessToken);
+//     if (!accessToken) {
+//       navigate("/login", {
+//         state: {
+//           from: "/cart",
+//         },
+//       });
 
-      return;
-    }
+//       return;
+//     }
 
-    if (cartItems.length === 0) {
-      setCheckoutError(t.Your_cart_is_empty);
-      return;
-    }
+//     if (cartItems.length === 0) {
+//       setCheckoutError(t.Your_cart_is_empty);
+//       return;
+//     }
 
-    try {
-      setIsCheckingOut(true);
-      setCheckoutError("");
+//     try {
+//       setIsCheckingOut(true);
+//       setCheckoutError("");
 
-      const response = await ordersApi.checkoutCart();
+//       const response = await ordersApi.checkoutCart();
 
-      console.log("Checkout success:", response);
+//       console.log("Checkout success:", response);
 
-      navigate("/checkout");
-    } catch (error) {
-      console.error("Checkout failed:", error);
+//       navigate("/checkout");
+//     } catch (error) {
+//       console.error("Checkout failed:", error);
 
-      setCheckoutError(
-        error.response?.data?.message ||
-          error.response?.data?.title ||
-          error.message ||
-          "Checkout failed.",
-      );
-    } finally {
-      setIsCheckingOut(false);
-    }
-  };
-  const shippingFee = totalPrice >= 1000000 ? 0 : 30000;
+//       setCheckoutError(
+//         error.response?.data?.message ||
+//           error.response?.data?.title ||
+//           error.message ||
+//           "Checkout failed.",
+//       );
+//     } finally {
+//       setIsCheckingOut(false);
+//     }
+//   };
+const handleCheckout = async () => {
+  if (cartItems.length === 0) {
+    setCheckoutError(t.Your_cart_is_empty);
+    return;
+  }
+
+  setIsCheckingOut(true);
+
+  await new Promise((resolve) => setTimeout(resolve, 1500));
+
+  setIsCheckingOut(false);
+
+  navigate("/checkout");
+};  
+const shippingFee = totalPrice >= 1000000 ? 0 : 30000;
 
   const discount = 0;
 

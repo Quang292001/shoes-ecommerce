@@ -1,19 +1,16 @@
 import "./Profile.css";
 import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
-
 import { authApi } from "../../api/authApi";
 import { tokenStorage } from "../../../../shared/auth/tokenStorage";
-
 import Navbar from "../../../../shared/layout/navbar/Navbar";
 import Footer from "../../../../shared/layout/footer/Footer";
 import { useLanguage } from "../../../../context/LanguageContext";
-
 import AccountInfoTab from "../../../../shared/components/Information/Accountinfotab";
 import ChangePasswordTab from "../../../../shared/components/Information/ChangePasswordTab";
 import AddressBookTab from "../../../../shared/components/Information/AddressBookTab";
 import { getOrders } from "../../../../features/auth/api/OrdersApi";
-
+import profileData from "../../../../data/profile";
 const TABS = {
   INFO: "info",
   PASSWORD: "password",
@@ -32,54 +29,63 @@ function Profile() {
   const [activeTab, setActiveTab] = useState(TABS.INFO);
   const [orderCount, setOrderCount] = useState(null);
  
-  const loadProfile = async () => {
-    setIsLoading(true);
-    setLoadError("");
+  // const loadProfile = async () => {
+  //   setIsLoading(true);
+  //   setLoadError("");
  
-    const token = tokenStorage.getAccessToken();
+  //   const token = tokenStorage.getAccessToken();
  
-    // Chưa từng đăng nhập -> không có token, không tính là lỗi
-    if (!token) {
-      setIsLoggedIn(false);
-      setIsLoading(false);
-      return;
-    }
+  //   // Chưa từng đăng nhập -> không có token, không tính là lỗi
+  //   if (!token) {
+  //     setIsLoggedIn(false);
+  //     setIsLoading(false);
+  //     return;
+  //   }
  
-    try {
-      const result = await authApi.getProfile();
-      setProfile(result);
-      setIsLoggedIn(true);
-    } catch (error) {
-      // Chỉ coi là "phiên đăng nhập hết hạn" khi server trả 401/403.
-      // Các lỗi khác (mất mạng, server lỗi tạm thời...) KHÔNG nên xoá token
-      // và đăng xuất người dùng oan — chỉ báo lỗi và cho thử lại.
-      const status = error?.response?.status ?? error?.status;
+  //   try {
+  //     const result = await authApi.getProfile();
+  //     setProfile(result);
+  //     setIsLoggedIn(true);
+  //   } catch (error) {
+  //     // Chỉ coi là "phiên đăng nhập hết hạn" khi server trả 401/403.
+  //     // Các lỗi khác (mất mạng, server lỗi tạm thời...) KHÔNG nên xoá token
+  //     // và đăng xuất người dùng oan — chỉ báo lỗi và cho thử lại.
+  //     const status = error?.response?.status ?? error?.status;
  
-      if (status === 401 || status === 403) {
-        tokenStorage.clear();
-        setIsLoggedIn(false);
-      } else {
-        console.error(error);
-        setLoadError(
-          "Không tải được thông tin tài khoản. Vui lòng kiểm tra kết nối và thử lại."
-        );
-      }
-    } finally {
-      setIsLoading(false);
-    }
-  };
- 
+  //     if (status === 401 || status === 403) {
+  //       tokenStorage.clear();
+  //       setIsLoggedIn(false);
+  //     } else {
+  //       console.error(error);
+  //       setLoadError(
+  //         "Không tải được thông tin tài khoản. Vui lòng kiểm tra kết nối và thử lại."
+  //       );
+  //     }
+  //   } finally {
+  //     setIsLoading(false);
+  //   }
+  // };
+ const loadProfile = () => {
+  setProfile(profileData);
+  setIsLoggedIn(true);
+  setIsLoading(false);
+};
   useEffect(() => {
     loadProfile();
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
  
+  // useEffect(() => {
+  //   if (!isLoggedIn) return;
+  //   getOrders()
+  //     .then((orders) => setOrderCount(orders.length))
+  //     .catch(() => setOrderCount(null));
+  // }, [isLoggedIn]);
   useEffect(() => {
-    if (!isLoggedIn) return;
-    getOrders()
-      .then((orders) => setOrderCount(orders.length))
-      .catch(() => setOrderCount(null));
-  }, [isLoggedIn]);
+  if (!isLoggedIn) return;
+
+  setOrderCount(3);
+}, [isLoggedIn]);
  
   const handleLogout = async () => {
     try {

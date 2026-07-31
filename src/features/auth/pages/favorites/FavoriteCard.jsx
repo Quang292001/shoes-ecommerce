@@ -2,7 +2,7 @@ import "./FavoriteCard.css";
 import { useNavigate } from "react-router-dom";
 import { useFavorite } from "../../../../context/FavoriteContext";
 import { useCart } from "../../../../context/CartContext";
-
+import { formatPrice } from "../../../../utils/formatPrice";
 function FavoriteCard({ product }) {
   const navigate = useNavigate();
 
@@ -41,7 +41,7 @@ function FavoriteCard({ product }) {
           <span>(123)</span>
         </div>
 
-        <h3>{product.price} VNĐ</h3>
+        <h3>{formatPrice(product.price)} </h3>
 
         <div className="favorite-buttons">
           <button

@@ -7,7 +7,8 @@ import { useLanguage } from "../../../../context/LanguageContext";
 import { useFavorite } from "/src/context/FavoriteContext";
 import { tokenStorage } from "../../../../shared/auth/tokenStorage";
 import { cartApi } from "../../../cart/api/cartApi";
-
+import productsData from "../../../../data/products";
+import { formatPrice } from "../../../../utils/formatPrice";
 function ProductCard({ id, image, name, description, price }) {
   const navigate = useNavigate();
   const { t } = useLanguage();
@@ -127,7 +128,7 @@ const handleAddToCart = () => {
 
         <p>{description}</p>
 
-        <h3>{price} VNĐ</h3>
+        <h3>{formatPrice(price)} </h3>
       </div>
 
       <div className="product_star">
