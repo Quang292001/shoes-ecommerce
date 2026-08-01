@@ -2,7 +2,7 @@ import { useState, useEffect } from "react";
 
 import LocationPicker from "../LocationPicker/LocationPicker";
 import { VIETNAM_PROVINCES } from "../../../data/vietnamProvinces";
-import { fetchWardsByProvinceName } from "../../../services/vietnamAdministrativeApi";
+import { fetchWardsByProvinceName } from "../../../services/temp";
 
 const DEFAULT_MAP_CENTER = { lat: 10.7769, lng: 106.7009 };
 
@@ -26,9 +26,7 @@ const EMPTY_ADDRESS = {
  */
 function AddressForm({ initialData, onSave, onCancel }) {
   const [formData, setFormData] = useState(initialData || EMPTY_ADDRESS);
-  const [mapPosition, setMapPosition] = useState(
-    initialData?.location || null
-  );
+  const [mapPosition, setMapPosition] = useState(initialData?.location || null);
   const [errors, setErrors] = useState({});
   const [isSaving, setIsSaving] = useState(false);
 
@@ -37,7 +35,7 @@ function AddressForm({ initialData, onSave, onCancel }) {
   const [wardsError, setWardsError] = useState("");
 
   const selectedProvince = VIETNAM_PROVINCES.find(
-    (p) => p.name === formData.province
+    (p) => p.name === formData.province,
   );
   const mapCenter = selectedProvince
     ? { lat: selectedProvince.lat, lng: selectedProvince.lng }
@@ -150,9 +148,7 @@ function AddressForm({ initialData, onSave, onCancel }) {
             onChange={handleChange}
             aria-invalid={!!errors.phone}
           />
-          {errors.phone && (
-            <span className="field-error">{errors.phone}</span>
-          )}
+          {errors.phone && <span className="field-error">{errors.phone}</span>}
         </div>
       </div>
 

@@ -7,7 +7,7 @@ import Navbar from "../../../../shared/layout/navbar/Navbar";
 import Footer from "../../../../shared/layout/footer/Footer";
 import LocationPicker from "../../../../shared/components/LocationPicker/LocationPicker";
 import { VIETNAM_PROVINCES } from "../../../../data/vietnamProvinces";
-import { fetchWardsByProvinceName } from "../../../../services/vietnamAdministrativeApi";
+import { fetchWardsByProvinceName } from "../../../../services/temp";
 import { createOrder } from "../../api/OrdersApi";
 
 // Vị trí mặc định khi chưa chọn tỉnh/thành (TP. Hồ Chí Minh)
@@ -38,7 +38,7 @@ function Checkout() {
   const [mapPosition, setMapPosition] = useState(null);
 
   const selectedProvince = VIETNAM_PROVINCES.find(
-    (p) => p.name === formData.province
+    (p) => p.name === formData.province,
   );
   const mapCenter = selectedProvince
     ? { lat: selectedProvince.lat, lng: selectedProvince.lng }
@@ -67,7 +67,7 @@ function Checkout() {
         if (!cancelled) {
           setWards([]);
           setWardsError(
-            "Không tải được danh sách xã/phường. Bạn có thể nhập tay ở ô địa chỉ."
+            "Không tải được danh sách xã/phường. Bạn có thể nhập tay ở ô địa chỉ.",
           );
         }
       })
@@ -274,8 +274,8 @@ function Checkout() {
             <h2>Đặt hàng thành công!</h2>
             <p>
               Cảm ơn {formData.fullName}, chúng tôi đã nhận được đơn hàng{" "}
-              {placedOrder && <strong>#{placedOrder.id}</strong>} và sẽ liên
-              hệ qua số {formData.phone} để xác nhận.
+              {placedOrder && <strong>#{placedOrder.id}</strong>} và sẽ liên hệ
+              qua số {formData.phone} để xác nhận.
             </p>
             <div className="checkout-success-actions">
               {placedOrder && (

@@ -4,7 +4,7 @@ import { authApi } from "../../../auth/api/authApi";
 import Navbar from "../../../../shared/layout/navbar/Navbar";
 import Footer from "../../../../shared/layout/footer/Footer";
 import { useLanguage } from "../../../../context/LanguageContext";
-import ProductCard from "../../../products/components/products/Productcard";
+import ProductCard from "../../../products/components/products/ProductCard";
 import Nike from "../../../../assets/image/brands/nike.png";
 import Adidas from "../../../../assets/image/brands/adidas.png";
 import Puma from "../../../../assets/image/brands/puma.png";
