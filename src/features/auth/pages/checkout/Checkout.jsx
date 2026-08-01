@@ -7,7 +7,7 @@ import Navbar from "../../../../shared/layout/navbar/Navbar";
 import Footer from "../../../../shared/layout/footer/Footer";
 import LocationPicker from "../../../../shared/components/LocationPicker/LocationPicker";
 import { VIETNAM_PROVINCES } from "../../../../data/vietnamProvinces";
-import { fetchWardsByProvinceName } from "../../../../services/temp";
+import { fetchWardsByProvinceName } from "../../../../services/VietnamAdministrativeApi";
 import { createOrder } from "../../api/OrdersApi";
 
 // Vị trí mặc định khi chưa chọn tỉnh/thành (TP. Hồ Chí Minh)
