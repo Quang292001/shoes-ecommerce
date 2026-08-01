@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 
-import AddressForm from "./temp";
+import AddressForm from "./AddressForm";
 import {
   getAddresses,
   addAddress,
