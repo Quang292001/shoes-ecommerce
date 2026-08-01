@@ -25,7 +25,7 @@ import Orders from "../features/auth/pages/order/Orders"
 import AdminCategoryList from "../features/admin/categories/pages/AdminCategoryList";
 import CreateCategory from "../features/admin/categories/pages/CreateCategory";
 import EditCategory from "../features/admin/categories/pages/EditCategory";
-import OrderDetail from "../features/auth/pages/order/Orderdetail";
+import OrderDetail from "../features/auth/pages/order/OrderDetail";
 
 function AppRoutes() {
   return (
